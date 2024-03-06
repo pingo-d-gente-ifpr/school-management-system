@@ -11,7 +11,7 @@ O Pingo d' Gente é um sistema web desenvolvido para facilitar o gerenciamento d
 
 [![Requisitos](https://img.shields.io/badge/Acessar-Requisistos-brightgreen.svg)](https://docs.google.com/document/d/1dPLNbWGPJrLT6XW6vUQCduGXSOD5udjA/edit?usp=sharing&ouid=110106372221435632533&rtpof=true&sd=true)
 [![Diagrama de Caso de Uso](https://img.shields.io/badge/Acessar-Casos_de_Uso-ff69b4.svg)](https://drive.google.com/file/d/1rXeYg-VK0TMsUCLDTi41SwxnXuDuftzV/view)
-[![Diagrama de Entidade-Relacionamento](https://img.shields.io/badge/Acessar-Diagrama_de_Entidade_Relacionamento-orange.svg)]([link_para_o_diagrama_de_entidade_relacionamento](https://miro.com/welcomeonboard/VWFiczJkdFZFZDNuWnMyZ0JGYVowYzJZM3k0cTY5YWcydWprT2FhY0dJeWNWNjQ1YXV4ZG8wWnBBbnhOZ09TcnwzNDU4NzY0NTI4ODIwMjA1NzE2fDI=?share_link_id=929135724874))
+[![Diagrama de Entidade-Relacionamento](https://img.shields.io/badge/Acessar-Diagrama_de_Entidade_Relacionamento-orange.svg)](https://miro.com/welcomeonboard/VWFiczJkdFZFZDNuWnMyZ0JGYVowYzJZM3k0cTY5YWcydWprT2FhY0dJeWNWNjQ1YXV4ZG8wWnBBbnhOZ09TcnwzNDU4NzY0NTI4ODIwMjA1NzE2fDI=?share_link_id=929135724874)
 
 ## Construído com
 
