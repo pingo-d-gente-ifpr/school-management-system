@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('photo')->nullable();
-            $table->date('birth_date');
+            $table->date('birth_date')->required();
             $table->string('document_cpf')->required();
             $table->enum('gender',['female','male','other'])->required();
             $table->string('cellphone')->required();

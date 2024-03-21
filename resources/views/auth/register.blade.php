@@ -2,6 +2,11 @@
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
+        <div class="mt-4">
+            <x-input-label for="photo" class="inline-flex items-center"/>
+            <input id="photo" type="file" name="photo"/>
+        </div>
+
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />
@@ -38,6 +43,66 @@
 
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
+
+        <!-- Birth Date -->
+        <div class="mt-4">
+            <x-input-label for="birth_date" class="block mt-1 w-full" />
+            <input id="birth_date" type="date" name="birth"/>
+        </div>
+
+        <!-- Document CPF -->
+        <div>
+            <x-input-label for="document_cpf" :value="__('CPF')" />
+            <x-text-input id="document_cpf" class="block mt-1 w-full" type="text" name="document" :value="old('CPF')" required autofocus autocomplete="name" />
+            <x-input-error :messages="$errors->get('document_cpf')" class="mt-2" />
+        </div>
+
+
+        <div class="col-span-6 sm:col-span-3">
+            <x-input-label for="gender" :value="__('Gênero')" />
+            <select id="gender" placeholder="Choose Gender">
+            <option value="" disabled>Choose Status</option>
+            @foreach(\App\Enums\Gender::cases() as $gender)
+            <option value="{{ $gender->value }}">{{ $gender->name }}</option>
+            @endforeach
+            </select>
+        </div>
+
+        <div>
+            <x-input-label for="cellphone" :value="__('Telefone')" />
+            <x-text-input id="cellphone" class="block mt-1 w-full" type="text" name="cellphone" :value="old('cellphone')" required autofocus autocomplete="name" />
+            <x-input-error :messages="$errors->get('cellphone')" class="mt-2" />
+        </div>
+
+
+        <div class="col-span-6 sm:col-span-3">
+            <x-input-label for="role" :value="__('Tipo')" />
+            <select id="role" placeholder="Choose role">
+            <option value="" disabled>Choose Status</option>
+            @foreach(\App\Enums\Role::cases() as $role)
+            <option value="{{ $role->value }}">{{ $role->name }}</option>
+            @endforeach
+            </select>
+        </div>
+
+        <div>
+            <x-input-label for="emergency_name" :value="__('Contato de Emergência')" />
+            <x-text-input id="emergency_name" class="block mt-1 w-full" type="text" name="emergency_name" :value="old('emergency_name')"
+            autofocus autocomplete="name" />
+            <x-input-error :messages="$errors->get('emergency_name')" class="mt-2" />
+        </div>
+
+
+        <div>
+            <x-input-label for="emergency_cellphone" :value="__('Telefone de Emergência')" />
+            <x-text-input id="emergency_cellphone" class="block mt-1 w-full" type="text" name="emergency_cellphone" :value="old('emergency_cellphone')"
+            autofocus autocomplete="name" />
+            <x-input-error :messages="$errors->get('emergency_cellphone')" class="mt-2" />
+        </div>
+
+
+
+
 <br>
         <x-primary-button style="background-color:#ff6b8a; ;color:#ffffff;" class="w-full text-center">
             {{ __('Register') }}
