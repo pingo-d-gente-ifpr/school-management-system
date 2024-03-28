@@ -9,7 +9,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
-class UserStoreRequest extends FormRequest
+class UserUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,7 +29,7 @@ class UserStoreRequest extends FormRequest
             'role' => ['required',Rule::enum(Role::class)],
             'photo' => ['nullable', 'max:3072'],
             'birth_date' => ['date', 'required'],
-            'document_cpf'=> ['string'],
+            'document_cpf'=> ['size:11','string','numeric'],
             'gender' => [Rule::enum(Gender::class)],
             'cellphone' => ['min:8','string','required'],
             'emergency_name' => ['string', 'max:255', 'nullable'],

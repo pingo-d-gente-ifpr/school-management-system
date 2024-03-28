@@ -2,19 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Repositories\UserRepository;
 use App\Http\Requests\UserStoreRequest;
+use App\Http\Services\UserService;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    protected $service;
+    protected $repository;
+
+    public function __construct(UserService $service, UserRepository $repository)
+    {
+        $this->service = $service;
+        $this->repository = $repository;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $users = $this->service->index();
+        return view('users.index')->with('users', $users);
     }
 
     /**
@@ -30,12 +41,14 @@ class UserController extends Controller
      */
     public function store(UserStoreRequest $request)
     {
-        dd($request->all());
-        $user = User::create($request->validated());
-
+        if($request->photo){
+            dd($request->file('photo'));
+        }
+        $data = $request->validated();
+        $user = $this->service->store($data);
         event(new Registered($user));
 
-        return;
+        return $user;
     }
 
     /**

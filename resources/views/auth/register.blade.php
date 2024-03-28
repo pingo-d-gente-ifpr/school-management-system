@@ -5,6 +5,7 @@
         <div class="mt-4">
             <x-input-label for="photo" class="inline-flex items-center"/>
             <input id="photo" type="file" name="photo"/>
+            <x-input-error :messages="$errors->get('photo')" class="mt-2" />
         </div>
 
         <!-- Name -->
@@ -47,25 +48,26 @@
         <!-- Birth Date -->
         <div class="mt-4">
             <x-input-label for="birth_date" class="block mt-1 w-full" />
-            <input id="birth_date" type="date" name="birth"/>
+            <input id="birth_date" type="date" name="birth_date"/>
         </div>
 
         <!-- Document CPF -->
         <div>
             <x-input-label for="document_cpf" :value="__('CPF')" />
-            <x-text-input id="document_cpf" class="block mt-1 w-full" type="text" name="document" :value="old('CPF')" required autofocus autocomplete="name" />
+            <x-text-input id="document_cpf" class="block mt-1 w-full" type="text" name="document_cpf" :value="old('CPF')" required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('document_cpf')" class="mt-2" />
         </div>
 
 
         <div class="col-span-6 sm:col-span-3">
             <x-input-label for="gender" :value="__('Gênero')" />
-            <select id="gender" placeholder="Choose Gender">
+            <select id="gender" placeholder="Choose Gender" name="gender">
             <option value="" disabled>Choose Status</option>
             @foreach(\App\Enums\Gender::cases() as $gender)
             <option value="{{ $gender->value }}">{{ $gender->name }}</option>
             @endforeach
             </select>
+            <x-input-error :messages="$errors->get('gender')" class="mt-2" />
         </div>
 
         <div>
@@ -77,12 +79,13 @@
 
         <div class="col-span-6 sm:col-span-3">
             <x-input-label for="role" :value="__('Tipo')" />
-            <select id="role" placeholder="Choose role">
+            <select id="role" placeholder="Choose role" name="role">
             <option value="" disabled>Choose Status</option>
             @foreach(\App\Enums\Role::cases() as $role)
             <option value="{{ $role->value }}">{{ $role->name }}</option>
             @endforeach
             </select>
+            <x-input-error :messages="$errors->get('role')" class="mt-2" />
         </div>
 
         <div>
