@@ -42,6 +42,6 @@
                 </a>
             @endif
         </div>
-       
+
     </form>
 </x-guest-layout>
