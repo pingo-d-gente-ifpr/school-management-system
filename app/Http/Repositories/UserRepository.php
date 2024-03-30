@@ -5,13 +5,24 @@ use App\Models\User;
 
 class UserRepository{
 
-    public function getUsers(){
+    public function getUsers()
+    {
         return User::all();
     }
 
-    public function store(array $data){
-        dd($data);
-        $user = User::create($data);
+    public function store(array $data)
+    {
+       return User::create($data);
+    }
+
+    public function update(array $data, User $user)
+    {
+        return $user->update($data);
+    }
+
+     public function destroy(User $user)
+    {
+        return $user->delete();
     }
 
 }

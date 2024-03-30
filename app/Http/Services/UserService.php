@@ -20,4 +20,14 @@ class UserService{
     {
         return $this->repository->store($data);
     }
+
+    public function update(array $data, User $user)
+    {
+        return $this->repository->update($data, $user);
+    }
+    
+    public function destroy(User $user)
+    {
+        return $this->repository->destroy($user);
+    }
 }

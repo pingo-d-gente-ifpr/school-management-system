@@ -24,12 +24,12 @@ class UserUpdateRequest extends FormRequest
     {
         return [
             'name' => ['string', 'max:255', 'required'],
-            'email' => ['email', 'max:255', 'required', 'unique:App\Models\User,email'],
+            'email' => ['email', 'max:255', 'required', Rule::unique('users')->ignore($this->user->id)],
             'password' => ['string', 'required', Password::defaults()],
             'role' => ['required',Rule::enum(Role::class)],
             'photo' => ['nullable', 'max:3072'],
             'birth_date' => ['date', 'required'],
-            'document_cpf'=> ['size:11','string','numeric'],
+            'document_cpf'=> ['string'],
             'gender' => [Rule::enum(Gender::class)],
             'cellphone' => ['min:8','string','required'],
             'emergency_name' => ['string', 'max:255', 'nullable'],

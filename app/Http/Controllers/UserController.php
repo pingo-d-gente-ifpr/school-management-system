@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Repositories\UserRepository;
 use App\Http\Requests\UserStoreRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Http\Services\UserService;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -41,14 +43,14 @@ class UserController extends Controller
      */
     public function store(UserStoreRequest $request)
     {
-        if($request->photo){
-            dd($request->file('photo'));
-        }
         $data = $request->validated();
+
+        if($request->hasFile('photo')){
+          $data['photo'] = $request->file('photo')->store('images/users', 'public');
+        }
         $user = $this->service->store($data);
         event(new Registered($user));
-
-        return $user;
+        return to_route('user.index');
     }
 
     /**
@@ -56,7 +58,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return view('users.show')->with('user', $user);
     }
 
     /**
@@ -64,15 +66,22 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return view('users.edit')->with('user', $user);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UserUpdateRequest $request, User $user)
     {
-        //
+        $data = $request->validated();
+
+        if($request->hasFile('photo')){
+            $data['photo'] = $request->file('photo')->store('images/users', 'public');
+        }
+        $this->service->update($data,$user);
+        return to_route('user.index');
+        
     }
 
     /**
@@ -80,6 +89,10 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        if($user->photo){
+            Storage::disk('public')->delete($user->photo);
+        }
+        $this->service->destroy($user);
+        return to_route('user.index');
     }
 }
