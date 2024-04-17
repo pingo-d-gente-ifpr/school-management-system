@@ -31,10 +31,11 @@ Route::middleware('auth')->group(function () {
     Route::get('users', [UserController::class,'index'])->name('user.index');
     Route::get('register', [UserController::class, 'create'])->name('register');
     Route::post('register', [UserController::class, 'store']);
-    // Route::get('user/{user}', [UserController::class, 'show'])->name('user.show');
-    // Route::get('user/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
-    // Route::post('user/{user}/edit', [UserController::class, 'update'])->name('user.update');
     Route::resource('user', UserController::class);
+});
+
+Route::get('/sidebar', function () {
+    return view('components.sidebar');
 });
 
 
