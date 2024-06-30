@@ -16,13 +16,13 @@
                   </div>
                     <div class="carousel-inner bg-white rounded dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                       <div class="carousel-item active">
-                        <img src="{{asset("assets/images/banners/image.png")}}" class="d-block w-100" >
+                        <img src="{{asset("assets/images/banners/banner1.png")}}" class="d-block w-100" >
                       </div>
                       <div class="carousel-item">
-                        <img src="{{asset("assets/images/banners/image.png")}}" class="d-block w-100" >
+                        <img src="{{asset("assets/images/banners/banner2.png")}}" class="d-block w-100" >
                       </div>
                       <div class="carousel-item">
-                        <img src="{{asset("assets/images/banners/image.png")}}" class="d-block w-100" >
+                        <img src="{{asset("assets/images/banners/banner3.png")}}" class="d-block w-100" >
                       </div>
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">

@@ -202,7 +202,7 @@ body {
     line-height: var(--bs-body-line-height);
     color: var(--bs-body-color);
     text-align: var(--bs-body-text-align);
-    background-color: #ffe5eb;
+    background-color: #ffeaef;
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent
 }
@@ -6922,7 +6922,7 @@ fieldset:disabled .btn {
     text-align: center;
     background: 0 0;
     border: 0;
-    opacity: .5;
+    opacity: .9;
     transition: opacity .15s ease
 }
 
@@ -6994,12 +6994,12 @@ fieldset:disabled .btn {
     margin-left: 3px;
     text-indent: -999px;
     cursor: pointer;
-    background-color: #FFE5EB;
+    background-color: #ffffff;
     background-clip: padding-box;
     border: 0;
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
-    opacity: .5;
+    opacity: .7;
     border-radius: 50%;
     transition: opacity .6s ease
 }
@@ -7043,7 +7043,7 @@ fieldset:disabled .btn {
 [data-bs-theme=dark] .carousel .carousel-control-prev-icon,
 [data-bs-theme=dark].carousel .carousel-control-next-icon,
 [data-bs-theme=dark].carousel .carousel-control-prev-icon {
-    filter: invert(1) grayscale(100)
+    filter: invert(1) grayscale(100);
 }
 
 [data-bs-theme=dark] .carousel .carousel-indicators [data-bs-target],
