@@ -7,7 +7,6 @@
     <script src='fullcalendar/dist/index.global.js'></script>
     <script src='fullcalendar/core/locales/pt-br.global.js'></script>
     <script>
-
       document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
