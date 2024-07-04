@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <form method="POST" enctype="multipart/form-data" action="{{ route('register') }}">
+    <form method="POST" enctype="multipart/form-data" action="{{ route('user.edit',[$user->id]) }}">
         @csrf
 
         <div class="mt-4">

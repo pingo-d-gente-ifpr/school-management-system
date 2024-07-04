@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,6 +28,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('users', [UserController::class,'index'])->name('user.index');
+    Route::get('register', [UserController::class, 'create'])->name('register');
+    Route::post('register', [UserController::class, 'store']);
+    Route::resource('user', UserController::class);
 });
+
+Route::get('/sidebar', function () {
+    return view('components.sidebar');
+});
+
 
 require __DIR__.'/auth.php';
