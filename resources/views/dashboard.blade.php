@@ -4,7 +4,6 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 col-md-10 mx-auto my-4">
@@ -34,14 +33,13 @@
                       <span class="visually-hidden">Next</span>
                     </button>
                   </div>
-
                   <hr style="color:#ff6b8a">
 
-                  <div class="container bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg rounded">
+                  {{-- <div class="container bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg rounded">
                       <div class="text-gray-900 dark:text-gray-100 p-10">
                           {{ __("You're logged in!") }}
                       </div>
-                  </div>
+                  </div> --}}
             </div>
         </div>
     </div>
