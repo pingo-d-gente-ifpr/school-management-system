@@ -4,18 +4,16 @@ namespace App\Enums;
 
 enum Role: int
 {
-    case Admin = 1;
-    case Teacher = 2;
-    case Parents = 3;
-    case Student = 4;
+    case admin = 1;
+    case teacher = 2;
+    case parents = 3;
 
     public function name(): string
     {
         return match ($this) {
-            self::Admin => __('Admin'),
-            self::Teacher => __('Teacher'),
-            self::Parents => __('Parents'),
-            self::Student => __('Student'),
+            self::admin => __('Admin'),
+            self::teacher => __('Teacher'),
+            self::parents => __('Parents'),
         };
     }
 }
