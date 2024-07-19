@@ -20,9 +20,14 @@ class UserRepository{
         return $user->update($data);
     }
 
-     public function destroy(User $user)
+    public function destroy(User $user)
     {
         return $user->delete();
+    }
+
+    public function getTeachers()
+    {
+        return User::where('role', 'Teacher')->get();
     }
 
 }
