@@ -7,12 +7,15 @@
 }
 
 .nav-link:hover {
-    color: #787878;
+    color: #ff6b8a;
     opacity: 0.8;
 }
 
-.nav-link:focus {
-    color: #787878;
+.nav-link:focus,
+.nav-link.active {
+    color: #ff6b8a;
+    font-weight: bold;
+    font-family: "Manrope", sans-serif;
 }
 
 hr {
