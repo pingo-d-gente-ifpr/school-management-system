@@ -27,7 +27,7 @@ class UserController extends Controller
     public function index()
     {
         $users = $this->service->index();
-        return view('users.index')->with('users', $users);
+        return view('admin.users.index')->with('users', $users);
     }
 
     /**
@@ -50,7 +50,7 @@ class UserController extends Controller
         }
         $user = $this->service->store($data);
         event(new Registered($user));
-        return to_route('users.index');
+        return to_route('admin.users.index');
     }
 
     /**
@@ -58,7 +58,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('users.show')->with('user', $user);
+        return view('admin.users.show')->with('user', $user);
     }
 
     /**
@@ -66,7 +66,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.edit')->with('user', $user);
+        return view('admin.users.edit')->with('user', $user);
     }
 
     /**
@@ -80,7 +80,7 @@ class UserController extends Controller
             $data['photo'] = $request->file('photo')->store('images/users', 'public');
         }
         $this->service->update($data,$user);
-        return to_route('users.index');
+        return to_route('admin.users.index');
         
     }
 
@@ -93,6 +93,12 @@ class UserController extends Controller
             Storage::disk('public')->delete($user->photo);
         }
         $this->service->destroy($user);
-        return to_route('users.index');
+        return to_route('admin.users.index');
+    }
+
+    public function getTeachers()
+    {
+        $teachers = $this->service->getTeachers();
+        return $teachers;
     }
 }

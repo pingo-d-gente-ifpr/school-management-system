@@ -30,4 +30,9 @@ class UserService{
     {
         return $this->repository->destroy($user);
     }
+
+    public function getTeachers()
+    {
+        return $this->repository->getTeachers();
+    }
 }
