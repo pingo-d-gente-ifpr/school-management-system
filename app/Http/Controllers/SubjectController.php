@@ -7,16 +7,19 @@ use App\Http\Requests\StoreSubjectRequest;
 use App\Http\Requests\UpdateSubjectRequest;
 use App\Http\Services\SubjectService;
 use App\Models\Subject;
+use Carbon\Carbon;
 
 class SubjectController extends Controller
 {
     protected $service;
     protected $repository;
+    protected $userController;
 
-    public function __construct(SubjectService $service, SubjectRepository $repository)
+    public function __construct(SubjectService $service, SubjectRepository $repository, UserController $userController)
     {
         $this->service = $service;
         $this->repository = $repository;
+        $this->userController = $userController;
     }
 
     /**
@@ -25,7 +28,8 @@ class SubjectController extends Controller
     public function index()
     {
         $subjects = $this->service->index();
-        return view('')->with('subjects', $subjects);
+        $teachers = $this->userController->getTeachers();
+        return view('admin.subjects.index')->with('subjects', $subjects)->with('teachers', $teachers);
     }
 
     /**
@@ -41,7 +45,8 @@ class SubjectController extends Controller
      */
     public function store(StoreSubjectRequest $request)
     {
-        //
+        $data = $request->validated();
+        $this->service->store($data, $request);
     }
 
     /**
