@@ -30,7 +30,8 @@ class User extends Authenticatable
         'cellphone',
         'emergency_name',
         'emergency_cellphone',
-        'status'
+        'status',
+        'role',
     ];
 
     /**
