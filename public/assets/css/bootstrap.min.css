@@ -85,7 +85,7 @@
     --bs-body-bg-rgb: 255, 255, 255;
     --bs-emphasis-color: #000;
     --bs-emphasis-color-rgb: 0, 0, 0;
-    --bs-secondary-color: rgba(33, 37, 41, 0.75);
+    --bs-secondary-color: #ff6b8a;
     --bs-secondary-color-rgb: 33, 37, 41;
     --bs-secondary-bg: #e9ecef;
     --bs-secondary-bg-rgb: 233, 236, 239;
@@ -202,9 +202,30 @@ body {
     line-height: var(--bs-body-line-height);
     color: var(--bs-body-color);
     text-align: var(--bs-body-text-align);
-    background-color: #ffeaef;
+    background-color: #ffe5eb;
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent
+}
+
+.page-title {
+    color: #ff6b8a;
+}
+.breadcrumb {
+    background-color: transparent;
+    padding: 0;
+    margin-bottom: 0;
+}
+.breadcrumb a {
+    color: #ff6b8a;
+    text-decoration: none;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+    color: #ff6b8a;
+}
+.breadcrumb-icon {
+    font-size: 24px;
+    vertical-align: middle;
+    margin-right: 5px;
 }
 
 hr {
@@ -3519,53 +3540,57 @@ fieldset:disabled .btn {
 
 .btn-primary {
     --bs-btn-color: #fff;
-    --bs-btn-bg: #0d6efd;
-    --bs-btn-border-color: #0d6efd;
+    --bs-btn-bg: #ff6b8a;
+    --bs-btn-border-color: #fff;
     --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #0b5ed7;
-    --bs-btn-hover-border-color: #0a58ca;
+    --bs-btn-hover-bg: #ff6b8a;
+    --bs-btn-hover-border-color: #8a8a8a;
     --bs-btn-focus-shadow-rgb: 49, 132, 253;
     --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: #0a58ca;
-    --bs-btn-active-border-color: #0a53be;
+    --bs-btn-active-bg: #ff6b8a;
+    --bs-btn-active-border-color: #fff;
     --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
     --bs-btn-disabled-color: #fff;
-    --bs-btn-disabled-bg: #0d6efd;
-    --bs-btn-disabled-border-color: #0d6efd
+    --bs-btn-disabled-bg: #ff6b8a;
+    --bs-btn-disabled-border-color: #fff
 }
 
 .btn-secondary {
-    --bs-btn-color: #fff;
-    --bs-btn-bg: #6c757d;
-    --bs-btn-border-color: #6c757d;
-    --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #5c636a;
-    --bs-btn-hover-border-color: #565e64;
+    --bs-btn-color: #ff6b8a;
+    --bs-btn-bg: #E3E2E2;
+    --bs-btn-border-color: #E3E2E2;
+    --bs-btn-hover-color: #ff6b8a;
+    --bs-btn-hover-bg: #E3E2E2;
+    --bs-btn-hover-border-color: #ff6b8a;
     --bs-btn-focus-shadow-rgb: 130, 138, 145;
-    --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: #565e64;
-    --bs-btn-active-border-color: #51585e;
+    --bs-btn-active-color: #ff6b8a;
+    --bs-btn-active-bg: #E3E2E2;
+    --bs-btn-active-border-color: #E3E2E2;
     --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-    --bs-btn-disabled-color: #fff;
-    --bs-btn-disabled-bg: #6c757d;
-    --bs-btn-disabled-border-color: #6c757d
+    --bs-btn-disabled-color: #ff6b8a;
+    --bs-btn-disabled-bg: #E3E2E2;
+    --bs-btn-disabled-border-color: #E3E2E2
 }
 
 .btn-success {
     --bs-btn-color: #fff;
-    --bs-btn-bg: #198754;
-    --bs-btn-border-color: #198754;
+    --bs-btn-bg: #9ae493;
+    --bs-btn-border-color: #9ae493;
     --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #157347;
-    --bs-btn-hover-border-color: #146c43;
+    --bs-btn-hover-bg: #ff6b8a;
+    --bs-btn-hover-border-color: #ff6b8a;
     --bs-btn-focus-shadow-rgb: 60, 153, 110;
     --bs-btn-active-color: #fff;
     --bs-btn-active-bg: #146c43;
     --bs-btn-active-border-color: #13653f;
     --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
     --bs-btn-disabled-color: #fff;
-    --bs-btn-disabled-bg: #198754;
-    --bs-btn-disabled-border-color: #198754
+    --bs-btn-disabled-bg: #9ae493;
+    --bs-btn-disabled-border-color: #9ae493 
+    text-transform: uppercase;
+    font-size: small;
+    width: 35%;
+    height: auto;
 }
 
 .btn-info {
@@ -5380,7 +5405,7 @@ fieldset:disabled .btn {
     float: left;
     padding-right: var(--bs-breadcrumb-item-padding-x);
     color: var(--bs-breadcrumb-divider-color);
-    content: var(--bs-breadcrumb-divider, "/")
+    content: var(--bs-breadcrumb-divider, ">")
 }
 
 .breadcrumb-item.active {
