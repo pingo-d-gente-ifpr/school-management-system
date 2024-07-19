@@ -4,17 +4,17 @@ namespace App\Enums;
 
 enum Gender: int
 {
-    case Female = 1;
-    case Male = 2;
-    case Other = 3;
+    case Feminino = 1;
+    case Masculino = 2;
+    case Outro = 3;
 
 
     public function name(): string
     {
         return match ($this) {
-            self::Female => __('Feminino'),
-            self::Male => __('Masculino'),
-            self::Other => __('Outro'),
+            self::Feminino => __('Feminino'),
+            self::Masculino => __('Masculino'),
+            self::Outro => __('Outro'),
         };
     }
 }
