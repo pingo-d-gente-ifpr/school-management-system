@@ -5,6 +5,7 @@ namespace App\Http\Services;
 use App\Http\Repositories\SubjectRepository;
 use App\Models\Subject;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class SubjectService{
 
@@ -20,8 +21,11 @@ class SubjectService{
 
     public function store(array $data, $request)
     {
-        $this->convertToDate($data);
-        if(!$data['user_id'])$data['user_id'] = auth()->id();
+        $data = $this->convertToDate($data);
+        if(empty($data['user_id']))
+        {
+            $data['user_id'] = auth()->id();
+        }
         if($request->hasFile('photo'))
         {
             $data['photo'] = $request->file('photo')->store('images/subjects', 'public');
@@ -37,6 +41,9 @@ class SubjectService{
     
     public function destroy(Subject $subject)
     {
+        if($subject->photo){
+            Storage::disk('public')->delete($subject->photo);
+        }
         return $this->repository->destroy($subject);
     }
 
@@ -47,6 +54,6 @@ class SubjectService{
         $currentDate = Carbon::now()->toDateString();
         $data['start_date'] = Carbon::createFromFormat('Y-m-d H:i', "$currentDate $startString")->toDateTimeString();
         $data['end_date'] = Carbon::createFromFormat('Y-m-d H:i', "$currentDate $endString")->toDateTimeString();
-
+        return $data;
     }
 }

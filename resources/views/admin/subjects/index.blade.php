@@ -41,7 +41,7 @@
                     <tr>
                         <td><img width="50px" src="{{ $subject->photo ? asset('storage/' . $subject->photo) : ''}}"></td>
                         <td>{{ $subject->name }}</td>
-                        <td>{{ $subject->role }}</td>
+                        <td>{{ $subject->user->name }}</td>
                         <td>{{ $subject->email }}</td>
                         <td>
                             <a href="{{ route('subjects.edit', $subject->id) }}" class="btn btn-outline-secondary"><svg
