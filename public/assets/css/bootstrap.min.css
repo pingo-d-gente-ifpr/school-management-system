@@ -3589,7 +3589,7 @@ fieldset:disabled .btn {
     --bs-btn-disabled-border-color: #9ae493 
     text-transform: uppercase;
     font-size: small;
-    width: 35%;
+    width: auto;
     height: auto;
 }
 
