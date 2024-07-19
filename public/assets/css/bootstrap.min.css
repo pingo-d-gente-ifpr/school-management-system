@@ -484,7 +484,9 @@ caption {
 
 th {
     text-align: inherit;
-    text-align: -webkit-match-parent
+    text-align: -webkit-match-parent;
+    font-weight: 500;
+    color: #939393 !important;
 }
 
 tbody,
@@ -2187,7 +2189,8 @@ progress {
     width: 100%;
     margin-bottom: 1rem;
     vertical-align: top;
-    border-color: var(--bs-table-border-color)
+    border-color: var(--bs-table-border-color);
+    font-size: small;
 }
 
 .table>:not(caption)>*>* {
@@ -3586,7 +3589,7 @@ fieldset:disabled .btn {
     --bs-btn-disabled-border-color: #9ae493 
     text-transform: uppercase;
     font-size: small;
-    width: 35%;
+    width: auto;
     height: auto;
 }
 
@@ -5001,7 +5004,7 @@ fieldset:disabled .btn {
 
 .navbar-dark,
 .navbar[data-bs-theme=dark] {
-    --bs-navbar-color: rgba(255, 255, 255, 0.55);
+    --bs-navbar-color: #ffffff8c;
     --bs-navbar-hover-color: rgba(255, 255, 255, 0.75);
     --bs-navbar-disabled-color: rgba(255, 255, 255, 0.25);
     --bs-navbar-active-color: #fff;
