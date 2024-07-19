@@ -7,7 +7,6 @@ use App\Http\Requests\StoreSubjectRequest;
 use App\Http\Requests\UpdateSubjectRequest;
 use App\Http\Services\SubjectService;
 use App\Models\Subject;
-use Carbon\Carbon;
 
 class SubjectController extends Controller
 {
@@ -33,36 +32,12 @@ class SubjectController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('');
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreSubjectRequest $request)
     {
         $data = $request->validated();
         $this->service->store($data, $request);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Subject $subject)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Subject $subject)
-    {
-        //
     }
 
     /**
@@ -78,6 +53,7 @@ class SubjectController extends Controller
      */
     public function destroy(Subject $subject)
     {
-        //
+        $this->service->destroy($subject);
+        return to_route('admin.users.index');
     }
 }
