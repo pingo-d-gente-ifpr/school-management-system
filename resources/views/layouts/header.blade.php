@@ -31,7 +31,7 @@
         <div class="dropdown">
             <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
                 data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : '' }}" alt="mdo"
+                <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/images/logo/user-default.png')}}" alt="mdo"
                     width="42" height="42" class="rounded-circle">
             </a>
             <ul class="dropdown-menu text-small shadow">

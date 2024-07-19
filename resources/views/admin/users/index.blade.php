@@ -46,7 +46,7 @@
                         <tbody>
                             @foreach ($users as $user)
                                 <tr>
-                                    <td><img class="rounded-circle" width="50px" src="{{ $user->photo ? asset('storage/' . $user->photo) : '' }}"></td>
+                                    <td><img class="rounded-circle" width="50px" src="{{ $user->photo ? asset('storage/' . $user->photo) : asset('assets/images/logo/user-default.png') }}"></td>
                                     <td class="align-middle">{{ $user->name }}</td>
                                     <td class="align-middle">{{ \Carbon\Carbon::parse($user->updated_at)->format('d/m/Y') }}</td>
                                     <td class="align-middle">{{ $user->role }}</td>
