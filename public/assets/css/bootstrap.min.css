@@ -277,7 +277,8 @@ h2 {
 
     .h2,
     h2 {
-        font-size: 2rem
+        font-size: 2rem;
+        color: var(--bs-secondary-color) !important;
     }
 }
 
@@ -403,7 +404,7 @@ sup {
 
 a {
     color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
-    text-decoration: underline
+    text-decoration: none;
 }
 
 a:hover {
@@ -5413,10 +5414,10 @@ fieldset:disabled .btn {
 }
 
 .pagination {
-    --bs-pagination-padding-x: 0.75rem;
-    --bs-pagination-padding-y: 0.375rem;
-    --bs-pagination-font-size: 1rem;
-    --bs-pagination-color: var(--bs-link-color);
+    --bs-pagination-padding-x: 0.5rem;
+    --bs-pagination-padding-y: 0.2rem;
+    --bs-pagination-font-size: 0.8rem;
+    --bs-pagination-color: #FF6B8A;
     --bs-pagination-bg: var(--bs-body-bg);
     --bs-pagination-border-width: var(--bs-border-width);
     --bs-pagination-border-color: var(--bs-border-color);
@@ -5428,13 +5429,14 @@ fieldset:disabled .btn {
     --bs-pagination-focus-bg: var(--bs-secondary-bg);
     --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
     --bs-pagination-active-color: #fff;
-    --bs-pagination-active-bg: #0d6efd;
-    --bs-pagination-active-border-color: #0d6efd;
-    --bs-pagination-disabled-color: var(--bs-secondary-color);
+    --bs-pagination-active-bg: #FF6B8A;
+    --bs-pagination-active-border-color: #FF6B8A;
+    --bs-pagination-disabled-color: #999999;
     --bs-pagination-disabled-bg: var(--bs-secondary-bg);
     --bs-pagination-disabled-border-color: var(--bs-border-color);
     display: flex;
     padding-left: 0;
+    padding-bottom: 0;
     list-style: none
 }
 
