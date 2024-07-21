@@ -50,7 +50,7 @@ class UserController extends Controller
         }
         $user = $this->service->store($data);
         event(new Registered($user));
-        return to_route('admin.users.index');
+        return to_route('users.index');
     }
 
     /**
@@ -80,7 +80,7 @@ class UserController extends Controller
             $data['photo'] = $request->file('photo')->store('images/users', 'public');
         }
         $this->service->update($data,$user);
-        return to_route('admin.users.index');
+        return to_route('users.index');
         
     }
 
@@ -93,7 +93,7 @@ class UserController extends Controller
             Storage::disk('public')->delete($user->photo);
         }
         $this->service->destroy($user);
-        return to_route('admin.users.index');
+        return to_route('users.index')->with('deletado',"Usuário " . $user->name . " deletado com sucesso!");
     }
 
     public function getTeachers()
