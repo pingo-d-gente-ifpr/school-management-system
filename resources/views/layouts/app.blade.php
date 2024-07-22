@@ -12,7 +12,9 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-
+{{-- 
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script> --}}
         <!-- Material Design Icons -->
         {{-- <link type="text/css" href="{{ asset('assets/css/material-icons.css')}}" rel="stylesheet"> --}}
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">

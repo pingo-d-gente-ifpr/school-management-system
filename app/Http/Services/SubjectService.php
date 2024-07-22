@@ -34,8 +34,17 @@ class SubjectService{
         return $this->repository->store($data);
     }
 
-    public function update(array $data, Subject $subject)
+    public function update(array $data, Subject $subject, $request)
     {
+        $data = $this->convertToDate($data);
+        if(empty($data['user_id']))
+        {
+            $data['user_id'] = auth()->id();
+        }
+        if($request->hasFile('photo'))
+        {
+            $data['photo'] = $request->file('photo')->store('images/subjects', 'public');
+        }
         return $this->repository->update($data, $subject);
     }
     

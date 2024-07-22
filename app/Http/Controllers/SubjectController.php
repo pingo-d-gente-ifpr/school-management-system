@@ -38,6 +38,7 @@ class SubjectController extends Controller
     {
         $data = $request->validated();
         $this->service->store($data, $request);
+        return to_route('subjects.index');
     }
 
     /**
@@ -45,7 +46,9 @@ class SubjectController extends Controller
      */
     public function update(UpdateSubjectRequest $request, Subject $subject)
     {
-        //
+        $data = $request->validated();
+        $this->service->update($data, $subject, $request);
+        return to_route('subjects.index');
     }
 
     /**
