@@ -1,0 +1,33 @@
+.btn-edit {
+    background-color: #9b9b9b; /* Cor de fundo verde */
+    border: none;
+    border-radius: 50%; /* Torna o botão redondo */
+    color: white; /* Cor do ícone */
+    padding: 8px; /* Espaçamento interno */
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+    transition: background-color 0.3s;
+}
+
+.btn-edit:hover {
+    background-color: #414141; /* Cor do fundo no hover */
+}
+.btn-delete {
+    background-color: #ff6b6b; /* Cor de fundo vermelho claro */
+    border: none;
+    border-radius: 50%; /* Torna o botão redondo */
+    color: white; /* Cor do ícone */
+    padding: 8px; /* Espaçamento interno */
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s; /* Transição suave para o hover */
+}
+
+.btn-delete:hover {
+    background-color: #ff4c4c; /* Cor do fundo no hover */
+}

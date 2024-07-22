@@ -13,7 +13,6 @@
     <meta name="generator" content="Hugo 0.122.0">
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sidebars/">
-    {{-- <link rel="stylesheet" href="{{ asset('assets/css/sidebars.css') }}"> --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
     <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/css/navigation.css') }}">
@@ -27,10 +26,16 @@
 
     <div class="d-flex flex-nowrap">
         <div class="navigation d-flex flex-column flex-shrink-0 p-3 bg-white" style="width: 280px;">
-            <div class="d-flex justify-content-center">
-                <a href="/dashboard">
-                    <img src="{{ asset('assets/images/logo/logo-com-melancia.png') }}" width=80%>
+            <div class="d-flex flex-column align-items-center">
+                <a class="d-flex justify-content-center" href="/dashboard">
+                    <img src="{{ asset('assets/images/logo/logo-reta.png') }}" width=80%>
                 </a>
+                <img class="rounded-circle mt-5" width="50%"
+                                        src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/images/logo/user-default.png')}}">
+                <a href="/profile">
+                    <h2>{{Auth::user()->name}}</h2>
+                </a>
+                <p>{{Auth::user()->email}}</p>
             </div>
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">

@@ -57,6 +57,6 @@ class SubjectController extends Controller
     public function destroy(Subject $subject)
     {
         $this->service->destroy($subject);
-        return to_route('admin.users.index');
+        return to_route('subjects.index');
     }
 }

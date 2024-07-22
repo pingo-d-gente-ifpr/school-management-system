@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +17,20 @@ class SubjectFactory extends Factory
      */
     public function definition(): array
     {
+        $photos = [
+            'images/subjects/1.png',
+            'images/subjects/2.png',
+            'images/subjects/3.png',
+            'images/subjects/4.png',
+            'images/subjects/5.png',
+        ];
+
         return [
-            //
+            'name' => $this->faker->word,
+            'start_date' => $this->faker->date,
+            'end_date' => $this->faker->date,
+            'photo' => $this->faker->randomElement($photos),
+            'user_id' => User::factory(),
         ];
     }
 }

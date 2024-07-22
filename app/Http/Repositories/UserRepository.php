@@ -7,7 +7,7 @@ class UserRepository{
 
     public function getUsers()
     {
-        return User::all();
+        return User::paginate(7);
     }
 
     public function store(array $data)
