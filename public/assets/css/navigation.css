@@ -3,7 +3,7 @@
 h2 {
     font-weight: bold;
     font-family: "Manrope", sans-serif;
-    color: #ff6b8a;
+    color: #ff6b8a !important;
 }
 
 p{
