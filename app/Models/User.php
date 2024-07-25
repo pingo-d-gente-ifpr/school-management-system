@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Enums\Role;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -58,4 +60,22 @@ class User extends Authenticatable
     {
         return $this->hasMany(Subject::class);
     }
+
+    public function isAdmin()
+    {
+        return $this->role === Role::admin->name;
+    }
+
+    public function isTeacher()
+    {
+        return $this->role === Role::teacher->name;
+    }
+
+    public function isParent()
+    {
+        return $this->role === Role::parents->name;
+    }
+
+
+
 }
