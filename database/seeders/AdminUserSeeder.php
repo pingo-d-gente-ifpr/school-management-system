@@ -23,7 +23,7 @@ class AdminUserSeeder extends Seeder
             'emergency_name' => 'Emergency Contact',
             'emergency_cellphone' => '88888-8888',
             'status' => true,
-            'role' => 'Admin',
+            'role' => 'admin',
         ]);
     }
 }

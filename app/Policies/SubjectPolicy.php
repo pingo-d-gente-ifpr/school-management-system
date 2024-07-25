@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\Role;
 use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
@@ -13,7 +14,7 @@ class SubjectPolicy
      */
     public function viewAny(User $user)
     {
-        $user->role->admin;
+        return $user->isAdmin() || $user->isTeacher();
     }
 
     /**
@@ -21,15 +22,7 @@ class SubjectPolicy
      */
     public function view(User $user, Subject $subject)
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user)
-    {
-        //
+        return $user->isAdmin();
     }
 
     /**
@@ -37,7 +30,7 @@ class SubjectPolicy
      */
     public function update(User $user, Subject $subject)
     {
-        //
+        $user->isAdmin();
     }
 
     /**
@@ -45,22 +38,6 @@ class SubjectPolicy
      */
     public function delete(User $user, Subject $subject)
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Subject $subject)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Subject $subject)
-    {
-        //
+        return $user->isAdmin();
     }
 }

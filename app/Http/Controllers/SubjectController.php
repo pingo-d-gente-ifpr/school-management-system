@@ -16,6 +16,7 @@ class SubjectController extends Controller
 
     public function __construct(SubjectService $service, SubjectRepository $repository, UserController $userController)
     {
+        $this->authorizeResource(Subject::class, 'subject');
         $this->service = $service;
         $this->repository = $repository;
         $this->userController = $userController;
