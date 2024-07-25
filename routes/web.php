@@ -35,8 +35,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('subjects', SubjectController::class);
 });
 
-Route::get('/sidebar', function () {
-    return view('components.sidebar');
+Route::get('/turma', function () {
+    return view('front.classes.index');
 });
 
 
