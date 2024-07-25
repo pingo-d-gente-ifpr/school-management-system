@@ -13,8 +13,8 @@
                         <input type="text" class="form-control" id="name" name="name" required>
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />
                     </div>
-                    @if (Auth::user()->role == 'Admin')
-                        <div>
+                    @if (Auth::user()->role === App\Enums\Role::admin->name)
+                        <div class="mb-3">
                             <label for="role" class="form-label">Professor(a) <b style="color:red">*</b></label>
                             <select class="form-select" id="user_id" name="user_id" required>
                                 @foreach ($teachers as $teacher)
@@ -56,7 +56,6 @@
         </div>
     </div>
 </div>
-
 <script>
     const startDate = document.getElementById("start_date");
     const startDatefp = flatpickr(startDate, {

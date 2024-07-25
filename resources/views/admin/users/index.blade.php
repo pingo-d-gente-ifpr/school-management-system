@@ -22,13 +22,13 @@
                         <hr style="height: 2px; background-color: #FF6B8A; border: none;">
                     </div>
                 </div>
-            <div>
-                @if (session('deletado'))
-                <div class="alert alert-success" role="alert">
-                    {{session('deletado')}}
+                <div>
+                    @if (session('deletado'))
+                        <div class="alert alert-success" role="alert" id="deletado-alert">
+                            {{ session('deletado') }}
+                        </div>
+                    @endif
                 </div>
-                @endif
-            </div>
             </div>
             <div class="table-container bg-white rounded p-2">
                 <table class="table table-hover">
@@ -40,7 +40,8 @@
                             <th scope="col">Tipo do Usuário</th>
                             <th scope="col">Email</th>
                             <th class="d-flex justify-content-end" scope="col">
-                                <button type="button" class="btn btn-success btn-sm d-flex align-items-center ">
+                                <button type="button" class="btn btn-success btn-sm d-flex align-items-center"
+                                    onclick="location.href='{{ route('users.create') }}'">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                         fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
                                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
@@ -74,9 +75,9 @@
                                             </svg>
                                         </a>
                                         @include('admin.users.partials.delete-user-form', [
-                                                    'userId' => $user->id,
-                                                    'userName' => $user->name,
-                                                ])
+                                            'userId' => $user->id,
+                                            'userName' => $user->name,
+                                        ])
                                     </div>
                                 </td>
                             </tr>
@@ -90,5 +91,29 @@
             </div>
         </div>
     </div>
-    
+    <style>
+        .alert {
+            opacity: 1;
+            transition: opacity 1s ease-out;
+        }
+
+        .alert.fade-out {
+            opacity: 0;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var alertElement = document.getElementById('deletado-alert');
+            if (alertElement) {
+                setTimeout(function() {
+                    alertElement.classList.add('fade-out');
+                    // Opcional: Remova o elemento do DOM após a transição
+                    setTimeout(function() {
+                        alertElement.remove();
+                    }, 1000); // Tempo de transição deve ser igual ou maior que o tempo de opacidade
+                }, 5000); // Tempo antes de iniciar a transição
+            }
+        });
+    </script>
+
 </x-app-layout>
