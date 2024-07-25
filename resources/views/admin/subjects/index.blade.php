@@ -60,7 +60,7 @@
                             <td>{{ $subject->email }}</td>
                             <td>
                                 <div class="d-flex justify-content-end">
-                                    <a href="{{ route('subjects.edit', $subject->id) }}" class="btn-edit">
+                                    <a  data-bs-toggle="modal" data-bs-target="#exampleModal{{$subject->id}}"  class="btn-edit">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
                                             fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                             <path
