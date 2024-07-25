@@ -62,15 +62,26 @@
                                     <div class="card-body">
                                         <form>
                                             <div class="mb-3">
-                                                <textarea class="form-control" rows="3" placeholder="Digite sua mensagem..." id="postMessage" maxlength="1000"></textarea>
+                                                <textarea class="form-control" rows="3" placeholder="Digite sua mensagem..." id="postMessage" maxlength="1000" style="border: 0 none;"></textarea>
+                                                <hr>
                                             </div>
                                             <div class="d-flex justify-content-between">
                                                 <div>
-                                                    <button type="button" class="btn btn-outline-secondary me-2"><i class="bi bi-image"></i> Imagem</button>
-                                                    <button type="button" class="btn btn-outline-secondary"><i class="bi bi-paperclip"></i> Arquivo</button>
+                                                    <button type="button" class="btn btn-secondary me-2">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-images" viewBox="0 0 16 16">
+                                                            <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
+                                                            <path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2M14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1M2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1z"/>
+                                                        </svg>
+                                                    </button>
+                                                    <button type="button" class="btn btn-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
+                                                        <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1M4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1z"/>
+                                                      </svg>
+                                                    </button>
                                                 </div>
-                                                <span class="text-muted" id="charCount">0/1000</span>
-                                                <button type="submit" class="btn btn-success">Postar</button>
+                                                <div>
+                                                    <span class="text-muted" id="charCount">0/1000</span>
+                                                    <button type="submit" class="btn btn-success">Postar</button>
+                                                </div>
                                             </div>
                                         </form>
                                     </div>
@@ -107,9 +118,9 @@
             </div>
         </div>
     </div>
+
 </x-app-layout>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var triggerTabList = [].slice.call(document.querySelectorAll('#myTab button'))
@@ -132,3 +143,5 @@
         });
     });
 </script>
+
+
