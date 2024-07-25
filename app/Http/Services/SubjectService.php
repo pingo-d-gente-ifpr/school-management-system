@@ -21,7 +21,7 @@ class SubjectService{
 
     public function store(array $data, $request)
     {
-        $data = $this->convertToDate($data);
+        // $data = $this->convertToDate($data);
         if(empty($data['user_id']))
         {
             $data['user_id'] = auth()->id();
@@ -34,8 +34,17 @@ class SubjectService{
         return $this->repository->store($data);
     }
 
-    public function update(array $data, Subject $subject)
+    public function update(array $data, Subject $subject, $request)
     {
+        if(empty($data['user_id']))
+        {
+            $data['user_id'] = auth()->id();
+        }
+        dd($data);
+        if($request->hasFile('photo'))
+        {
+            $data['photo'] = $request->file('photo')->store('images/subjects', 'public');
+        }
         return $this->repository->update($data, $subject);
     }
     
@@ -53,6 +62,7 @@ class SubjectService{
         $endString = $data['end_date'];
         $currentDate = Carbon::now()->toDateString();
         $data['start_date'] = Carbon::createFromFormat('Y-m-d H:i', "$currentDate $startString")->toDateTimeString();
+        // dd($data['start_date']);
         $data['end_date'] = Carbon::createFromFormat('Y-m-d H:i', "$currentDate $endString")->toDateTimeString();
         return $data;
     }

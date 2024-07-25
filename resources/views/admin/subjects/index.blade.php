@@ -60,7 +60,7 @@
                             <td>{{ $subject->email }}</td>
                             <td>
                                 <div class="d-flex justify-content-end">
-                                    <a href="{{ route('subjects.edit', $subject->id) }}" class="btn-edit">
+                                    <a  data-bs-toggle="modal" data-bs-target="#exampleModal{{$subject->id}}"  class="btn-edit">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
                                             fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                             <path
@@ -92,81 +92,7 @@
                 {{ $subjects->links('components.custom-pagination') }}
             </div>
         </div>
+        @include('admin.subjects.partials.create-modal')
+        @include('admin.subjects.partials.edit-modal')
     </div>
-    <!-- Modal Create Subjects-->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Criar Matéria</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" enctype="multipart/form-data" action="{{ route('subjects.store') }}">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Nome da Matéria<b>*</b></label>
-                            <input type="text" class="form-control" id="name" name="name" required>
-                        </div>
-                        @if (Auth::user()->role == 'Admin')
-                            <div>
-                                <label for="role" class="form-label">Professor(a)<b>*</b></label>
-                                <select class="form-select" id="user_id" name="user_id" required>
-                                    @foreach ($teachers as $teacher)
-                                        <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        @endif
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="start_date" class="form-label">Horário de Início</label>
-                                <input class="form-control" placeholder="Selecione um horário" id="start_date"
-                                    name="start_date" />
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="end_date" class="form-label">Horário de Término</label>
-                                <input class="form-control" placeholder="Selecione um horário" id="end_date"
-                                    name="end_date" />
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="row align-items-start">
-                                <x-input-label for="photo"
-                                    class="form-label col-sm-2 col-lg-2">Foto:</x-input-label>
-                                <input class="form-control form-control-sm col-sm-10 col-lg-10" id="photo"
-                                    type="file" name="photo">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary">Salvar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        const startDate = document.getElementById("start_date");
-        const startDatefp = flatpickr(startDate, {
-            enableTime: true,
-            noCalendar: true,
-            dateFormat: "H:i",
-            minuteIncrement: 1,
-            time_24hr: true,
-            readOnly: false,
-        });
-        const endDate = document.getElementById("end_date");
-        const endDatefp = flatpickr(endDate, {
-            enableTime: true,
-            noCalendar: true,
-            dateFormat: "H:i",
-            minuteIncrement: 1,
-            time_24hr: true,
-            readOnly: false,
-        });
-    </script>
 </x-app-layout>
