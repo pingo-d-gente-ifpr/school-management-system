@@ -17,7 +17,6 @@ return new class extends Migration
             $table->time('start_date');
             $table->time('end_date');
             $table->string('photo')->nullable();
-            $table->foreignId('user_id')->constrained();
             $table->timestamps();
             $table->softDeletes();
         });

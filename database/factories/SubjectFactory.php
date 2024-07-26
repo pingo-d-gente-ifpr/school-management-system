@@ -30,7 +30,6 @@ class SubjectFactory extends Factory
             'start_date' => $this->faker->time,
             'end_date' => $this->faker->time,
             'photo' => $this->faker->randomElement($photos),
-            'user_id' => User::factory(),
         ];
     }
 }
