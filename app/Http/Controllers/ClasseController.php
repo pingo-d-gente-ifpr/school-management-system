@@ -6,6 +6,8 @@ use App\Http\Requests\StoreClasseRequest;
 use App\Http\Requests\UpdateClasseRequest;
 use App\Http\Services\ClassService;
 use App\Models\Classe;
+use App\Models\Subject;
+use Illuminate\Http\Request;
 
 class ClasseController extends Controller
 {
@@ -22,6 +24,8 @@ class ClasseController extends Controller
      */
     public function index()
     {
+       
+        
         return view('admin.classes.index')->with('classes', $this->service->index());
     }
 
@@ -30,7 +34,8 @@ class ClasseController extends Controller
      */
     public function create()
     {
-        return view('admin.classes.create');
+        $subjects = Subject::all();
+        return view('admin.classes.create')->with('subjects',$subjects);
     }
 
     /**
@@ -49,7 +54,8 @@ class ClasseController extends Controller
     public function show(Classe $class)
     {
         $class = $this->service->show($class);
-        return view('admin.classes.show')->with('class', $class);
+        $subjects = $class->subjects()->paginate(7);
+        return view('front.classes.show')->with('class', $class)->with('subjects',$subjects);
     }
 
     /**
@@ -57,7 +63,8 @@ class ClasseController extends Controller
      */
     public function edit(Classe $class)
     {
-        return view('admin.classes.edit')->with('classe', $class);
+        $subjects = Subject::all();
+        return view('admin.classes.edit')->with('class', $class)->with('subjects',$subjects);
     }
 
     /**
