@@ -1,4 +1,4 @@
-<div class="modal fade" id="exampleModal{{$subject->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal{{$subject?->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -25,20 +25,6 @@
                             <x-input-error :messages="$errors->get('user_id')" class="mt-2" />
                         </div>
                     @endif
-                    <div class="row mb-3">
-                        <div class="col-md-6 mb-3">
-                            <label for="start_date" class="form-label">Horário de Início</label>
-                            <input name="start_date" class="form-control" placeholder="Selecione um horário" value="{{ old('start_date', \Carbon\Carbon::parse($subject->start_date)->format('H:i')) }}" id="start_date"
-                                 />
-                            <x-input-error :messages="$errors->get('start_date')" class="mt-2" />
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="end_date" class="form-label">Horário de Término</label>
-                            <input name="end_date" class="form-control" value="{{ old('end_date', \Carbon\Carbon::parse($subject->end_date)->format('H:i')) }}" placeholder="Selecione um horário" id="end_date"
-                                 />
-                            <x-input-error :messages="$errors->get('end_date')" class="mt-2" />
-                        </div>
-                    </div>
                     <div class="mb-3">
                         <div class="row align-items-start">
                             <x-input-label for="photo" class="form-label col-sm-2 col-lg-2">Foto:</x-input-label>
@@ -57,7 +43,6 @@
 </div>
 <script>
     const startDateEdit = document.getElementById("start_date");
-    console.log(startDateEdit)
     const startDatefpEdit = flatpickr(startDateEdit, {
         enableTime: true,
         noCalendar: true,

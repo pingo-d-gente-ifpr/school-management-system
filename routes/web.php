@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::get('register', [UserController::class, 'create'])->name('register');
     Route::post('register', [UserController::class, 'store']);
     Route::resource('subjects', SubjectController::class);
+    Route::resource('classes', SubjectController::class);
 });
 
 Route::get('/turma', function () {

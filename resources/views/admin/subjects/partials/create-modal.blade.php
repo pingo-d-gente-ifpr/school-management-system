@@ -24,20 +24,6 @@
                             <x-input-error :messages="$errors->get('user_id')" class="mt-2" />
                         </div>
                     @endif
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="start_date" class="form-label">Horário de Início</label>
-                            <input class="form-control" placeholder="Selecione um horário" id="start_date"
-                                name="start_date" />
-                            <x-input-error :messages="$errors->get('start_date')" class="mt-2" />
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="end_date" class="form-label">Horário de Término</label>
-                            <input class="form-control" placeholder="Selecione um horário" id="end_date"
-                                name="end_date" />
-                            <x-input-error :messages="$errors->get('end_date')" class="mt-2" />
-                        </div>
-                    </div>
                     <div class="mb-3">
                         <div class="row align-items-start">
                             <x-input-label for="photo" class="form-label col-sm-2 col-lg-2">Foto:</x-input-label>

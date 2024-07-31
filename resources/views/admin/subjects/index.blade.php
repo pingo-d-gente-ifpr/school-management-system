@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="table-container bg-white rounded p-2">
-            <table class="table table-hover">
+            <table class="table table-hover ">
                 <thead>
                     <tr class="align-middle">
                         <th scope="col"></th>
