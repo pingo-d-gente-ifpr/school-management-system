@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Classe extends Model
@@ -21,8 +22,13 @@ class Classe extends Model
 
     public function subjects(): BelongsToMany
     {
-        return $this->belongsToMany(Subject::class)->withPivot('user_id');;
+        return $this->belongsToMany(Subject::class)->withPivot('user_id');
     }
 
+    public function childrens(): BelongsToMany
+    {
+        return $this->belongsToMany(Children::class);
+    }
+    
 
 }
