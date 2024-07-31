@@ -56,7 +56,7 @@
                                         : asset('assets/images/logo/subject-default.png') }}">
                             </td>
                             <td>{{ $subject->name }}</td>
-                            <td>{{ $subject->user->name }}</td>
+                            <td>{{ $subject->user->name ?? " " }}</td>
                             <td>{{ $subject->email }}</td>
                             <td>
                                 <div class="d-flex justify-content-end">
