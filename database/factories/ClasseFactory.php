@@ -28,7 +28,7 @@ class ClasseFactory extends Factory
         return [
             'name' => $this->faker->word,
             'photo' => $this->faker->randomElement($photos),
-            'period' => $this->faker->randomElement(['morning', 'afternoon', 'full time']),
+            'period' => $this->faker->randomElement(['morning', 'afternoon', 'full_time']),
             'stage' => $this->faker->randomElement(['maternal', 'garden I', 'garden II', 'garden III']),
         ];
     }
