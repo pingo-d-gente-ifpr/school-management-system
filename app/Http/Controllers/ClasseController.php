@@ -54,7 +54,7 @@ class ClasseController extends Controller
     public function show(Classe $class)
     {
         $class = $this->service->show($class);
-        $subjects = $class->subjects()->get();
+        $subjects = $class->subjects()->paginate(7);
         return view('front.classes.show')->with('class', $class)->with('subjects',$subjects);
     }
 
