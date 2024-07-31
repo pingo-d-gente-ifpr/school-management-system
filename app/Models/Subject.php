@@ -14,10 +14,7 @@ class Subject extends Model
 
     protected $fillable = [
         'name',
-        'start_date',
-        'end_date',
         'photo',
-        'user_id',
     ];
 
     public function user(): BelongsTo
@@ -27,7 +24,7 @@ class Subject extends Model
 
     public function classes(): BelongsToMany
     {
-        return $this->belongsToMany(Classe::class);
+        return $this->belongsToMany(Classe::class)->withPivot('user_id');
     }
 
 
