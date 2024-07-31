@@ -6,7 +6,7 @@ enum Period: string
 {
     case morning = 'morning';
     case afternoon = 'afternoon';
-    case fulltime = 'full time';
+    case fulltime = 'full_time';
 
 
     public function name(): string
