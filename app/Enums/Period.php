@@ -4,9 +4,10 @@ namespace App\Enums;
 
 enum Period: string
 {
+    case fulltime = 'fulltime';
     case morning = 'morning';
     case afternoon = 'afternoon';
-    case fulltime = 'full_time';
+    
 
 
     public function name(): string

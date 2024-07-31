@@ -15,6 +15,7 @@ class Classe extends Model
         'name',
         'photo',
         'period',
+        'year',
         'stage'
     ];
 

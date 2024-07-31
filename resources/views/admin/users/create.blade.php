@@ -53,7 +53,7 @@
                                     </div>
                                     <x-input-error :messages="$errors->get('photo')" class="mt-2" />
                                 </div>
-                            
+
                                 <div class="col-md-10">
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
@@ -66,7 +66,7 @@
                                             <x-text-input id="email" class="form-control" type="email" name="email" :value="old('email')" required autocomplete="username" />
                                             <x-input-error :messages="$errors->get('email')" class="mt-2" />
                                         </div>
-                                        
+
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4 mb-3">
@@ -97,7 +97,7 @@
                                             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                                         </div>
                                     </div>
-                                    
+
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <label for="emergency_contact" class="form-label">Nome do Contato de Emergência (Opcional)</label>
@@ -110,7 +110,6 @@
                                             <x-input-error :messages="$errors->get('emergency_phone')" class="mt-2" />
                                         </div>
                                     </div>
-
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <label for="gender" class="form-label">Gênero</label>
@@ -122,26 +121,27 @@
                                             </div>
                                             <x-input-error :messages="$errors->get('gender')" class="mt-2" />
                                         </div>
-                                        
                                         <div class="col-md-6 mb-3">
                                             <label for="role" class="form-label">Tipo de Usuário</label>
                                             <div>
-                                                @foreach(\App\Enums\Role::cases() as $role)
-                                                <input type="radio" class="btn-check" name="role" id="{{ $role->value }}" value="{{ $role->value }}" autocomplete="off">
-                                                <label class="btn btn-light" for="{{ $role->value }}">{{ $role->name }}</label>
-                                                @endforeach
+                                                <input type="radio" class="btn-check" name="role" id="admin" value="admin" autocomplete="off">
+                                                <label class="btn btn-light" for="admin">Admin</label>
+
+                                                <input type="radio" class="btn-check" name="role" id="teacher" value="teacher" autocomplete="off">
+                                                <label class="btn btn-light" for="teacher">Professor(a)</label>
+
+                                                <input type="radio" class="btn-check" name="role" id="parents" value="parents" autocomplete="off">
+                                                <label class="btn btn-light" for="parents">Responsável</label>
                                             </div>
                                             <x-input-error :messages="$errors->get('role')" class="mt-2" />
                                         </div>
                                     </div>
-
-
                                     <div class="d-flex justify-content-center">
                                         <x-primary-button class="btn btn-success w-auto mt-5">
                                             {{ __('CADASTRAR USUÁRIO') }}
                                         </x-primary-button>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </form>
@@ -185,19 +185,19 @@
             background-color: #218838;
         }
 
-        
+
     </style>
 <script>
     function previewImage(event) {
         var reader = new FileReader();
         var output = document.getElementById('avatar-preview');
         var deleteButton = document.getElementById('delete-image');
-        
+
         reader.onload = function() {
             output.src = reader.result;
             deleteButton.hidden = false;
         }
-        
+
         if (event.target.files[0]) {
             reader.readAsDataURL(event.target.files[0]);
         }
@@ -207,10 +207,10 @@
         var output = document.getElementById('avatar-preview');
         var deleteButton = document.getElementById('delete-image');
         var fileInput = document.getElementById('photo');
-        
+
         output.src = "{{ asset('assets/images/logo/user-default.png') }}"; // Reset image
         deleteButton.hidden = true;
-        fileInput.value = ""; 
+        fileInput.value = "";
     }
 </script>
 </x-app-layout>

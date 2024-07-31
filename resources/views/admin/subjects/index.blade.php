@@ -56,8 +56,8 @@
                                         : asset('assets/images/logo/subject-default.png') }}">
                             </td>
                             <td>{{ $subject->name }}</td>
-                            <td>{{ 'claudia'}}</td>
-                            <td>{{$subject->updated_at->format('d/m/Y')}}</td>
+                            <td>{{ $subject->user->name ?? " " }}</td>
+                            <td>{{ $subject->email }}</td>
                             <td>
                                 <div class="d-flex justify-content-end">
                                     <a  data-bs-toggle="modal" data-bs-target="#exampleModal{{$subject->id}}"  class="btn-edit">
