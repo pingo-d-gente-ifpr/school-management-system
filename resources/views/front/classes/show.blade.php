@@ -34,6 +34,9 @@
                         <button class="nav-link active" id="sobre-tab" data-bs-toggle="tab" data-bs-target="#sobre" type="button" role="tab" aria-controls="sobre" aria-selected="true">Sobre</button>
                     </li>
                     <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="materias-tab" data-bs-toggle="tab" data-bs-target="#materias" type="button" role="tab" aria-controls="materias" aria-selected="false">Matérias</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
                         <button class="nav-link" id="frequencias-tab" data-bs-toggle="tab" data-bs-target="#frequencias" type="button" role="tab" aria-controls="frequencias" aria-selected="false">Frequências</button>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -48,7 +51,7 @@
                         <div class="row">
                             <div class="col-12 col-md-4 text-center p-4">
                                 <img src="{{asset('assets/images/subjects/3.png')}}" alt="Profile Picture" class="img-fluid rounded-circle mb-3" width="150px">
-                                <h2 class="user-name">Turma Jiba Bolado</h2>
+                                <h2 class="user-name">Turma {{$class->name}}</h2>
                                 <p>Nível: Maternal II</p>
                                 <p>Período: Vespertino</p>
                                 <p>Professor(a): Prof. Jenny</p>
@@ -97,6 +100,9 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="tab-pane fade" id="materias" role="tabpanel" aria-labelledby="materias-tab">
+                        @include('front.classes.partials.tab-pane-subjects')
                     </div>
                     <div class="tab-pane fade" id="frequencias" role="tabpanel" aria-labelledby="frequencias-tab">
                         @include('front.classes.partials.tab-pane-attendace')
