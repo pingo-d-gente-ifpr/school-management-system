@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Enums\Period;
 use App\Enums\Stage;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreClasseRequest extends FormRequest
 {
@@ -26,8 +27,9 @@ class StoreClasseRequest extends FormRequest
         return [
             'name' => ['string', 'max:255', 'required'],
             'photo' => ['nullable', 'max:3072'],
-            'period' => ['required', Period::cases()],
-            'stage' => ['required', Stage::cases()],
+            'period' => ['required', Rule::enum(Period::class)],
+            'year' => ['required', 'integer'],
+            'stage' => ['required', Rule::enum(Stage::class)],
             'subjects.*' => ['nullable'],
             'subjects.*.id' => ['exists:subjects,id'],
         ];
