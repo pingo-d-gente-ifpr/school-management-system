@@ -24,11 +24,14 @@
                 <td>{{ $student->status }}</td>
                 <td>{{ $student->updated_at->format('d/m/Y') }}</td>
             </tr>
-            @empty
-            <p> Nenhum aluno matrículado nesta turma.</p>
+        @empty
+            <tr>
+                <td colspan="5" class="text-center">Nenhum aluno matriculado nesta turma.</td>
+            </tr>
         @endforelse
     </tbody>
 </table>
+
 <!-- Paginação -->
 <div class="d-flex justify-content-center">
     {{ $students->withQueryString()->links('components.custom-pagination') }}
