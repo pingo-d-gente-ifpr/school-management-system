@@ -34,6 +34,18 @@ class UserUpdateRequest extends FormRequest
             'cellphone' => ['min:8','string','required'],
             'emergency_name' => ['string', 'max:255', 'nullable'],
             'emergency_cellphone' => ['min:8','string','nullable'],
+
+
+             //children validations
+             'childrens.*.id' => 'nullable',
+             'childrens.*.name' => 'nullable|string|max:255',
+             'childrens.*.birth_date' => 'nullable|date',
+             'childrens.*.document' => 'nullable|string|max:255|unique:childrens,document',
+             'childrens.*.gender' => 'nullable|in:masculino,feminino',
+             'childrens.*.status' => 'nullable|boolean',
+             'childrens.*.register_number' => 'nullable|string|max:255',
+             'childrens.*.photo' => 'nullable|string',
+             'childrens.*.user_id' => 'nullable|exists:users,id',
         ];
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Repositories\UserRepository;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Http\Services\ChildrenService;
 use App\Http\Services\UserService;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -15,11 +16,13 @@ class UserController extends Controller
 {
     protected $service;
     protected $repository;
+    protected $childrenService;
 
-    public function __construct(UserService $service, UserRepository $repository)
+    public function __construct(UserService $service, UserRepository $repository, ChildrenService $childrenService)
     {
         $this->service = $service;
         $this->repository = $repository;
+        $this->childrenService = $childrenService;
     }
     /**
      * Display a listing of the resource.
@@ -44,11 +47,13 @@ class UserController extends Controller
     public function store(UserStoreRequest $request)
     {
         $data = $request->validated();
-
         if($request->hasFile('photo')){
           $data['photo'] = $request->file('photo')->store('images/users', 'public');
         }
         $user = $this->service->store($data);
+
+        if(!empty($data['childrens'])) $this->createChildrens($data['childrens'], $user);
+
         event(new Registered($user));
         return to_route('users.index');
     }
@@ -100,5 +105,10 @@ class UserController extends Controller
     {
         $teachers = $this->service->getTeachers();
         return $teachers;
+    }
+
+    public function createChildrens(array $data, User $user)
+    {
+        $this->childrenService->createChildrens($data,$user);
     }
 }
