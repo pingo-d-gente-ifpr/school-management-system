@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClasseController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\UserController;
@@ -33,12 +34,9 @@ Route::middleware('auth')->group(function () {
     Route::get('register', [UserController::class, 'create'])->name('register');
     Route::post('register', [UserController::class, 'store']);
     Route::resource('subjects', SubjectController::class);
-    Route::resource('classes', SubjectController::class);
+    Route::resource('classes', ClasseController::class);
 });
 
-Route::get('/turma', function () {
-    return view('front.classes.index');
-});
 
 
 require __DIR__.'/auth.php';
