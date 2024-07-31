@@ -30,7 +30,6 @@
                         <th scope="col" class="">Nome</th>
                         <th scope="col">Professor(a)</th>
                         <th scope="col">Modificado em</th>
-                        <th scope="col"></th>
                         <th class="d-flex justify-content-end" scope="col">
                             <button data-bs-toggle="modal" data-bs-target="#exampleModal" type="button"
                                 class="btn btn-success btn-sm d-flex align-items-center text-uppercase">
@@ -58,8 +57,7 @@
                             </td>
                             <td>{{ $subject->name }}</td>
                             <td>{{ 'claudia'}}</td>
-                            <td>{{$subject->updated_at->format('M d Y')}}</td>
-                            <td>{{ $subject->email }}</td>
+                            <td>{{$subject->updated_at->format('d/m/Y')}}</td>
                             <td>
                                 <div class="d-flex justify-content-end">
                                     <a  data-bs-toggle="modal" data-bs-target="#exampleModal{{$subject->id}}"  class="btn-edit">

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('photo')->nullable();
-            $table->enum('period', ['morning','afternoon','full time']);
+            $table->enum('period', ['morning','afternoon','full_time']);
             $table->enum('stage', ['maternal','garden I', 'garden II', 'garden III']);
             $table->timestamps();
         }); 
