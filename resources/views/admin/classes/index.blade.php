@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="col-10 col-md-10 mx-auto my-4">
-        <h1>Matérias</h1>
+        <h1>Turmas</h1>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
@@ -29,19 +29,18 @@
                         <th scope="col"></th>
                         <th scope="col">Nome</th>
                         <th scope="col">Período</th>
-                        <th scope="col">Professor(a)</th>
                         <th scope="col">Modificado em</th>
                         <th class="d-flex justify-content-end" scope="col">
-                            <button data-bs-toggle="modal" data-bs-target="#exampleModal" type="button"
-                                class="btn btn-success btn-sm d-flex align-items-center text-uppercase">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                    fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
-                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                                    <path
-                                        d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                                </svg>
-                                <span class="ms-2">Cadastrar Turma</span>
-                            </button>
+                            <button type="button" class="btn btn-success btn-sm d-flex align-items-center"
+                                    onclick="location.href='{{ route('classes.create') }}'">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                        <path
+                                            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                                    </svg>
+                                    <span class="ms-2">Cadastrar Turma</span>
+                                </button>
                         </th>
                     </tr>
                 </thead>
@@ -51,18 +50,23 @@
                             <td>
                                 <img class="rounded-circle" width="50px"
                                     src="{{ $class->photo
-                                        ? (Storage::exists('public/' . $subject->photo)
-                                            ? Storage::url($subject->photo)
-                                            : asset('assets/' . $subject->photo))
+                                        ? (Storage::exists('public/' . $class->photo)
+                                            ? Storage::url($class->photo)
+                                            : asset('assets/' . $class->photo))
                                         : asset('assets/images/logo/subject-default.png') }}">
                             </td>
                             <td>{{ $class->name }}</td>
-                            <td>{{ $class->period }}</td>
-                            <td>{{ $class->user->name ?? " " }}</td>
+                            <td>{{  App\Enums\Period::from($class->period)->name()}}</td>
                             <td>{{ \Carbon\Carbon::parse($class->updated_at)->format('d/m/Y') }}</td>
                             <td>
                                 <div class="d-flex justify-content-end">
-                                    <a  data-bs-toggle="modal" data-bs-target="#exampleModal{{$class->id}}"  class="btn-edit">
+                                    <a href="{{ route('classes.show', $class->id) }}" class="btn-show">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/>
+                                            <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/>
+                                          </svg>
+                                    </a>
+                                    <a href="{{ route('classes.edit', $class->id) }}" class="btn-edit">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
                                             fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                             <path
@@ -72,17 +76,12 @@
                                         </svg>
                                     </a>
 
-                                    <form action="{{ route('classes.destroy', $class->id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn-delete">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
-                                                fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                                <path
-                                                    d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
-                                            </svg>
-                                        </button>
-                                    </form>
+                                   
+                                        @include('admin.classes.partials.delete-class-form', [
+                                            'classId' => $class->id,
+                                            'className' => $class->name,
+                                        ])
+            
                                 </div>
                             </td>
                         </tr>
