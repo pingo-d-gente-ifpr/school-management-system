@@ -61,7 +61,7 @@
                                 </td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ \Carbon\Carbon::parse($user->updated_at)->format('d/m/Y') }}</td>
-                                <td>{{ $user->role }}</td>
+                                <td>{{ App\Enums\Role::from($user->role)->name() }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>
                                     <div class="d-flex justify-content-end">
