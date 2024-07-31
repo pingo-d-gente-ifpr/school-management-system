@@ -31,3 +31,21 @@
 .btn-delete:hover {
     background-color: #ff4c4c; /* Cor do fundo no hover */
 }
+
+.btn-show {
+    background-color: #81DEE3; /* Cor de fundo vermelho claro */
+    border: none;
+    border-radius: 50%; /* Torna o botão redondo */
+    color: white; /* Cor do ícone */
+    padding: 8px; /* Espaçamento interno */
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+    transition: background-color 0.3s; /* Transição suave para o hover */
+}
+
+.btn-show:hover {
+    background-color: #328c91; /* Cor do fundo no hover */
+}
