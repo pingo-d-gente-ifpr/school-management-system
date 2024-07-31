@@ -2,14 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Subject>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Classe>
  */
-class SubjectFactory extends Factory
+class ClasseFactory extends Factory
 {
+    
     /**
      * Define the model's default state.
      *
@@ -28,6 +28,8 @@ class SubjectFactory extends Factory
         return [
             'name' => $this->faker->word,
             'photo' => $this->faker->randomElement($photos),
+            'period' => $this->faker->randomElement(['morning', 'afternoon', 'full_time']),
+            'stage' => $this->faker->randomElement(['maternal', 'garden I', 'garden II', 'garden III']),
         ];
     }
 }

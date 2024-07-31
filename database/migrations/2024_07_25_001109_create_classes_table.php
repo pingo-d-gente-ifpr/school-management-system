@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('subjects', function (Blueprint $table) {
+        Schema::create('classes', function (Blueprint $table) {
             $table->id();
-            $table->string('name',250);
+            $table->string('name');
             $table->string('photo')->nullable();
+            $table->enum('period', ['morning','afternoon','full_time']);
+            $table->enum('stage', ['maternal','garden I', 'garden II', 'garden III']);
             $table->timestamps();
-            $table->softDeletes();
-        });
+        }); 
     }
 
     /**
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('subjects');
+        Schema::dropIfExists('classes');
     }
 };

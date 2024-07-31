@@ -2,11 +2,11 @@
 
 namespace App\Enums;
 
-enum Role: int
+enum Role: string
 {
-    case admin = 1;
-    case teacher = 2;
-    case parents = 3;
+    case admin = 'admin';
+    case teacher = 'teacher';
+    case parents = 'parents';
 
     public function name(): string
     {
