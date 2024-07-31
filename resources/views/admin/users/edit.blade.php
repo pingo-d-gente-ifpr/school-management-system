@@ -15,13 +15,6 @@
             </nav>
             <div class="container mt-3">
                         <hr style="height: 2px; background-color: #FF6B8A; border: none;">
-            <div>
-                {{-- @if (session('deletado'))
-                <div class="alert alert-success" role="alert">
-                    {{session('deletado')}}
-                </div>
-                @endif --}}
-            </div>
             </div>
             <div class="table-container bg-white rounded p-2">
             </div>
