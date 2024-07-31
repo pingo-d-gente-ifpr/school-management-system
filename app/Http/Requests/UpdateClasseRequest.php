@@ -28,6 +28,8 @@ class UpdateClasseRequest extends FormRequest
             'photo' => ['nullable', 'max:3072'],
             'period' => ['required', Period::cases()],
             'stage' => ['required', Stage::cases()],
+            'subjects.*' => ['nullable'],
+            'subjects.*.id' => ['exists:subjects,id'],
         ];
     }
 }
