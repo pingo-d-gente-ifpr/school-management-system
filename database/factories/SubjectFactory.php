@@ -27,8 +27,6 @@ class SubjectFactory extends Factory
 
         return [
             'name' => $this->faker->word,
-            'start_date' => $this->faker->time,
-            'end_date' => $this->faker->time,
             'photo' => $this->faker->randomElement($photos),
         ];
     }
