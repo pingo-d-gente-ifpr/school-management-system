@@ -55,7 +55,10 @@ class ClasseController extends Controller
     {
         $class = $this->service->show($class);
         $subjects = $class->subjects()->paginate(7);
-        return view('front.classes.show')->with('class', $class)->with('subjects',$subjects);
+        $students = $class->childrens()->paginate(7);
+        return view('front.classes.show')->with('class', $class)
+            ->with('subjects',$subjects)
+            ->with('students',$students);
     }
 
     /**
