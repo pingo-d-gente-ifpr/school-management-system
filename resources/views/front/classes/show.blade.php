@@ -50,7 +50,11 @@
                     <div class="tab-pane fade show active" id="sobre" role="tabpanel" aria-labelledby="sobre-tab">
                         <div class="row">
                             <div class="col-12 col-md-4 text-center p-4">
-                                <img src="{{asset('assets/images/subjects/3.png')}}" alt="Profile Picture" class="img-fluid rounded-circle mb-3" width="150px">
+                                <img src="{{ $class->photo
+                                        ? (Storage::exists('public/' . $class->photo)
+                                            ? Storage::url($class->photo)
+                                            : asset('assets/' . $class->photo))
+                                        : asset('assets/images/logo/subject-default.png') }}" alt="Profile Picture" class="img-fluid rounded-circle mb-3" width="150px">
                                 <h2 class="user-name">Turma {{$class->name}}</h2>
                                 <p>Nível: Maternal II</p>
                                 <p>Período: Vespertino</p>
@@ -121,26 +125,26 @@
 </x-app-layout>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var triggerTabList = [].slice.call(document.querySelectorAll('#myTab button'))
-        triggerTabList.forEach(function (triggerEl) {
-            var tabTrigger = new bootstrap.Tab(triggerEl)
+document.addEventListener('DOMContentLoaded', function () {
+    var triggerTabList = [].slice.call(document.querySelectorAll('#myTab button'))
+    triggerTabList.forEach(function (triggerEl) {
+        var tabTrigger = new bootstrap.Tab(triggerEl)
 
-            triggerEl.addEventListener('click', function (event) {
-                event.preventDefault()
-                tabTrigger.show()
-            })
+        triggerEl.addEventListener('click', function (event) {
+            event.preventDefault()
+            tabTrigger.show()
         })
+    })
 
-        // Char counter for post message
-        const postMessage = document.getElementById('postMessage');
-        const charCount = document.getElementById('charCount');
+    // Char counter for post message
+    const postMessage = document.getElementById('postMessage');
+    const charCount = document.getElementById('charCount');
 
-        postMessage.addEventListener('input', function () {
-            const currentLength = postMessage.value.length;
-            charCount.textContent = `${currentLength}/1000`;
-        });
+    postMessage.addEventListener('input', function () {
+        const currentLength = postMessage.value.length;
+        charCount.textContent = `${currentLength}/1000`;
     });
+});
 </script>
 
 
