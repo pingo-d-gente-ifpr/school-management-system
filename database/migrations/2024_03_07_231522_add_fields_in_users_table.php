@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('photo')->nullable();
             $table->date('birth_date')->required();
             $table->string('document_cpf')->required();
-            $table->enum('gender',['female','male','other'])->required();
+            $table->enum('gender',['feminino','masculino','outros'])->required();
             $table->string('cellphone')->required();
             $table->string('emergency_name')->nullable();
             $table->string('emergency_cellphone')->nullable();
