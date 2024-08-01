@@ -84,6 +84,7 @@
                                 </div>
                             </td>
                         </tr>
+                        <x-subjects.edit-modal :subject="$subject" :teachers="$teachers"/>
                     @endforeach
                 </tbody>
             </table>
@@ -93,6 +94,6 @@
             </div>
         </div>
         @include('admin.subjects.partials.create-modal')
-        @include('admin.subjects.partials.edit-modal')
+        
     </div>
 </x-app-layout>

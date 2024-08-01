@@ -10,15 +10,361 @@
                             Início
                         </a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Editar Usuário</li>
+                    <li class="breadcrumb-item">
+                        <a href="{{ route('users.index') }}">
+                            Usuários
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Cadastro de Usuário</li>
                 </ol>
             </nav>
             <div class="container mt-3">
-                        <hr style="height: 2px; background-color: #FF6B8A; border: none;">
+                <hr style="height: 2px; background-color: #FF6B8A; border: none;">
             </div>
-            <div class="table-container bg-white rounded p-2">
+            <div class="table-container bg-white rounded p-4">
+                <ul class="nav nav-underline" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="dados-tab" data-bs-toggle="tab" data-bs-target="#dados" type="button" role="tab" aria-controls="dados" aria-selected="true">Dados do Usuário</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="endereco-tab" data-bs-toggle="tab" data-bs-target="#endereco" type="button" role="tab" aria-controls="endereco" aria-selected="false">Endereço</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="dependentes-tab" data-bs-toggle="tab" data-bs-target="#dependentes" type="button" role="tab" aria-controls="dependentes" aria-selected="false">Dependentes</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <form method="POST" enctype="multipart/form-data" action="{{ route('register') }}" class="p-3">
+                        <div class="tab-pane fade show active" id="dados" role="tabpanel" aria-labelledby="dados-tab">
+                                @csrf
+                                <div class="row mb-3">
+                                    <div class="col-md-2 text-center position-relative">
+                                        <img id="avatar-preview" src="{{ asset('assets/images/logo/user-default.png') }}" class="img-fluid rounded-circle mb-2" alt="User Avatar">
+                                        <div class="position-absolute top-0 end-0 p-1">
+                                            <button type="button" class="btn btn-danger btn-sm rounded-circle" onclick="resetImage()" id="delete-image" hidden>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="custom-file-upload mt-2">
+                                            <input id="photo" type="file" name="photo" accept="image/*" onchange="previewImage(event)" />
+                                            <label for="photo" class="btn btn-success btn-block">CARREGAR</label>
+                                        </div>
+                                        <x-input-error :messages="$errors->get('photo')" class="mt-2" />
+                                    </div>
+
+                                    <div class="col-md-10">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="name" class="form-label">Nome e Sobrenome</label>
+                                                <x-text-input id="name" class="form-control" type="text" name="name" :value="old('name')" value="{{ old('name', $user->name) }}"   autofocus autocomplete="name" />
+                                                <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="email" class="form-label">Email</label>
+                                                <x-text-input id="email" class="form-control" type="email" name="email" :value="old('email')" value="{{ old('email', $user->email) }}"   autocomplete="username" />
+                                                <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 mb-3">
+                                                <label for="document_cpf" class="form-label">CPF</label>
+                                                <x-text-input id="document_cpf" class="form-control" type="text" name="document_cpf" :value="old('document_cpf')" value="{{ old('document_cpf', $user->document_cpf) }}"   autofocus autocomplete="cpf" />
+                                                <x-input-error :messages="$errors->get('document_cpf')" class="mt-2" />
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label for="cellphone" class="form-label">Telefone</label>
+                                                <x-text-input id="cellphone" class="form-control" type="text" name="cellphone" :value="old('cellphone')" value="{{ old('cellphone', $user->cellphone) }}"  autocomplete="cellphone" />
+                                                <x-input-error :messages="$errors->get('cellphone')" class="mt-2" />
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label for="birth_date" class="form-label">Data de Nascimento</label>
+                                                <input id="birth_date" type="date" class="form-control" name="birth_date" :value="old('birth_date')" value="{{ old('birth_date', $user->birth_date) }}" />
+                                                <x-input-error :messages="$errors->get('birth_date')" class="mt-2" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="password" class="form-label">Senha</label>
+                                                <x-text-input id="password" class="form-control" type="password" name="password"  autocomplete="new-password" />
+                                                <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="emergency_contact" class="form-label">Nome do Contato de Emergência (Opcional)</label>
+                                                <x-text-input id="emergency_contact" class="form-control" type="text" name="emergency_contact" :value="old('emergency_contact')" value="{{ old('emergency_contact', $user->emergency_contact) }}" autofocus autocomplete="emergency-contact" />
+                                                <x-input-error :messages="$errors->get('emergency_contact')" class="mt-2" />
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="emergency_phone" class="form-label">Telefone do Contato de Emergência (Opcional)</label>
+                                                <x-text-input id="emergency_phone" class="form-control" type="text" name="emergency_phone" :value="old('emergency_phone')" value="{{ old('emergency_phone', $user->emergency_phone) }}" autofocus autocomplete="emergency-phone" />
+                                                <x-input-error :messages="$errors->get('emergency_phone')" class="mt-2" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="gender" class="form-label">Gênero</label>
+                                                <div>
+                                                    
+                                                    @foreach(\App\Enums\Gender::cases() as $gender)
+                                                    <input type="radio" class="btn-check" name="gender" id="{{ $gender->value }}" value="{{ old('gender', $user->gender) ?? $gender->value }}" autocomplete="off">
+                                                    <label class="btn btn-light" value="{{ old('gender', $user->gender)}}" for="{{ $gender->value }}">{{ $gender->name }}</label>
+                                                    @endforeach
+                                                </div>
+                                                <x-input-error :messages="$errors->get('gender')" class="mt-2" />
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="role" class="form-label">Tipo de Usuário</label>
+                                                <div>
+                                                    <input type="radio" class="btn-check" name="role" id="admin" value="admin" autocomplete="off">
+                                                    <label class="btn btn-light" for="admin">Admin</label>
+
+                                                    <input type="radio" class="btn-check" name="role" id="teacher" value="teacher" autocomplete="off">
+                                                    <label class="btn btn-light" for="teacher">Professor(a)</label>
+
+                                                    <input type="radio" class="btn-check" name="role" id="parents" value="parents" autocomplete="off">
+                                                    <label class="btn btn-light" for="parents">Responsável</label>
+                                                </div>
+                                                <x-input-error :messages="$errors->get('role')" class="mt-2" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                        </div>
+                        <div class="tab-pane fade" id="endereco" role="tabpanel" aria-labelledby="endereco-tab">
+                            {{-- @include('admin.users.partials.tab-pane-address') --}}
+                        </div>
+                        <div class="tab-pane fade" id="dependentes" role="tabpanel" aria-labelledby="dependentes-tab">
+                            <div class="d-flex justify-content-center">
+                                <button type="button" class="btn btn-secondary w-auto mt-3" id="add-children">
+                                    {{ __('Adicionar Criança') }}
+                                </button>
+                            </div>
+                            <div class="container mt-3">
+                                <div id="childrens-container">
+                                    <!-- children Template -->
+                                    
+                                    <div class="children-template mb-4">
+                                        <div class="row mb-3">
+                                            <div class="col-md-2 text-center position-relative">
+                                                <img id="children-avatar-preview-1" src="{{ asset('assets/images/logo/user-default.png') }}"
+                                                    class="img-fluid rounded-circle mb-2" alt="children Avatar">
+                                                <div class="position-absolute top-0 end-0 p-1">
+                                                    <button type="button" class="btn btn-danger btn-sm rounded-circle"
+                                                        onclick="resetchildrenImage(1)" id="delete-children-image-1" hidden>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                            fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                                <div class="custom-file-upload mt-2">
+                                                    <input id="children-photo-1" type="file" name="childrens[0][photo]" accept="image/*"
+                                                        onchange="previewchildrenImage(event, 1)" />
+                                                    <label for="children-photo-1" class="btn btn-success btn-block">CARREGAR</label>
+                                                </div>
+                                                <x-input-error :messages="$errors->get('childrens[0][photo]')" class="mt-2" />
+                                            </div>
+                        
+                                            <div class="col-md-10">
+                                                <div class="row">
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="children-name-1" class="form-label">Nome</label>
+                                                        <x-text-input id="children-name-1" class="form-control" type="text"
+                                                            name="childrens[0][name]"  autofocus autocomplete="name" />
+                                                        <x-input-error :messages="$errors->get('childrens[0][name]')" class="mt-2" />
+                                                    </div>
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="children-birth_date-1" class="form-label">Data de Nascimento</label>
+                                                        <input id="children-birth_date-1" type="date" class="form-control"
+                                                            name="childrens[0][birth_date]"  autofocus autocomplete="birth_date" />
+                                                        <x-input-error :messages="$errors->get('childrens[0][birth_date]')" class="mt-2" />
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="children-document-1" class="form-label">Documento (RG)</label>
+                                                        <x-text-input id="children-document-1" class="form-control" type="text"
+                                                            name="childrens[0][document]"  autofocus autocomplete="document" />
+                                                        <x-input-error :messages="$errors->get('childrens[0][document]')" class="mt-2" />
+                                                    </div>
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="children-gender-1" class="form-label">Gênero</label>
+                                                        <div>
+                                                            @foreach(\App\Enums\Gender::cases() as $gender)
+                                                            <input type="radio" class="btn-check" name="childrens[0][gender]"
+                                                                id="children-gender-{{ $gender->value }}-1" value="{{ $gender->value }}"
+                                                                autocomplete="off">
+                                                            <label class="btn btn-light"
+                                                                for="children-gender-{{ $gender->value }}-1">{{ $gender->name }}</label>
+                                                            @endforeach
+                                                        </div>
+                                                        <x-input-error :messages="$errors->get('childrens[0][gender]')" class="mt-2" />
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12 mb-3">
+                                                        <label for="children-status-1" class="form-label">Status</label>
+                                                        <div>
+                                                            <input type="radio" class="btn-check" name="childrens[0][status]"
+                                                                id="children-status-active-1" value="true" autocomplete="off">
+                                                            <label class="btn btn-light" for="children-status-active-1">Ativo</label>
+                        
+                                                            <input type="radio" class="btn-check" name="childrens[0][status]"
+                                                                id="children-status-inactive-1" value="false" autocomplete="off">
+                                                            <label class="btn btn-light" for="children-status-inactive-1">Inativo</label>
+                                                        </div>
+                                                        <x-input-error :messages="$errors->get('childrens[0][status]')" class="mt-2" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    </div>
+                                    <!-- Fim do children Template -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <x-primary-button class="btn btn-success w-auto mt-5">
+                                {{ __('ATUALIZAR USUÁRIO') }}
+                            </x-primary-button>
+                        </div>
+                    </form>
+                    
+                </div>
             </div>
         </div>
     </div>
-    
+    <style>
+        .custom-file-upload {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .custom-file-upload input[type="file"] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            filter: alpha(opacity=0);
+        }
+
+        .custom-file-upload label {
+            display: inline-block;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .custom-file-upload label:hover {
+            background-color: #218838;
+        }
+
+
+    </style>
+<script>
+    function previewImage(event) {
+        var reader = new FileReader();
+        var output = document.getElementById('avatar-preview');
+        var deleteButton = document.getElementById('delete-image');
+
+        reader.onload = function() {
+            output.src = reader.result;
+            deleteButton.hidden = false;
+        }
+
+        if (event.target.files[0]) {
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    }
+
+    function resetImage() {
+        var output = document.getElementById('avatar-preview');
+        var deleteButton = document.getElementById('delete-image');
+        var fileInput = document.getElementById('photo');
+
+        output.src = "{{ asset('assets/images/logo/user-default.png') }}"; // Reset image
+        deleteButton.hidden = true;
+        fileInput.value = "";
+    }
+
+    document.getElementById('add-children').addEventListener('click', function () {
+    let index = document.querySelectorAll('.children-template').length; // Atualiza o índice corretamente
+    let template = document.querySelector('.children-template').cloneNode(true);
+    template.style.display = 'block';
+
+    // Atualizar os IDs e nomes do novo dependente
+    template.querySelectorAll('input, select').forEach(function (input) {
+        let inputName = input.name.replace(/\[0\]/, `[${index}]`);
+        input.name = inputName;
+        
+        if (input.id) {
+            input.id = input.id.replace(/-1$/, `-${index + 1}`);
+        }
+
+        // Resetar os valores dos campos clonados
+        if (input.type === 'file') {
+            input.value = '';
+        } else if (input.type === 'radio') {
+            input.checked = false;
+        } else {
+            input.value = '';
+        }
+    });
+
+    template.querySelectorAll('label').forEach(function (label) {
+        if (label.htmlFor) {
+            label.htmlFor = label.htmlFor.replace(/-1$/, `-${index + 1}`);
+        }
+    });
+
+    // Resetar o preview da imagem
+    let avatarPreview = template.querySelector('img');
+    avatarPreview.id = `children-avatar-preview-${index + 1}`;
+    avatarPreview.src = '{{ asset('assets/images/logo/user-default.png') }}';
+
+    let deleteButton = template.querySelector('button[id^="delete-children-image"]');
+    deleteButton.id = `delete-children-image-${index + 1}`;
+    deleteButton.hidden = true;
+
+    // Adiciona o novo template ao container
+    document.getElementById('childrens-container').appendChild(template);
+    });
+
+    function previewChildrenImage(event, index) {
+        var reader = new FileReader();
+        var output = document.getElementById(`children-avatar-preview-${index}`);
+        var deleteButton = document.getElementById(`delete-children-image-${index}`);
+
+        reader.onload = function () {
+            output.src = reader.result;
+            deleteButton.hidden = false;
+        }
+
+        if (event.target.files[0]) {
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    }
+
+    function resetChildrenImage(index) {
+        var output = document.getElementById(`children-avatar-preview-${index}`);
+        var deleteButton = document.getElementById(`delete-children-image-${index}`);
+        var fileInput = document.getElementById(`children-photo-${index}`);
+
+        output.src = '{{ asset('assets/images/logo/user-default.png') }}';
+        deleteButton.hidden = true;
+        fileInput.value = '';
+    }
+</script>
+
 </x-app-layout>
