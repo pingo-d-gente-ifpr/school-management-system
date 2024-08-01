@@ -109,6 +109,7 @@ class UserController extends Controller
 
     public function createChildrens(array $data, User $user)
     {
+        // dd($data);
         $this->childrenService->createChildrens($data,$user);
     }
 }

@@ -152,7 +152,7 @@
                         <div class="container mt-3">
                             <div id="childrens-container">
                                 <!-- children Template -->
-                                {{-- <div class="children-template mb-4">
+                                <div class="children-template mb-4">
                                     <div class="row mb-3">
                                         <div class="col-md-2 text-center position-relative">
                                             <img id="children-avatar-preview-1" src="{{ asset('assets/images/logo/user-default.png') }}"
@@ -211,7 +211,7 @@
                                                     <x-input-error :messages="$errors->get('childrens[0][gender]')" class="mt-2" />
                                                 </div>
                                             </div>
-                                            <div class="row">
+                                            {{-- <div class="row">
                                                 <div class="col-md-12 mb-3">
                                                     <label for="children-status-1" class="form-label">Status</label>
                                                     <div>
@@ -225,11 +225,11 @@
                                                     </div>
                                                     <x-input-error :messages="$errors->get('childrens[0][status]')" class="mt-2" />
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                     <hr>
-                                </div> --}}
+                                </div>
                                 <!-- Fim do children Template -->
                             </div>
                         </div>

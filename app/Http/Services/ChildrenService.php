@@ -29,6 +29,7 @@ class ChildrenService{
 
             collect($data ?? [])->each(function ($childrenData) use ($user) {
                 $childrenData['user_id'] = $user->id;
+                $childrenData['register_number'] = "RGN".$childrenData['document'];
                 if (isset($childrenData['id'])) {
                     $childrenToUpdate = $user->childrens()->find($childrenData['id']);
 
