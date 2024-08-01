@@ -37,7 +37,7 @@
                 </a>
                 <p>{{Auth::user()->email}}</p>
             </div>
-            <hr>
+            <hr style="color: green">
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
                     <a href="/dashboard" class="nav-link" aria-current="page">
