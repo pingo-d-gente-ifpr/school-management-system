@@ -58,26 +58,25 @@
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <label for="name" class="form-label">Nome e Sobrenome</label>
-                                            <x-text-input id="name" class="form-control" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+                                            <x-text-input id="name" class="form-control" type="text" name="name" :value="old('name')"  autofocus autocomplete="name" />
                                             <x-input-error :messages="$errors->get('name')" class="mt-2" />
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="email" class="form-label">Email</label>
-                                            <x-text-input id="email" class="form-control" type="email" name="email" :value="old('email')" required autocomplete="username" />
+                                            <x-text-input id="email" class="form-control" type="email" name="email" :value="old('email')"  autocomplete="username" />
                                             <x-input-error :messages="$errors->get('email')" class="mt-2" />
                                         </div>
-
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4 mb-3">
                                             <label for="document_cpf" class="form-label">CPF</label>
-                                            <x-text-input id="document_cpf" class="form-control" type="text" name="document_cpf" :value="old('document_cpf')" required autofocus autocomplete="cpf" />
+                                            <x-text-input id="document_cpf" class="form-control" type="text" name="document_cpf" :value="old('document_cpf')"  autofocus autocomplete="cpf" />
                                             <x-input-error :messages="$errors->get('document_cpf')" class="mt-2" />
                                         </div>
                                         <div class="col-md-4 mb-3">
-                                            <label for="phone" class="form-label">Telefone</label>
-                                            <x-text-input id="phone" class="form-control" type="text" name="phone" :value="old('phone')" required autocomplete="phone" />
-                                            <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+                                            <label for="cellphone" class="form-label">Telefone</label>
+                                            <x-text-input id="cellphone" class="form-control" type="text" name="cellphone" :value="old('cellphone')"  autocomplete="cellphone" />
+                                            <x-input-error :messages="$errors->get('cellphone')" class="mt-2" />
                                         </div>
                                         <div class="col-md-4 mb-3">
                                             <label for="birth_date" class="form-label">Data de Nascimento</label>
@@ -88,12 +87,12 @@
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <label for="password" class="form-label">Senha</label>
-                                            <x-text-input id="password" class="form-control" type="password" name="password" required autocomplete="new-password" />
+                                            <x-text-input id="password" class="form-control" type="password" name="password"  autocomplete="new-password" />
                                             <x-input-error :messages="$errors->get('password')" class="mt-2" />
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="password_confirmation" class="form-label">Confirmar Senha</label>
-                                            <x-text-input id="password_confirmation" class="form-control" type="password" name="password_confirmation" required autocomplete="new-password" />
+                                            <x-text-input id="password_confirmation" class="form-control" type="password" name="password_confirmation"  autocomplete="new-password" />
                                             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                                         </div>
                                     </div>
@@ -101,12 +100,12 @@
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <label for="emergency_contact" class="form-label">Nome do Contato de Emergência (Opcional)</label>
-                                            <x-text-input id="emergency_contact" class="form-control" type="text" name="emergency_contact" :value="old('emergency_contact')" required autofocus autocomplete="emergency-contact" />
+                                            <x-text-input id="emergency_contact" class="form-control" type="text" name="emergency_contact" :value="old('emergency_contact')"  autofocus autocomplete="emergency-contact" />
                                             <x-input-error :messages="$errors->get('emergency_contact')" class="mt-2" />
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="emergency_phone" class="form-label">Telefone do Contato de Emergência (Opcional)</label>
-                                            <x-text-input id="emergency_phone" class="form-control" type="text" name="emergency_phone" :value="old('emergency_phone')" required autofocus autocomplete="emergency-phone" />
+                                            <x-text-input id="emergency_phone" class="form-control" type="text" name="emergency_phone" :value="old('emergency_phone')"  autofocus autocomplete="emergency-cellphone" />
                                             <x-input-error :messages="$errors->get('emergency_phone')" class="mt-2" />
                                         </div>
                                     </div>
@@ -147,13 +146,13 @@
                         
                     </div>
                     <div class="tab-pane fade" id="endereco" role="tabpanel" aria-labelledby="endereco-tab">
-                        @include('admin.users.partials.tab-pane-address')
+                        {{-- @include('admin.users.partials.tab-pane-address') --}}
                     </div>
                     <div class="tab-pane fade" id="dependentes" role="tabpanel" aria-labelledby="dependentes-tab">
                         <div class="container mt-3">
                             <div id="childrens-container">
                                 <!-- children Template -->
-                                <div class="children-template mb-4">
+                                {{-- <div class="children-template mb-4">
                                     <div class="row mb-3">
                                         <div class="col-md-2 text-center position-relative">
                                             <img id="children-avatar-preview-1" src="{{ asset('assets/images/logo/user-default.png') }}"
@@ -181,13 +180,13 @@
                                                 <div class="col-md-6 mb-3">
                                                     <label for="children-name-1" class="form-label">Nome</label>
                                                     <x-text-input id="children-name-1" class="form-control" type="text"
-                                                        name="childrens[0][name]" required autofocus autocomplete="name" />
+                                                        name="childrens[0][name]" />
                                                     <x-input-error :messages="$errors->get('childrens[0][name]')" class="mt-2" />
                                                 </div>
                                                 <div class="col-md-6 mb-3">
                                                     <label for="children-birth_date-1" class="form-label">Data de Nascimento</label>
                                                     <input id="children-birth_date-1" type="date" class="form-control"
-                                                        name="childrens[0][birth_date]" required autofocus autocomplete="birth_date" />
+                                                        name="childrens[0][birth_date]" />
                                                     <x-input-error :messages="$errors->get('childrens[0][birth_date]')" class="mt-2" />
                                                 </div>
                                             </div>
@@ -195,7 +194,7 @@
                                                 <div class="col-md-6 mb-3">
                                                     <label for="children-document-1" class="form-label">Documento (RG)</label>
                                                     <x-text-input id="children-document-1" class="form-control" type="text"
-                                                        name="childrens[0][document]" required autofocus autocomplete="document" />
+                                                        name="childrens[0][document]"/>
                                                     <x-input-error :messages="$errors->get('childrens[0][document]')" class="mt-2" />
                                                 </div>
                                                 <div class="col-md-6 mb-3">
@@ -230,7 +229,7 @@
                                         </div>
                                     </div>
                                     <hr>
-                                </div>
+                                </div> --}}
                                 <!-- Fim do children Template -->
                             </div>
                         </div>
