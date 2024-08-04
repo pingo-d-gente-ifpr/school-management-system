@@ -36,7 +36,6 @@
             @include('layouts.navigation')
             <div class="w-100">
                  <!-- Page Content -->
-                @include('layouts.header')
                 <main style="height:100vh;width:100%">
                     {{ $slot }}
                 </main>
