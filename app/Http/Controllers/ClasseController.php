@@ -22,11 +22,11 @@ class ClasseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
        
-        
-        return view('admin.classes.index')->with('classes', $this->service->index());
+        $filter = $request->only('q');
+        return view('admin.classes.index')->with('classes', $this->service->index($filter));
     }
 
     /**

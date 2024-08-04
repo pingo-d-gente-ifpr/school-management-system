@@ -14,9 +14,9 @@ class SubjectService{
         $this->repository = $repository;
     }
 
-    public function index()
+    public function index(array $filter)
     {
-        return $this->repository->getAll();
+        return $this->repository->getAll($filter);
     }
 
     public function store(array $data, $request)
