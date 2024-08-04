@@ -34,9 +34,10 @@
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
-                    <form method="POST" enctype="multipart/form-data" action="{{ route('register') }}" class="p-3">
+                    <form method="POST" enctype="multipart/form-data" action="{{ route('users.update', $user->id) }}" class="p-3">
                         <div class="tab-pane fade show active" id="dados" role="tabpanel" aria-labelledby="dados-tab">
                                 @csrf
+                                @method('PUT')
                                 <div class="row mb-3">
                                     <div class="col-md-2 text-center position-relative">
                                         <img id="avatar-preview" src="{{ asset('assets/images/logo/user-default.png') }}" class="img-fluid rounded-circle mb-2" alt="User Avatar">
