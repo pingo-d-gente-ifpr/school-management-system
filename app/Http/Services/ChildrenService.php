@@ -8,17 +8,6 @@ use Illuminate\Support\Facades\Log;
 
 class ChildrenService{
 
-    // protected $repository;
-
-    // public function __construct(ChildrenRepository $repository){
-    //     $this->repository = $repository;
-    // }
-
-    // public function index()
-    // {
-    //     return $this->repository->getAll();
-    // }
-
     public function createChildrens(array $data, User $user)
     {
         try {
@@ -29,7 +18,7 @@ class ChildrenService{
 
             collect($data ?? [])->each(function ($childrenData) use ($user) {
                 $childrenData['user_id'] = $user->id;
-                $childrenData['register_number'] = "RGN".$childrenData['document'];
+                $childrenData['register_number'] = "MATR".$childrenData['document'];
                 if (isset($childrenData['id'])) {
                     $childrenToUpdate = $user->childrens()->find($childrenData['id']);
 
