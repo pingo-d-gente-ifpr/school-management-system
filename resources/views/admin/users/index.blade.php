@@ -21,6 +21,7 @@
                     <div class="col-lg-9 p-0 m-0">
                         <hr style="height: 2px; background-color: #FF6B8A; border: none;">
                     </div>
+                    <x-admin.search/>
                 </div>
                 <div>
                     @if (session('deletado'))
