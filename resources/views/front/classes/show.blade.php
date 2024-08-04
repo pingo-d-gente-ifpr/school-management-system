@@ -56,9 +56,9 @@
                                             : asset('assets/' . $class->photo))
                                         : asset('assets/images/logo/subject-default.png') }}" alt="Profile Picture" class="img-fluid rounded-circle mb-3" width="150px">
                                 <h2 class="user-name">Turma {{$class->name}}</h2>
-                                <p>Nível: Maternal II</p>
-                                <p>Período: Vespertino</p>
-                                <p>Professor(a): Prof. Jenny</p>
+                                <p><strong>Nível:</strong> {{App\Enums\Stage::from($class->stage)->name()}}</p>
+                                <p><strong>Período:</strong> {{App\Enums\Period::from($class->period)->name()}}</p>
+                                {{-- <p>Professor(a): Prof. Jenny</p> --}}
                             </div>
                             <div class="col-12 col-md-8">
                                 <div class="card">
