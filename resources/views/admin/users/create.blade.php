@@ -219,17 +219,17 @@
                                             </div>
                                         </form>
                                     </div>
-                                </div>     
+                                </div>
                             </div>
                             <div class="tab-pane fade" id="dependentes" role="tabpanel"
                                 aria-labelledby="dependentes-tab">
                                 <button type="button" class="btn btn-success mb-3" onclick="addChild()">Adicionar Dependente</button>
                                 <div id="childrens" class="mt-3">
 
-                                    <div class='child-entry my-3 p-3 border rounded'>
+                                    <div class='child-entry row mb-3 my-3 p-3 border rounded'>
                                     <div class="col-md-2 text-center position-relative">
                                         <img id="children-avatar-preview-0" src="{{ asset('assets/images/logo/user-default.png') }}" class="img-fluid rounded-circle mb-2" alt="children Avatar">
-                    
+
                                         <div class="position-absolute top-0 end-0 p-1">
                                             <button type="button" class="btn btn-danger btn-sm rounded-circle" onclick="resetchildrenImage(0)" id="delete-children-image-0" hidden>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
@@ -237,7 +237,7 @@
                                                 </svg>
                                             </button>
                                         </div>
-                    
+
                                         <div class="custom-file-upload mt-2">
                                                 <input id="children-photo-0" type="file" name="childrens[0][photo]" accept="image/*" onchange="previewchildrenImage(event, 0)" />
                                                 <label for="children-photo-0" class="btn btn-success btn-block">CARREGAR</label>
@@ -350,8 +350,8 @@
             const childNumber = childrensDiv.children.length;
 
             const newChildDiv = document.createElement('div');
-            newChildDiv.classList.add('child-entry', 'my-3', 'p-3', 'border', 'rounded');
-            newChildDiv.innerHTML = ` 
+            newChildDiv.classList.add('child-entry', 'my-3', 'p-3', 'border', 'rounded', 'row');
+            newChildDiv.innerHTML = `
                 <div class="col-md-2 text-center position-relative">
                     <img id="children-avatar-preview-0" src="{{ asset('assets/images/logo/user-default.png') }}" class="img-fluid rounded-circle mb-2" alt="children Avatar">
 
@@ -422,11 +422,11 @@
         const bairroInput = document.getElementById('neighborhood');
         const cidadeInput = document.getElementById('city');
         const ufInput = document.getElementById('state');
-    
+
         cepInput.addEventListener('blur', function () {
             const zip_code = cepInput.value.replace(/\D/g, '');
 
-            if (zip_code.length === 8) { 
+            if (zip_code.length === 8) {
                 fetch(`https://viacep.com.br/ws/${zip_code}/json/`)
                     .then(response => response.json())
                     .then(data => {
