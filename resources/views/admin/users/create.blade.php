@@ -176,46 +176,46 @@
                                     <div class="row">
                                         <form style="width: 50%;" class="search-form search-header d-flex align-items-center">
                                             <div class="col-md-6 mb-3">
-                                                <label for="zip_code" class="form-label">CEP *</label>
-                                                <x-text-input id="zip_code" class="form-control" type="text"
-                                                    name="zip_code" :value="old('zip_code')" placeholder="Digite o CEP" autofocus autocomplete="zip_code" />
+                                                <label for="address[0][zip_code]" class="form-label">CEP *</label>
+                                                <x-text-input id="address[0][zip_code]" class="form-control" type="text"
+                                                    name="address[0][zip_code]" :value="old('zip_code')" placeholder="Digite o CEP" autofocus autocomplete="zip_code" />
                                                 <x-input-error :messages="$errors->get('zip_code')" class="mt-2" />
                                             </div>
                                             <div class="col-md-6 mb-3">
-                                                <label for="street" class="form-label">Rua</label>
-                                                <x-text-input id="street" class="form-control" type="text"
-                                                    name="street" :value="old('street')" autofocus autocomplete="street" readonly/>
-                                                <x-input-error :messages="$errors->get('street')" class="mt-2" />
+                                                <label for="address[0][street]" class="form-label">Rua</label>
+                                                <x-text-input id="address[0][street]" class="form-control" type="text"
+                                                    name="address[0][street]" :value="old('address[0][street]')" autofocus autocomplete="address[0][street]" readonly/>
+                                                <x-input-error :messages="$errors->get('address[0][street]')" class="mt-2" />
                                             </div>
                                             <div class="col-md-6 mb-3">
-                                                <label for="number" class="form-label">Número</label>
-                                                <x-text-input id="number" class="form-control" type="text"
-                                                    name="number" :value="old('number')" autofocus autocomplete="number"/>
-                                                <x-input-error :messages="$errors->get('number')" class="mt-2" />
+                                                <label for="address[0][number]" class="form-label">Número</label>
+                                                <x-text-input id="address[0][number]" class="form-control" type="text"
+                                                    name="address[0][number]" :value="old('address[0][number]')" autofocus autocomplete="address[0][number]"/>
+                                                <x-input-error :messages="$errors->get('address[0][number]')" class="mt-2" />
                                             </div>
                                             <div class="col-md-6 mb-3">
-                                                <label for="complement" class="form-label">Complemento (Opicional)</label>
-                                                <x-text-input id="complement" class="form-control" type="text"
-                                                    name="complement" :value="old('complement')" autofocus autocomplete="complement"/>
-                                                <x-input-error :messages="$errors->get('complement')" class="mt-2" />
+                                                <label for="address[0][complement]" class="form-label">Complemento (Opicional)</label>
+                                                <x-text-input id="address[0][complement]" class="form-control" type="text"
+                                                    name="address[0][complement]" :value="old('address[0][complement]')" autofocus autocomplete="address[0][complement]"/>
+                                                <x-input-error :messages="$errors->get('address[0][complement]')" class="mt-2" />
                                             </div>
                                             <div class="col-md-6 mb-3">
-                                                <label for="neighborhood" class="form-label">Bairro</label>
-                                                <x-text-input id="neighborhood" class="form-control" type="text"
-                                                    name="neighborhood" :value="old('neighborhood')" autofocus autocomplete="neighborhood" readonly/>
-                                                <x-input-error :messages="$errors->get('neighborhood')" class="mt-2" />
+                                                <label for="address[0][neighborhood]" class="form-label">Bairro</label>
+                                                <x-text-input id="address[0][neighborhood]" class="form-control" type="text"
+                                                    name="address[0][neighborhood]" :value="old('address[0][neighborhood]')" autofocus autocomplete="address[0][neighborhood]" readonly/>
+                                                <x-input-error :messages="$errors->get('address[0][neighborhood]')" class="mt-2" />
                                             </div>
                                             <div class="col-md-6 mb-3">
-                                                <label for="city" class="form-label">Cidade</label>
-                                                <x-text-input id="city" class="form-control" type="text"
-                                                    name="city" :value="old('city')" autofocus autocomplete="city" readonly/>
-                                                <x-input-error :messages="$errors->get('city')" class="mt-2" />
+                                                <label for="address[0][city]" class="form-label">Cidade</label>
+                                                <x-text-input id="address[0][city]" class="form-control" type="text"
+                                                    name="address[0][city]" :value="old('address[0][city]')" autofocus autocomplete="address[0][city]" readonly/>
+                                                <x-input-error :messages="$errors->get('address[0][city]')" class="mt-2" />
                                             </div>
                                             <div class="col-md-6 mb-3">
-                                                <label for="state" class="form-label">UF</label>
-                                                <x-text-input id="state" class="form-control" type="text"
-                                                    name="state" :value="old('state')" autofocus autocomplete="state" readonly/>
-                                                <x-input-error :messages="$errors->get('state')" class="mt-2" />
+                                                <label for="address[0][state]" class="form-label">UF</label>
+                                                <x-text-input id="address[0][state]" class="form-control" type="text"
+                                                    name="address[0][state]" :value="old('address[0][state]')" autofocus autocomplete="address[0][state]" readonly/>
+                                                <x-input-error :messages="$errors->get('address[0][state]')" class="mt-2" />
                                             </div>
                                         </form>
                                     </div>
@@ -417,11 +417,11 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const cepInput = document.getElementById('zip_code');
-        const logradouroInput = document.getElementById('street');
-        const bairroInput = document.getElementById('neighborhood');
-        const cidadeInput = document.getElementById('city');
-        const ufInput = document.getElementById('state');
+        const cepInput = document.getElementById('address[0][zip_code]');
+        const logradouroInput = document.getElementById('address[0][street]');
+        const bairroInput = document.getElementById('address[0][neighborhood]');
+        const cidadeInput = document.getElementById('address[0][city]');
+        const ufInput = document.getElementById('address[0][state]');
 
         cepInput.addEventListener('blur', function () {
             const zip_code = cepInput.value.replace(/\D/g, '');
