@@ -223,8 +223,16 @@
                             </div>
                             <div class="tab-pane fade" id="dependentes" role="tabpanel"
                                 aria-labelledby="dependentes-tab">
-                                <button type="button" class="btn btn-success mb-3" onclick="addChild()">Adicionar Dependente</button>
-                                <div id="childrens" class="mt-3">
+                                <div class="d-flex justify-content-end">
+                                    <button type="button" class="btn btn-primary d-flex align-items-center" onclick="addChild()">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                                          </svg>
+                                        Adicionar
+                                    </button>
+                                </div>
+
+                                <div id="childrens">
 
                                     <div class='child-entry row mb-3 my-3 p-3 border rounded'>
                                     <div class="col-md-2 text-center position-relative">
@@ -245,6 +253,13 @@
                                         <x-input-error :messages="$errors->get('childrens[0][photo]')" class="mt-2" />
                                     </div>
                                     <div class="col-md-10">
+                                        <div class="d-flex justify-content-end">
+                                            <button type="button" class="btn-delete" onclick="removeChildren(0)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+                                                </svg>
+                                            </button>
+                                        </div>
                                         <div class="row">
                                             <div class="col-md-6 mb-3">
                                                 <label for="children-name-0" class="form-label">Nome</label>
@@ -369,7 +384,15 @@
                     </div>
                     <x-input-error :messages="$errors->get('childrens[${childNumber}][photo]')" class="mt-2" />
                 </div>
+
                 <div class="col-md-10">
+                    <div class="d-flex justify-content-end">
+                                            <button type="button" class="btn-delete" onclick="removeChildren(${childNumber})">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+                                                </svg>
+                                            </button>
+                                        </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="children-name-0" class="form-label">Nome</label>
@@ -411,6 +434,14 @@
                 document.getElementById(`children-avatar-preview-${index}`).src = reader.result;
             };
             reader.readAsDataURL(event.target.files[0]);
+        }
+
+        function removeChildren(index){
+            const childrensDiv = document.getElementById('childrens');
+            const childrens = childrensDiv.children;
+            // console.log(childrens[index].parentNode)
+            childrens[index].parentNode.removeChild(childrens[index])
+
         }
     </script>
 
