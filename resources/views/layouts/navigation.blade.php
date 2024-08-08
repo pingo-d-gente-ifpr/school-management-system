@@ -20,18 +20,18 @@
 <body>
 
 
-    <div class="d-flex flex-nowrap">
+    <div class="d-flex flex-nowrap" style="height: 100vh;">
         <div class="navigation d-flex flex-column flex-shrink-0 p-3 bg-white" style="width: 280px;">
             <div class="d-flex flex-column align-items-center">
                 <a class="d-flex justify-content-center" href="/dashboard">
                     <img src="{{ asset('assets/images/logo/logo-reta.png') }}" width=80%>
                 </a>
                 <img class="rounded-circle mt-5" width="50%"
-                                        src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/images/logo/user-default.png')}}">
+                    src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/images/logo/user-default.png') }}">
                 <a href="/profile">
-                    <h2>{{Auth::user()->name}}</h2>
+                    <h2>{{ Auth::user()->name }}</h2>
                 </a>
-                <p>{{Auth::user()->email}}</p>
+                <p>{{ Auth::user()->email }}</p>
             </div>
             <hr style="color: green">
             <ul class="nav nav-pills flex-column mb-auto">
@@ -46,7 +46,8 @@
                     </a>
                 </li>
                 <li>
-                    <a  class="nav-link {{ Route::is('subjects*') ? 'active' : '' }}" href="{{route('subjects.index')}}">
+                    <a class="nav-link {{ Route::is('subjects*') ? 'active' : '' }}"
+                        href="{{ route('subjects.index') }}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi pe-none me-2" viewBox="0 0 16 16">
                             <path
@@ -68,7 +69,8 @@
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link {{ Route::is('users*') ? 'active' : '' }}"  href="{{route('users.index')}}" class="nav-link">
+                    <a class="nav-link {{ Route::is('users*') ? 'active' : '' }}" href="{{ route('users.index') }}"
+                        class="nav-link">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi pe-none me-2" viewBox="0 0 16 16">
                             <path
@@ -78,7 +80,8 @@
                     </a>
                 </li>
                 <li>
-                    <a  class="nav-link {{ Route::is('classes*') ? 'active' : '' }}" href="{{route('classes.index')}}">
+                    <a class="nav-link {{ Route::is('classes*') ? 'active' : '' }}"
+                        href="{{ route('classes.index') }}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi pe-none me-2" viewBox="0 0 16 16">
                             <path
@@ -98,6 +101,31 @@
                     </a>
                 </li>
             </ul>
+            <hr>
+            <div class="dropdown">
+                <a href="#"
+                    class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/images/logo/user-default.png') }}"
+                        alt="" width="32" height="32" class="rounded-circle me-2">
+                    <strong>{{ Auth::user()->name }}</strong>
+                </a>
+                <ul class="dropdown-menu text-small shadow">
+                    <li><a class="dropdown-item" href="/users/{{ Auth::user()->id }}/edit">Configurações</a></li>
+                    <li><a class="dropdown-item" href="/users/{{ Auth::user()->id }}">Meu Perfil</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="dropdown-item">
+                                {{ __('Sair') }}
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </body>

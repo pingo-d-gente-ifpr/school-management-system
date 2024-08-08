@@ -25,7 +25,7 @@ class UserFactory extends Factory
             'password' => Hash::make('password'),
             'birth_date' => $this->faker->date,
             'document_cpf' => $this->faker->unique()->numerify('###########'),
-            'gender' => $this->faker->randomElement(['masculino', 'feminino', 'outros']),
+            'gender' => $this->faker->randomElement(['masculino', 'feminino', 'outro']),
             'cellphone' => $this->faker->phoneNumber,
             'emergency_name' => $this->faker->name,
             'emergency_cellphone' => $this->faker->phoneNumber,
