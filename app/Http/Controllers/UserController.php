@@ -46,14 +46,16 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserStoreRequest $request)
     {
-        dd($request->all());
         $data = $request->validated();
+        $address = $data['address'][0];
+        
         if($request->hasFile('photo')){
           $data['photo'] = $request->file('photo')->store('images/users', 'public');
         }
         $user = $this->service->store($data);
+        $user->address()->attach($address);
 
         if(!empty($data['childrens'])) $this->createChildrens($data['childrens'], $user);
 
@@ -82,7 +84,6 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        dd($request->all());
         $data = $request->validated();
 
         if($request->hasFile('photo')){
@@ -113,7 +114,6 @@ class UserController extends Controller
 
     public function createChildrens(array $data, User $user)
     {
-        // dd($data);
         $this->childrenService->createChildrens($data,$user);
     }
 }

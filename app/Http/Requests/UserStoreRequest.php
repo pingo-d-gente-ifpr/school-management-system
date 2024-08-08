@@ -41,6 +41,15 @@ class UserStoreRequest extends FormRequest
             'childrens.*.gender' => 'nullable|in:masculino,feminino',
             'childrens.*.status' => 'nullable|boolean',
             'childrens.*.photo' => 'nullable|string',
+
+            //address validations
+            'address.0.zip_code' => 'nullable',
+            'address.0.street' => 'nullable',
+            'address.0.neighborhood' => 'nullable',
+            'address.0.city' => 'nullable',
+            'address.0.state' => 'nullable',
+            'address.0.number' => 'nullable',
+            'address.0.complement' => 'nullable',
         ];
     }
 }
