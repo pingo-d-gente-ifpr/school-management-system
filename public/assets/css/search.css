@@ -1,0 +1,19 @@
+.search-attendance {
+  border: 0.8px solid #FF6B8A;
+  border-radius: 30px;
+  padding-left: 10px;
+  background: #ffffff;
+}
+
+.form-attendance{
+  background: none;
+  width: 100%;
+  border:0;
+}
+
+.form-attendance:focus {
+  border:none;
+  border-color: transparent;
+  outline: 0;
+  box-shadow: none;
+}

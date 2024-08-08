@@ -11,9 +11,9 @@ class UserService{
         $this->repository = $repository;
     }
 
-    public function index()
+    public function index(array $filter = null)
     {
-        return $this->repository->getUsers();
+        return $this->repository->getUsers($filter);
     }
 
     public function store(array $data)

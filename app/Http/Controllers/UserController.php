@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Repositories\UserRepository;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Http\Services\ChildrenService;
 use App\Http\Services\UserService;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -15,18 +16,22 @@ class UserController extends Controller
 {
     protected $service;
     protected $repository;
+    protected $childrenService;
 
-    public function __construct(UserService $service, UserRepository $repository)
+    public function __construct(UserService $service, UserRepository $repository, ChildrenService $childrenService)
     {
         $this->service = $service;
         $this->repository = $repository;
+        $this->childrenService = $childrenService;
     }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = $this->service->index();
+
+        $filter = $request->only('q');
+        $users = $this->service->index($filter);
         return view('admin.users.index')->with('users', $users);
     }
 
@@ -41,14 +46,17 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(UserStoreRequest $request)
+    public function store(Request $request)
     {
+        dd($request->all());
         $data = $request->validated();
-
         if($request->hasFile('photo')){
           $data['photo'] = $request->file('photo')->store('images/users', 'public');
         }
         $user = $this->service->store($data);
+
+        if(!empty($data['childrens'])) $this->createChildrens($data['childrens'], $user);
+
         event(new Registered($user));
         return to_route('users.index');
     }
@@ -72,8 +80,9 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserUpdateRequest $request, User $user)
+    public function update(Request $request, User $user)
     {
+        dd($request->all());
         $data = $request->validated();
 
         if($request->hasFile('photo')){
@@ -100,5 +109,11 @@ class UserController extends Controller
     {
         $teachers = $this->service->getTeachers();
         return $teachers;
+    }
+
+    public function createChildrens(array $data, User $user)
+    {
+        // dd($data);
+        $this->childrenService->createChildrens($data,$user);
     }
 }

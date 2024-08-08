@@ -20,6 +20,7 @@
                 <div class="col-lg-9 p-0 m-0">
                     <hr style="height: 2px; background-color: #ff6b8a; border: none;">
                 </div>
+                <x-admin.search/>
             </div>
         </div>
         <div class="table-container bg-white rounded p-2">
@@ -84,6 +85,7 @@
                                 </div>
                             </td>
                         </tr>
+                        <x-subjects.edit-modal :subject="$subject" :teachers="$teachers"/>
                     @endforeach
                 </tbody>
             </table>
@@ -93,6 +95,6 @@
             </div>
         </div>
         @include('admin.subjects.partials.create-modal')
-        @include('admin.subjects.partials.edit-modal')
+        
     </div>
 </x-app-layout>

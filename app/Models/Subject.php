@@ -17,6 +17,11 @@ class Subject extends Model
         'photo',
     ];
 
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['q'] ?? false, fn ($query, $search) => $query->where('name', 'LIKE', "%$search%"));
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

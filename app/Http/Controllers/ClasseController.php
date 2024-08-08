@@ -22,11 +22,11 @@ class ClasseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
        
-        
-        return view('admin.classes.index')->with('classes', $this->service->index());
+        $filter = $request->only('q');
+        return view('admin.classes.index')->with('classes', $this->service->index($filter));
     }
 
     /**
@@ -55,7 +55,10 @@ class ClasseController extends Controller
     {
         $class = $this->service->show($class);
         $subjects = $class->subjects()->paginate(7);
-        return view('front.classes.show')->with('class', $class)->with('subjects',$subjects);
+        $students = $class->childrens()->paginate(7);
+        return view('front.classes.show')->with('class', $class)
+            ->with('subjects',$subjects)
+            ->with('students',$students);
     }
 
     /**

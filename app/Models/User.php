@@ -54,8 +54,19 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['q'] ?? false, fn ($query, $search) => $query->where('name', 'LIKE', "%$search%"));
+    }
+
     public function subjects(): HasMany
     {
         return $this->hasMany(Subject::class);
+    }
+
+    public function childrens(): HasMany
+    {
+        return $this->hasMany(Children::class);
     }
 }

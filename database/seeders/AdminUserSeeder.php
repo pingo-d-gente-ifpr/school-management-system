@@ -18,7 +18,7 @@ class AdminUserSeeder extends Seeder
             'password' => 'password',
             'birth_date' => '1980-01-01',
             'document_cpf' => '12345678912',
-            'gender' => 'Male',
+            'gender' => 'masculino',
             'cellphone' => '99999-9999',
             'emergency_name' => 'Emergency Contact',
             'emergency_cellphone' => '88888-8888',

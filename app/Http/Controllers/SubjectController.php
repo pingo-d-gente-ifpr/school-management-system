@@ -7,6 +7,7 @@ use App\Http\Requests\StoreSubjectRequest;
 use App\Http\Requests\UpdateSubjectRequest;
 use App\Http\Services\SubjectService;
 use App\Models\Subject;
+use Illuminate\Http\Request;
 
 class SubjectController extends Controller
 {
@@ -24,9 +25,10 @@ class SubjectController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $subjects = $this->service->index();
+        $filter = $request->only('q');
+        $subjects = $this->service->index($filter);
         $teachers = $this->userController->getTeachers();
         return view('admin.subjects.index')->with('subjects', $subjects)->with('teachers', $teachers);
     }

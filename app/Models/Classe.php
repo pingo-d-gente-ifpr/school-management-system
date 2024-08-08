@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Classe extends Model
@@ -19,10 +20,20 @@ class Classe extends Model
         'stage'
     ];
 
-    public function subjects(): BelongsToMany
+    public function scopeFilter($query, array $filters)
     {
-        return $this->belongsToMany(Subject::class)->withPivot('user_id');;
+        $query->when($filters['q'] ?? false, fn ($query, $search) => $query->where('name', 'LIKE', "%$search%"));
     }
 
+    public function subjects(): BelongsToMany
+    {
+        return $this->belongsToMany(Subject::class)->withPivot('user_id');
+    }
+
+    public function childrens(): BelongsToMany
+    {
+        return $this->belongsToMany(Children::class);
+    }
+    
 
 }
