@@ -50,7 +50,7 @@ class UserController extends Controller
     {
         $data = $request->validated();
         $address = $data['address'][0];
-        
+
         if($request->hasFile('photo')){
           $data['photo'] = $request->file('photo')->store('images/users', 'public');
         }
@@ -76,22 +76,24 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('admin.users.edit')->with('user', $user);
+        $childrens = $user->childrens()->get();
+        // dd($childrens);
+        return view('admin.users.edit')->with('user', $user)
+            ->with('children', $childrens);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UserUpdateRequest $request, User $user)
     {
         $data = $request->validated();
-
         if($request->hasFile('photo')){
             $data['photo'] = $request->file('photo')->store('images/users', 'public');
         }
         $this->service->update($data,$user);
         return to_route('users.index');
-        
+
     }
 
     /**

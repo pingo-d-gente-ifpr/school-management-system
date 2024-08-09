@@ -18,13 +18,13 @@ class UserUpdateRequest extends FormRequest
     {
         return true;
     }
-    
+
     public function rules(): array
     {
         return [
             'name' => ['string', 'max:255', 'required'],
             'email' => ['email', 'max:255', 'required', Rule::unique(User::class)->ignore($this->user()->id)],
-            'password' => ['string', Password::defaults()],
+            'password' => ['nullable','string', Password::defaults()],
             'role' => ['required',Rule::enum(Role::class)],
             'photo' => ['nullable', 'max:3072'],
             'birth_date' => ['date', 'required'],
