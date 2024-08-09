@@ -55,7 +55,7 @@ class UserController extends Controller
           $data['photo'] = $request->file('photo')->store('images/users', 'public');
         }
         $user = $this->service->store($data);
-        $user->address()->attach($address);
+        $user->address()->create($address);
 
         if(!empty($data['childrens'])) $this->createChildrens($data['childrens'], $user);
 

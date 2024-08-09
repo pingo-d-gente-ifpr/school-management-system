@@ -84,7 +84,6 @@
                                                 value="{{ old('email', $user->email) }}" autocomplete="username" />
                                             <x-input-error :messages="$errors->get('email')" class="mt-2" />
                                         </div>
-
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4 mb-3">
@@ -186,8 +185,8 @@
                                             <label for="address[0][zip_code]" class="form-label">CEP *</label>
                                             <x-text-input id="address[0][zip_code]" class="form-control"
                                                 type="text" name="address[0][zip_code]" :value="old('zip_code')"
-                                                placeholder="Digite o CEP" autofocus autocomplete="zip_code" />
-                                            <x-input-error :messages="$errors->get('zip_code')" class="mt-2" />
+                                                placeholder="Digite o CEP" autofocus autocomplete="zip_code"/>
+                                            <x-input-error :messages="$errors->get('zip_code')" value="{{ old('address[0][zip_code]', $user->address->zip_code) }}" class="mt-2" />
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="address[0][street]" class="form-label">Rua</label>
@@ -463,6 +462,37 @@
             deleteButton.hidden = true;
             fileInput.value = '';
         }
+    </script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const cepInput = document.getElementById('address[0][zip_code]');
+        const logradouroInput = document.getElementById('address[0][street]');
+        const bairroInput = document.getElementById('address[0][neighborhood]');
+        const cidadeInput = document.getElementById('address[0][city]');
+        const ufInput = document.getElementById('address[0][state]');
+
+        cepInput.addEventListener('blur', function () {
+            const zip_code = cepInput.value.replace(/\D/g, '');
+
+            if (zip_code.length === 8) {
+                fetch(`https://viacep.com.br/ws/${zip_code}/json/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.erro) {
+                            alert('CEP não encontrado.');
+                            return;
+                        }
+                        logradouroInput.value = data.logradouro || '';
+                        bairroInput.value = data.bairro || '';
+                        cidadeInput.value = data.localidade || '';
+                        ufInput.value = data.uf || '';
+                    })
+                    .catch(error => console.error('Erro:', error));
+            }
+        });
+    });
     </script>
 
 </x-app-layout>
