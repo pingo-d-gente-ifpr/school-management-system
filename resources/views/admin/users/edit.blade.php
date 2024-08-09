@@ -15,7 +15,7 @@
                             Usuários
                         </a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Cadastro de Usuário</li>
+                    <li class="breadcrumb-item active" aria-current="page">Editar Usuário</li>
                 </ol>
             </nav>
             <div class="container mt-3">
@@ -34,9 +34,9 @@
                             aria-selected="false">Endereço</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="dependentes-tab" data-bs-toggle="tab" data-bs-target="#dependentes"
-                            type="button" role="tab" aria-controls="dependentes"
-                            aria-selected="false">Dependentes</button>
+                        <button class="nav-link" id="crianças-tab" data-bs-toggle="tab" data-bs-target="#crianças"
+                            type="button" role="tab" aria-controls="crianças"
+                            aria-selected="false">Crianças</button>
                     </li>
                 </ul>
                 <form method="POST" enctype="multipart/form-data" action="{{ route('users.update', $user->id) }}"
@@ -45,7 +45,7 @@
                         <div class="tab-pane fade show active" id="dados" role="tabpanel"
                             aria-labelledby="dados-tab">
                             @csrf
-                            @method('PUT')
+                            @method('PATCH')
                             <div class="row mb-3">
                                 <div class="col-md-2 text-center position-relative">
                                     <img id="avatar-preview" src="{{ asset('assets/images/logo/user-default.png') }}"
@@ -115,7 +115,7 @@
                                         <div class="col-md-6 mb-3">
                                             <label for="password" class="form-label">Senha</label>
                                             <x-text-input id="password" class="form-control" type="password"
-                                                name="password" autocomplete="new-password" />
+                                                name="password" autocomplete="new-password" value="{{ old('password', $user->password) }}" />
                                             <x-input-error :messages="$errors->get('password')" class="mt-2" />
                                         </div>
                                     </div>
@@ -143,15 +143,13 @@
                                         <div class="col-md-6 mb-3">
                                             <label for="gender" class="form-label">Gênero</label>
                                             <div>
-
                                                 @foreach (\App\Enums\Gender::cases() as $gender)
                                                     <input type="radio" class="btn-check" name="gender"
                                                         id="{{ $gender->value }}"
-                                                        value="{{ old('gender', $user->gender) ?? $gender->value }}"
+                                                        value="{{ $gender->value }}"
+                                                        @checked(old('gender', $user->gender) == $gender->value)
                                                         autocomplete="off">
-                                                    <label class="btn btn-light"
-                                                        value="{{ old('gender', $user->gender) }}"
-                                                        for="{{ $gender->value }}">{{ $gender->name }}</label>
+                                                    <label class="btn btn-light" for="{{ $gender->value }}">{{ $gender->name }}</label>
                                                 @endforeach
                                             </div>
                                             <x-input-error :messages="$errors->get('gender')" class="mt-2" />
@@ -159,25 +157,26 @@
                                         <div class="col-md-6 mb-3">
                                             <label for="role" class="form-label">Tipo de Usuário</label>
                                             <div>
-                                                <input type="radio" class="btn-check" name="role"
-                                                    id="admin" value="admin" autocomplete="off">
+                                                <input type="radio" class="btn-check" name="role" id="admin" value="admin"
+                                                    @checked(old('role', $user->role) == 'admin') autocomplete="off">
                                                 <label class="btn btn-light" for="admin">Admin</label>
 
-                                                <input type="radio" class="btn-check" name="role"
-                                                    id="teacher" value="teacher" autocomplete="off">
+                                                <input type="radio" class="btn-check" name="role" id="teacher" value="teacher"
+                                                    @checked(old('role', $user->role) == 'teacher') autocomplete="off">
                                                 <label class="btn btn-light" for="teacher">Professor(a)</label>
 
-                                                <input type="radio" class="btn-check" name="role"
-                                                    id="parents" value="parents" autocomplete="off">
+                                                <input type="radio" class="btn-check" name="role" id="parents" value="parents"
+                                                    @checked(old('role', $user->role) == 'parents') autocomplete="off">
                                                 <label class="btn btn-light" for="parents">Responsável</label>
                                             </div>
                                             <x-input-error :messages="$errors->get('role')" class="mt-2" />
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
-
                         </div>
+
                         <div class="tab-pane fade" id="endereco" role="tabpanel" aria-labelledby="endereco-tab">
                             <div class='child-entry my-3 p-3 border rounded'>
                                 <div class="row">
@@ -237,8 +236,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="dependentes" role="tabpanel"
-                            aria-labelledby="dependentes-tab">
+                        <div class="tab-pane fade" id="crianças" role="tabpanel"
+                            aria-labelledby="crianças-tab">
                             <div class="d-flex justify-content-end">
                                 <button type="button" class="btn btn-primary d-flex align-items-center"
                                     onclick="addChild()">
@@ -252,7 +251,7 @@
                             </div>
 
                             <div id="childrens">
-
+                                  
                                 <div class='child-entry row mb-3 my-3 p-3 border rounded'>
                                     <div class="col-md-2 text-center position-relative">
                                         <img id="children-avatar-preview-0"
@@ -292,14 +291,14 @@
                                             <div class="col-md-6 mb-3">
                                                 <label for="children-name-0" class="form-label">Nome</label>
                                                 <x-text-input id="children-name-0" class="form-control"
-                                                    type="text" name="childrens[0][name]" />
+                                                    type="text" name="childrens[0][name]" :value="old('childrens[0][name]')"/>
                                                 <x-input-error :messages="$errors->get('childrens[0][name]')" class="mt-2" />
                                             </div>
                                             <div class="col-md-6 mb-3">
                                                 <label for="children-birth_date-0" class="form-label">Data de
                                                     Nascimento</label>
                                                 <input id="children-birth_date-0" type="date" class="form-control"
-                                                    name="childrens[0][birth_date]" />
+                                                    name="childrens[0][birth_date]" :value="old('childrens[0][birth_date]')"/>
                                                 <x-input-error :messages="$errors->get('childrens[0][birth_date]')" class="mt-2" />
                                             </div>
                                         </div>
@@ -308,7 +307,7 @@
                                                 <label for="children-document-0" class="form-label">Documento
                                                     (RG)</label>
                                                 <x-text-input id="children-document-0" class="form-control"
-                                                    type="text" name="childrens[0][document]" />
+                                                    type="text" name="childrens[0][document]" :value="old('childrens[0][document]')"/>
                                                 <x-input-error :messages="$errors->get('childrens[0][document]')" class="mt-2" />
                                             </div>
                                             <div class="col-md-6 mb-3">
@@ -318,7 +317,8 @@
                                                         <input type="radio" class="btn-check"
                                                             name="childrens[0][gender]"
                                                             id="children-gender-{{ $gender->value }}-0"
-                                                            value="{{ $gender->value }}" autocomplete="off">
+                                                            value="{{ $gender->value }}" autocomplete="off"
+                                                            :value="old('childrens[0][gender]')">
                                                         <label class="btn btn-light"
                                                             for="children-gender-{{ $gender->value }}-0">{{ $gender->name }}</label>
                                                     @endforeach
