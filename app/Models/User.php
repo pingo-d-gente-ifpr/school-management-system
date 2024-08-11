@@ -33,6 +33,13 @@ class User extends Authenticatable
         'emergency_cellphone',
         'status',
         'role',
+        'zip_code',
+        'state',
+        'city',
+        'street',
+        'number',
+        'neighborhood',
+        'complement',
     ];
 
     /**

@@ -49,13 +49,11 @@ class UserController extends Controller
     public function store(UserStoreRequest $request)
     {
         $data = $request->validated();
-        $address = $data['address'][0];
 
         if($request->hasFile('photo')){
           $data['photo'] = $request->file('photo')->store('images/users', 'public');
         }
         $user = $this->service->store($data);
-        $user->address()->create($address);
 
         if(!empty($data['childrens'])) $this->createChildrens($data['childrens'], $user);
 
@@ -77,7 +75,6 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $childrens = $user->childrens()->get();
-        // dd($childrens);
         return view('admin.users.edit')->with('user', $user)
             ->with('children', $childrens);
     }

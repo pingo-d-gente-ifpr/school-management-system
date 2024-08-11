@@ -31,6 +31,13 @@ class UserFactory extends Factory
             'emergency_cellphone' => $this->faker->phoneNumber,
             'status' => $this->faker->randomElement([true, false]),
             'role' => $this->faker->randomElement(Role::cases()),
+            'zip_code' => $this->faker->numerify('#####-###'),
+            'state' => $this->faker->state,
+            'city' => $this->faker->city,
+            'street' => $this->faker->streetName,
+            'number' => $this->faker->buildingNumber,
+            'neighborhood' => $this->faker->streetSuffix,
+            'complement' => $this->faker->secondaryAddress,
         ];
     }
 

@@ -33,7 +33,13 @@ class UserUpdateRequest extends FormRequest
             'cellphone' => ['min:8','string','required'],
             'emergency_name' => ['string', 'max:255', 'nullable'],
             'emergency_cellphone' => ['min:8','string','nullable'],
-
+            'zip_code' => 'nullable',
+            'street' => 'nullable',
+            'neighborhood' => 'nullable',
+            'city' => 'nullable',
+            'state' => 'nullable',
+            'number' => 'nullable',
+            'complement' => 'nullable',
 
              //children validations
              'childrens.*.id' => 'nullable',

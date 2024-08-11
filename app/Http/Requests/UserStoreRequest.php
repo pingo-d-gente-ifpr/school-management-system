@@ -33,6 +33,13 @@ class UserStoreRequest extends FormRequest
             'cellphone' => ['min:8','string','required'],
             'emergency_name' => ['string', 'max:255', 'nullable'],
             'emergency_cellphone' => ['min:8','string','nullable'],
+            'zip_code' => 'nullable',
+            'street' => 'nullable',
+            'neighborhood' => 'nullable',
+            'city' => 'nullable',
+            'state' => 'nullable',
+            'number' => 'nullable',
+            'complement' => 'nullable',
 
             //children validations
             'childrens.*.name' => 'nullable|string|max:255',
@@ -42,14 +49,7 @@ class UserStoreRequest extends FormRequest
             'childrens.*.status' => 'nullable|boolean',
             'childrens.*.photo' => 'nullable|string',
 
-            //address validations
-            'address.0.zip_code' => 'nullable',
-            'address.0.street' => 'nullable',
-            'address.0.neighborhood' => 'nullable',
-            'address.0.city' => 'nullable',
-            'address.0.state' => 'nullable',
-            'address.0.number' => 'nullable',
-            'address.0.complement' => 'nullable',
+
         ];
     }
 }
