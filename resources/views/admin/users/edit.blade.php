@@ -39,13 +39,13 @@
                             aria-selected="false">Crianças</button>
                     </li>
                 </ul>
-                <form method="POST" enctype="multipart/form-data" action="{{ route('users.update', $user->id) }}"
+                <form method="POST" enctype="multipart/form-data" action="{{ route('users.update', $user) }}"
                     class="p-3">
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="dados" role="tabpanel"
                             aria-labelledby="dados-tab">
                             @csrf
-                            @method('PATCH')
+                            @method('PUT')
                             <div class="row mb-3">
                                 <div class="col-md-2 text-center position-relative">
                                     <img id="avatar-preview" src="{{ asset('assets/images/logo/user-default.png') }}"
@@ -250,91 +250,72 @@
                             </div>
 
                             <div id="childrens">
-                                  
+                                @foreach($user->childrens as $index => $children)
                                 <div class='child-entry row mb-3 my-3 p-3 border rounded'>
                                     <div class="col-md-2 text-center position-relative">
-                                        <img id="children-avatar-preview-0"
-                                            src="{{ asset('assets/images/logo/user-default.png') }}"
-                                            class="img-fluid rounded-circle mb-2" alt="children Avatar">
-
+                                        <img id="children-avatar-preview-{{ $index }}" src="{{ $children->photo_url ?? asset('assets/images/logo/user-default.png') }}" class="img-fluid rounded-circle mb-2" alt="children Avatar">
                                         <div class="position-absolute top-0 end-0 p-1">
-                                            <button type="button" class="btn btn-danger btn-sm rounded-circle"
-                                                onclick="resetchildrenImage(0)" id="delete-children-image-0" hidden>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
+                                            <button type="button" class="btn btn-danger btn-sm rounded-circle" onclick="resetchildrenImage({{ $index }})" id="delete-children-image-{{ $index }}" {{ $children->photo ? '' : 'hidden' }}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
                                                 </svg>
                                             </button>
                                         </div>
-
                                         <div class="custom-file-upload mt-2">
-                                            <input id="children-photo-0" type="file" name="childrens[0][photo]"
-                                                accept="image/*" onchange="previewchildrenImage(event, 0)" />
-                                            <label for="children-photo-0"
-                                                class="btn btn-success btn-block">CARREGAR</label>
+                                            <input id="children-photo-{{ $index }}" type="file" name="childrens[{{ $index }}][photo]" accept="image/*" onchange="previewchildrenImage(event, {{ $index }})" />
+                                            <label for="children-photo-{{ $index }}" class="btn btn-success btn-block">CARREGAR</label>
                                         </div>
-                                        <x-input-error :messages="$errors->get('childrens[0][photo]')" class="mt-2" />
+                                        <x-input-error :messages="$errors->get('childrens[{{ $index }}][photo]')" class="mt-2" />
                                     </div>
                                     <div class="col-md-10">
                                         <div class="d-flex justify-content-end">
-                                            <button type="button" class="btn-delete" onclick="removeChildren(0)">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
-                                                    fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+                                            <button type="button" class="btn-delete" onclick="removeChildren({{ $index }})">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
                                                 </svg>
                                             </button>
                                         </div>
+                                        <div>
+                                            <input type="hidden" name="childrens[{{ $index }}][id]" value="{{ $children->id }}">
+                                        </div>
                                         <div class="row">
                                             <div class="col-md-6 mb-3">
-                                                <label for="children-name-0" class="form-label">Nome</label>
-                                                <x-text-input id="children-name-0" class="form-control"
-                                                    type="text" name="childrens[0][name]" :value="old('childrens[0][name]')"/>
-                                                <x-input-error :messages="$errors->get('childrens[0][name]')" class="mt-2" />
+                                                <label for="children-name-{{ $index }}" class="form-label">Nome</label>
+                                                <x-text-input id="children-name-{{ $index }}" class="form-control" type="text" name="childrens[{{ $index }}][name]" value="{{ $children->name }}" />
+                                                <x-input-error :messages="$errors->get('childrens[{{ $index }}][name]')" class="mt-2" />
                                             </div>
                                             <div class="col-md-6 mb-3">
-                                                <label for="children-birth_date-0" class="form-label">Data de
-                                                    Nascimento</label>
-                                                <input id="children-birth_date-0" type="date" class="form-control"
-                                                    name="childrens[0][birth_date]" :value="old('childrens[0][birth_date]')"/>
-                                                <x-input-error :messages="$errors->get('childrens[0][birth_date]')" class="mt-2" />
+                                                <label for="children-birth_date-{{ $index }}" class="form-label">Data de Nascimento</label>
+                                                <input id="children-birth_date-{{ $index }}" type="date" class="form-control" name="childrens[{{ $index }}][birth_date]" value="{{ $children->birth_date }}" />
+                                                <x-input-error :messages="$errors->get('childrens[{{ $index }}][birth_date]')" class="mt-2" />
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6 mb-3">
-                                                <label for="children-document-0" class="form-label">Documento
-                                                    (RG)</label>
-                                                <x-text-input id="children-document-0" class="form-control"
-                                                    type="text" name="childrens[0][document]" :value="old('childrens[0][document]')"/>
-                                                <x-input-error :messages="$errors->get('childrens[0][document]')" class="mt-2" />
+                                                <label for="children-document-{{ $index }}" class="form-label">Documento (RG)</label>
+                                                <x-text-input id="children-document-{{ $index }}" class="form-control" type="text" name="childrens[{{ $index }}][document]" value="{{ $children->document }}" />
+                                                <x-input-error :messages="$errors->get('childrens[{{ $index }}][document]')" class="mt-2" />
                                             </div>
                                             <div class="col-md-6 mb-3">
-                                                <label for="children-gender-0" class="form-label">Gênero</label>
+                                                <label for="children-gender-{{ $index }}" class="form-label">Gênero</label>
                                                 <div>
                                                     @foreach (\App\Enums\Gender::cases() as $gender)
-                                                        <input type="radio" class="btn-check"
-                                                            name="childrens[0][gender]"
-                                                            id="children-gender-{{ $gender->value }}-0"
-                                                            value="{{ $gender->value }}" autocomplete="off"
-                                                            :value="old('childrens[0][gender]')">
-                                                        <label class="btn btn-light"
-                                                            for="children-gender-{{ $gender->value }}-0">{{ $gender->name }}</label>
+                                                    <input type="radio" class="btn-check" name="childrens[{{ $index }}][gender]" id="children-gender-{{ $gender->value }}-{{ $index }}" value="{{ $gender->value }}" autocomplete="off" {{ $children->gender == $gender->value ? 'checked' : '' }}>
+                                                    <label class="btn btn-light" for="children-gender-{{ $gender->value }}-{{ $index }}">{{ $gender->name }}</label>
                                                     @endforeach
                                                 </div>
-                                                <x-input-error :messages="$errors->get('childrens[0][gender]')" class="mt-2" />
+                                                <x-input-error :messages="$errors->get('childrens[{{ $index }}][gender]')" class="mt-2" />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                @endforeach
                             </div>
-                            <div class="d-flex justify-content-center">
-                                <x-primary-button class="btn btn-success w-auto mt-5">
-                                    {{ __('ATUALIZAR USUÁRIO') }}
-                                </x-primary-button>
-                            </div>
-
-
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <x-primary-button class="btn btn-success w-auto mt-5">
+                                {{ __('ATUALIZAR USUÁRIO') }}
+                            </x-primary-button>
                         </div>
                 </form>
             </div>
@@ -345,6 +326,7 @@
             background-color: #f0f0f0;
             cursor: not-allowed;
         }
+
         .custom-file-upload {
             position: relative;
             overflow: hidden;
@@ -389,6 +371,7 @@
             }
         }
 
+        // Resetar a imagem do usuário
         function resetImage() {
             var output = document.getElementById('avatar-preview');
             var deleteButton = document.getElementById('delete-image');
@@ -399,72 +382,88 @@
             fileInput.value = "";
         }
 
-        document.getElementById('add-children').addEventListener('click', function() {
-            let index = document.querySelectorAll('.children-template').length; // Atualiza o índice corretamente
-            let template = document.querySelector('.children-template').cloneNode(true);
-            template.style.display = 'block';
+        function addChild() {
+            const childrensDiv = document.getElementById('childrens');
+            const childNumber = childrensDiv.children.length;
 
-            // Atualizar os IDs e nomes do novo dependente
-            template.querySelectorAll('input, select').forEach(function(input) {
-                let inputName = input.name.replace(/\[0\]/, `[${index}]`);
-                input.name = inputName;
+            const newChildDiv = document.createElement('div');
+            newChildDiv.classList.add('child-entry', 'my-3', 'p-3', 'border', 'rounded', 'row');
+            newChildDiv.innerHTML = `
+                <div class="col-md-2 text-center position-relative">
+                    <img id="children-avatar-preview-0" src="{{ asset('assets/images/logo/user-default.png') }}" class="img-fluid rounded-circle mb-2" alt="children Avatar">
 
-                if (input.id) {
-                    input.id = input.id.replace(/-1$/, `-${index + 1}`);
-                }
+                    <div class="position-absolute top-0 end-0 p-1">
+                        <button type="button" class="btn btn-danger btn-sm rounded-circle" onclick="resetchildrenImage(${childNumber})" id="delete-children-image-0" hidden>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
+                            </svg>
+                        </button>
+                    </div>
 
-                // Resetar os valores dos campos clonados
-                if (input.type === 'file') {
-                    input.value = '';
-                } else if (input.type === 'radio') {
-                    input.checked = false;
-                } else {
-                    input.value = '';
-                }
-            });
+                    <div class="custom-file-upload mt-2">
+                            <input id="children-photo-0" type="file" name="childrens[${childNumber}][photo]" accept="image/*" onchange="previewchildrenImage(event, ${childNumber})" />
+                            <label for="children-photo-0" class="btn btn-success btn-block">CARREGAR</label>
+                    </div>
+                    <x-input-error :messages="$errors->get('childrens[${childNumber}][photo]')" class="mt-2" />
+                </div>
 
-            template.querySelectorAll('label').forEach(function(label) {
-                if (label.htmlFor) {
-                    label.htmlFor = label.htmlFor.replace(/-1$/, `-${index + 1}`);
-                }
-            });
-
-            // Resetar o preview da imagem
-            let avatarPreview = template.querySelector('img');
-            avatarPreview.id = `children-avatar-preview-${index + 1}`;
-            avatarPreview.src = '{{ asset('assets/images/logo/user-default.png') }}';
-
-            let deleteButton = template.querySelector('button[id^="delete-children-image"]');
-            deleteButton.id = `delete-children-image-${index + 1}`;
-            deleteButton.hidden = true;
-
-            // Adiciona o novo template ao container
-            document.getElementById('childrens-container').appendChild(template);
-        });
-
-        function previewChildrenImage(event, index) {
-            var reader = new FileReader();
-            var output = document.getElementById(`children-avatar-preview-${index}`);
-            var deleteButton = document.getElementById(`delete-children-image-${index}`);
-
-            reader.onload = function() {
-                output.src = reader.result;
-                deleteButton.hidden = false;
-            }
-
-            if (event.target.files[0]) {
-                reader.readAsDataURL(event.target.files[0]);
-            }
+                <div class="col-md-10">
+                    <div class="d-flex justify-content-end">
+                                            <button type="button" class="btn-delete" onclick="removeChildren(${childNumber})">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="children-name-0" class="form-label">Nome</label>
+                            <x-text-input id="children-name-0" class="form-control" type="text" name="childrens[${childNumber}][name]" />
+                            <x-input-error :messages="$errors->get('childrens[${childNumber}][name]')" class="mt-2" />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="children-birth_date-0" class="form-label">Data de Nascimento</label>
+                            <input id="children-birth_date-0" type="date" class="form-control" name="childrens[${childNumber}][birth_date]" />
+                            <x-input-error :messages="$errors->get('childrens[${childNumber}][birth_date]')" class="mt-2" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="children-document-0" class="form-label">Documento (RG)</label>
+                            <x-text-input id="children-document-0" class="form-control" type="text" name="childrens[${childNumber}][document]" />
+                            <x-input-error :messages="$errors->get('childrens[${childNumber}][document]')" class="mt-2" />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="children-gender-0" class="form-label">Gênero</label>
+                        <div> @foreach (\App\Enums\Gender::cases() as $gender) <input type="radio" class="btn-check" name="childrens[${childNumber}][gender]" id="children-gender-{{ $gender->value }}-${childNumber}" value="{{ $gender->value }}" autocomplete="off">
+                            <label class="btn btn-light" for="children-gender-{{ $gender->value }}-${childNumber}">{{ $gender->name }}</label> @endforeach
+                    </div>
+                    <x-input-error :messages="$errors->get('childrens[${childNumber}][gender]')" class="mt-2" />
+                </div>
+            </div> `;
+            childrensDiv.appendChild(newChildDiv);
         }
 
-        function resetChildrenImage(index) {
-            var output = document.getElementById(`children-avatar-preview-${index}`);
-            var deleteButton = document.getElementById(`delete-children-image-${index}`);
-            var fileInput = document.getElementById(`children-photo-${index}`);
+        function resetchildrenImage(index) {
+            document.getElementById(`children-photo-${index}`).value = '';
+            document.getElementById(`children-avatar-preview-${index}`).src =
+                "{{ asset('assets/images/logo/user-default.png') }}";
+        }
 
-            output.src = '{{ asset('assets/images/logo/user-default.png') }}';
-            deleteButton.hidden = true;
-            fileInput.value = '';
+        function previewchildrenImage(event, index) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                document.getElementById(`children-avatar-preview-${index}`).src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        function removeChildren(index){
+            const childrensDiv = document.getElementById('childrens');
+            const childrens = childrensDiv.children;
+            // console.log(childrens[index].parentNode)
+            childrens[index].parentNode.removeChild(childrens[index])
+
         }
     </script>
 
@@ -497,6 +496,5 @@
             }
         });
     });
-    </script>
-
+</script>
 </x-app-layout>
