@@ -11,22 +11,23 @@ use Illuminate\Validation\Rules\Password;
 
 class UserUpdateRequest extends FormRequest
 {
-    /**
+      /**
      * Determine if the user is authorized to make this request.
      */
+    public function authorize(): bool
+    {
+        return true;
+    }
+    
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
+        $user = $this->route('user');
         return [
+            'email' => ['email', 'max:255', 'required', Rule::unique('users')->ignore($user->id)],
             'name' => ['string', 'max:255', 'required'],
-            'email' => ['email', 'max:255', 'required', Rule::unique('users')->ignore($this->user->id)],
-            'password' => ['string', 'required', Password::defaults()],
-            'role' => ['required',Rule::enum(Role::class)],
+            'password' => ['nullable','string'],
+            'role' => ['required', Rule::enum(Role::class)],
             'photo' => ['nullable', 'max:3072'],
             'birth_date' => ['date', 'required'],
             'document_cpf'=> ['string'],
@@ -34,6 +35,23 @@ class UserUpdateRequest extends FormRequest
             'cellphone' => ['min:8','string','required'],
             'emergency_name' => ['string', 'max:255', 'nullable'],
             'emergency_cellphone' => ['min:8','string','nullable'],
+            'zip_code' => 'nullable',
+            'street' => 'nullable',
+            'neighborhood' => 'nullable',
+            'city' => 'nullable',
+            'state' => 'nullable',
+            'number' => 'nullable',
+            'complement' => 'nullable',
+        
+            // validações das crianças
+            'childrens.*.id' => 'nullable',
+            'childrens.*.name' => 'nullable|string|max:255',
+            'childrens.*.birth_date' => 'nullable|date',
+            'childrens.*.document' =>['nullable', 'string', 'max:255'],
+            'childrens.*.gender' => 'nullable|in:masculino,feminino',
+            'childrens.*.status' => 'nullable|boolean',
+            'childrens.*.photo' => 'nullable|string',
         ];
+        
     }
 }

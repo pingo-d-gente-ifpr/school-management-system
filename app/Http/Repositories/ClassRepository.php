@@ -7,9 +7,9 @@ use App\Models\Classe;
 class ClassRepository 
 {
 
-    public function getAll()
+    public function getAll(array $filter)
     {
-        return Classe::paginate(8);
+        return Classe::filter($filter)->paginate(8);
     }
 
     public function store(array $data)

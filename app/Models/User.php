@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -32,6 +33,13 @@ class User extends Authenticatable
         'emergency_cellphone',
         'status',
         'role',
+        'zip_code',
+        'state',
+        'city',
+        'street',
+        'number',
+        'neighborhood',
+        'complement',
     ];
 
     /**
@@ -54,8 +62,24 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['q'] ?? false, fn ($query, $search) => $query->where('name', 'LIKE', "%$search%"));
+    }
+
     public function subjects(): HasMany
     {
         return $this->hasMany(Subject::class);
+    }
+
+    public function childrens(): HasMany
+    {
+        return $this->hasMany(Children::class);
+    }
+
+    public function address(): HasOne
+    {
+        return $this->hasOne(Address::class);
     }
 }

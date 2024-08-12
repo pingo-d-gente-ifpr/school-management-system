@@ -6,9 +6,9 @@ use App\Models\Subject;
 
 class SubjectRepository{
 
-    public function getAll()
+    public function getAll(array $filter)
     {
-        return Subject::paginate(8);
+        return Subject::filter($filter)->paginate(8);
     }
 
     public function store(array $data)
