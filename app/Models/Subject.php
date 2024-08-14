@@ -22,14 +22,10 @@ class Subject extends Model
         $query->when($filters['q'] ?? false, fn ($query, $search) => $query->where('name', 'LIKE', "%$search%"));
     }
 
-    public function users(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class)->withPivot('user_id');
-    }
 
     public function classes(): BelongsToMany
     {
-        return $this->belongsToMany(Classe::class)->withPivot('user_id');
+        return $this->belongsToMany(Classe::class)->using(ClasseSubject::class)->withPivot('user_id');
     }
 
 

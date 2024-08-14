@@ -69,13 +69,6 @@ class User extends Authenticatable
         $query->when($filters['q'] ?? false, fn ($query, $search) => $query->where('name', 'LIKE', "%$search%"));
     }
 
-    public function subjects(): BelongsToMany
-    {
-        return $this->belongsToMany(Subject::class)->withPivot('user_id');
-    }
-
-
-
     public function childrens(): HasMany
     {
         return $this->hasMany(Children::class);

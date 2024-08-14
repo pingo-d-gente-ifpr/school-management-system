@@ -27,7 +27,7 @@ class Classe extends Model
 
     public function subjects(): BelongsToMany
     {
-        return $this->belongsToMany(Subject::class)->withPivot('user_id');
+        return $this->belongsToMany(Subject::class)->using(ClasseSubject::class)->withPivot('user_id');
     }
 
     public function childrens(): BelongsToMany
@@ -35,5 +35,4 @@ class Classe extends Model
         return $this->belongsToMany(Children::class);
     }
     
-
 }
