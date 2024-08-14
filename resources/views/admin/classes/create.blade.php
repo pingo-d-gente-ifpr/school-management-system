@@ -151,9 +151,22 @@
 
                                     <!-- Div para mostrar crianças selecionadas -->
                                     <div id="children-check" class="row mt-3">
-                                        <!-- Crianças selecionadas aparecerão aqui -->
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col"></th>
+                                                    <th scope="col">Nome</th>
+                                                    <th scope="col">Matrícula</th>
+                                                    <th scope="col">Ações</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="selected-children-inputs">
+                                                <!-- Crianças selecionadas aparecerão aqui -->
+                                            </tbody>
+                                        </table>
                                     </div>
-                                    <div id="selected-children-inputs"></div>
+
+                                    
                                 </div>
                             </div>
                         </div>
@@ -354,57 +367,69 @@
 
             // Função para adicionar crianças selecionadas
             function addChildren() {
-                childRows.forEach(row => {
-                    if (row.classList.contains('selected')) {
-                        const childId = row.getAttribute('data-id');
-                        const childName = row.getAttribute('data-name');
-                        const childPhoto = row.getAttribute('data-photo');
+    childRows.forEach(row => {
+        if (row.classList.contains('selected')) {
+            const childId = row.getAttribute('data-id');
+            const childName = row.getAttribute('data-name');
+            const childPhoto = row.getAttribute('data-photo');
 
-                        if (!document.querySelector(`#children-check [data-ref-id="${childId}"]`)) {
-                            const divCategory = document.createElement('div');
-                            divCategory.classList.add('col-12', 'mb-2');
-                            divCategory.setAttribute('data-ref-id', childId);
-                            divCategory.innerHTML = `
-                        <div class="d-flex justify-content-between align-items-center p-2 border rounded">
-                            <img class="rounded-circle" width="20px"
-                                            src="${childPhoto}">
-                            <p class="mb-0">${childName}</p>
-                            <button type="button" class="btn btn-danger btn-sm" data-handle-rm-check="${childId}">
-                                Remover
-                            </button>
-                        </div>
-                    `;
-                            childrenCheckContainer.appendChild(divCategory);
+            // Verifica se a criança já foi adicionada para evitar duplicação
+            if (!document.querySelector(`#children-check [data-ref-id="${childId}"]`)) {
+                // Cria a nova linha da tabela
+                const newRow = document.createElement('tr');
+                newRow.classList.add('align-middle');
+                newRow.setAttribute('data-ref-id', childId);
+                newRow.innerHTML = `
+                    <td>
+                        <img class="rounded-circle" width="50px" src="${childPhoto}">
+                    </td>
+                    <td>${childName}</td>
+                    <td>FSDSAD</td>
+                    <td>SADSADSAD</td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm" data-handle-rm-check="${childId}">
+                            Remover
+                        </button>
+                    </td>
+                `;
 
-                            const childInputHidden = document.createElement('input');
-                            childInputHidden.type = 'hidden';
-                            childInputHidden.name = `children[${childId}][child_id]`;
-                            childInputHidden.value = childId;
+                // Adiciona a nova linha ao corpo da tabela
+                const tbody = document.getElementById('selected-children-inputs');
+                tbody.appendChild(newRow);
 
-                            selectedChildrenInputs.appendChild(childInputHidden);
+                // Cria o input oculto para o formulário
+                const childInputHidden = document.createElement('input');
+                childInputHidden.type = 'hidden';
+                childInputHidden.name = `children[${childId}][child_id]`;
+                childInputHidden.value = childId;
 
-                            divCategory.querySelector('[data-handle-rm-check]').addEventListener('click',
-                                function() {
-                                    removeChild(childId);
-                                });
-                        }
-                    }
+                // Adiciona o input ao formulário
+                const selectedChildrenInputs = document.getElementById('selected-children-inputs');
+                selectedChildrenInputs.appendChild(childInputHidden);
+
+                // Adiciona o evento de clique ao botão "Remover"
+                newRow.querySelector('[data-handle-rm-check]').addEventListener('click', function() {
+                    removeChild(childId);
                 });
             }
+        }
+    });
+}
 
-            // Função para remover criança
-            function removeChild(childId) {
-                const childDiv = childrenCheckContainer.querySelector(`[data-ref-id="${childId}"]`);
-                if (childDiv) {
-                    childDiv.remove();
-                }
+// Função para remover a criança da tabela e do formulário
+function removeChild(childId) {
+    // Remove a linha da tabela
+    const childRow = document.querySelector(`#children-check [data-ref-id="${childId}"]`);
+    if (childRow) {
+        childRow.remove();
+    }
 
-                const childInput = selectedChildrenInputs.querySelector(
-                    `input[name="children[${childId}][child_id]"]`);
-                if (childInput) {
-                    childInput.remove();
-                }
-            }
+    // Remove o input oculto do formulário
+    const childInput = document.querySelector(`#selected-children-inputs input[name="children[${childId}][child_id]"]`);
+    if (childInput) {
+        childInput.remove();
+    }
+}
 
             // Filtro de busca
             searchChildrenInput.addEventListener('input', function() {
