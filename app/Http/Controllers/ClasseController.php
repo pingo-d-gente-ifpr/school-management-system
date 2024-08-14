@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Role;
 use App\Http\Requests\StoreClasseRequest;
 use App\Http\Requests\UpdateClasseRequest;
 use App\Http\Services\ClassService;
 use App\Models\Classe;
 use App\Models\Subject;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ClasseController extends Controller
@@ -24,7 +26,7 @@ class ClasseController extends Controller
      */
     public function index(Request $request)
     {
-       
+
         $filter = $request->only('q');
         return view('admin.classes.index')->with('classes', $this->service->index($filter));
     }
@@ -35,7 +37,10 @@ class ClasseController extends Controller
     public function create()
     {
         $subjects = Subject::all();
-        return view('admin.classes.create')->with('subjects',$subjects);
+        $teachers = User::where('role', Role::teacher)->get();
+        return view('admin.classes.create')
+        ->with('subjects',$subjects)
+        ->with('teachers',$teachers);
     }
 
     /**
@@ -67,7 +72,10 @@ class ClasseController extends Controller
     public function edit(Classe $class)
     {
         $subjects = Subject::all();
-        return view('admin.classes.edit')->with('class', $class)->with('subjects',$subjects);
+        $teachers = User::where('role', Role::teacher)->get();
+        return view('admin.classes.edit')->with('class', $class)
+        ->with('subjects',$subjects)
+        ->with('teachers',$teachers);
     }
 
     /**

@@ -22,16 +22,16 @@ class ClassService{
 
     public function store(array $data, $request)
     {
-        $userId = $this->validateUser($data);
+        // $userId = $this->validateUser($data);
 
         if($request->hasFile('photo'))
         {
             $data['photo'] = $request->file('photo')->store('images/classes', 'public');
         }
-        
-        $class = $this->repository->store($data);
 
-        $this->syncRelations($data, $userId, $class);
+        $class = $this->repository->store($data);
+        $class->subjects()->attach($data['subjects']);
+        // $this->syncRelations($data, $userId, $class);
         $class->save();
 
         return $class;
@@ -44,7 +44,7 @@ class ClassService{
 
     public function update(array $data, Classe $class, $request)
     {
-        $userId = $this->validateUser($data);
+        // $userId = $this->validateUser($data);
 
         if($request->hasFile('photo'))
         {
@@ -53,13 +53,15 @@ class ClassService{
 
         $class = $this->repository->update($data, $class);
 
-        $this->syncRelations($data, $userId, $class);
+        dd($data['subjects']);
+        $class->subjects()->attach($data['subjects']);
+        // $this->syncRelations($data, $userId, $class);
 
         $class->save();
 
         return $class;
     }
-    
+
     public function destroy(Classe $class)
     {
         if($class->photo){
@@ -69,22 +71,23 @@ class ClassService{
     }
 
 
-    public function validateUser(array $data)
-    {
-        if(empty($data['user_id']))
-        {
-            return auth()->id();
-        }
+    // public function validateUser(array $data)
+    // {
+    //     dd($data);
+    //     if(empty($data['user_id']))
+    //     {
+    //         return auth()->id();
+    //     }
 
-        return $data['user_id'];
-    }
+    //     return $data['user_id'];
+    // }
 
-    public function syncRelations(array $data, $userId, Classe $class){
-        $syncData = collect($data['subjects'] ?? [])->mapWithKeys(function ($subject) use ($userId) {
-            return [$subject['id'] => ['user_id' => $userId]];
-        })->toArray();
+    // public function syncRelations(array $data, $userId, Classe $class){
+    //     $syncData = collect($data['subjects'] ?? [])->mapWithKeys(function ($subject) {
+    //         return [$subject['id']];
+    //     })->toArray();
 
-        $class->subjects()->sync($syncData);
-    }
+    //     $class->subjects()->sync($syncData);
+    // }
 
 }

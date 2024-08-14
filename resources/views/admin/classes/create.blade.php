@@ -129,7 +129,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="subjectsModalLabel">Selecione as Matérias</h5>
+                    <h5 class="modal-title" id="subjectsModalLabel">Matérias</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -141,20 +141,24 @@
                             @endif
                         </div>
                         <div class="row">
-                            @foreach ($subjects as $subject)
-                                <div class="col-md-4">
-                                    <input class="check-subjects" type="checkbox"
-                                        name="subjects[{{ $subject->id }}][id]"
-                                        data-handle-name="{{ $subject->name }}"
-                                        data-handle-id="category_{{ $subject->id }}"
-                                        id="category_{{ $subject->id }}" value="{{ $subject->id }}" />
-                                    <label for="category_{{ $subject->id }}">
-                                        <img class="pr-2" width='28px'
-                                            src="{{ asset('storage/' . $subject->icon) }}" alt="">
-                                        {{ $subject->name }}
-                                    </label>
+
+                                <div class="col-md-6">
+                                    <select class="form-select" aria-label="Matéria" name="subject_id">
+                                        <option selected>Selecione a Matéria</option>
+                                        @foreach ($subjects as $subject)
+                                            <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
-                            @endforeach
+                                <div class="col-md-6">
+                                    <select class="form-select" aria-label="Professor" name="user_id">
+                                        <option selected>Selecione o Professor</option>
+                                        @foreach ($teachers as $teacher)
+                                            <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
                         </div>
                     </div>
                 </div>
@@ -240,56 +244,82 @@
             fileInput.value = "";
         }
 
-        function ArrayCat() {
-            const checksCategories = document.querySelectorAll('.check-subjects');
-            const subjectsCheckContainer = document.querySelector('#subjects-check');
-            const selectedSubjectsInputs = document.querySelector('#selected-subjects-inputs');
+        document.addEventListener('DOMContentLoaded', function() {
+        const subjectsSelect = document.querySelector('select[name="subject_id"]');
+        const teachersSelect = document.querySelector('select[name="user_id"]');
+        const subjectsCheckContainer = document.querySelector('#subjects-check');
+        const selectedSubjectsInputs = document.querySelector('#selected-subjects-inputs');
+        const addSubjectButton = document.querySelector('.modal-footer .btn-primary');
 
-            // Limpa os containers antes de reconstruir a lista
-            subjectsCheckContainer.innerHTML = '';
-            selectedSubjectsInputs.innerHTML = '';
+        function addSubject() {
+            const subjectId = subjectsSelect.value;
+            const subjectName = subjectsSelect.options[subjectsSelect.selectedIndex].text;
+            const teacherId = teachersSelect.value;
+            const teacherName = teachersSelect.options[teachersSelect.selectedIndex].text;
 
-            checksCategories.forEach(element => {
-                if (element.checked) {
-                    let name = element.getAttribute('data-handle-name');
-                    let id = element.value; // Valor do ID da matéria
-
-                    // Adicionar a matéria selecionada ao container visual
-                    let divCategory = document.createElement('div');
-                    divCategory.classList.add('col-lg-3', 'mb-2');
-                    divCategory.setAttribute('data-ref-id', id);
-                    divCategory.innerHTML = `
+            if (subjectId && teacherId) {
+                // Adicionar a matéria selecionada ao container visual
+                const divCategory = document.createElement('div');
+                divCategory.classList.add('col-lg-3', 'mb-2');
+                divCategory.setAttribute('data-ref-id', subjectId);
+                divCategory.innerHTML = `
                     <div class="box-show-cat-select p-2 border rounded">
-                        <p>${name}</p>
-                        <button type="button" class="btn btn-danger btn-sm" data-handle-rm-check="${id}">
+                        <p><strong>Matéria:</strong> ${subjectName}</p>
+                        <p><strong>Professor:</strong> ${teacherName}</p>
+                        <button type="button" class="btn btn-danger btn-sm" data-handle-rm-check="${subjectId}">
                             Remover
                         </button>
                     </div>
                 `;
-                    subjectsCheckContainer.appendChild(divCategory);
+                subjectsCheckContainer.appendChild(divCategory);
 
-                    // Adicionar um input escondido ao formulário para enviar o ID da matéria
-                    let inputHidden = document.createElement('input');
-                    inputHidden.type = 'hidden';
-                    inputHidden.name = `subjects[${id}][id]`;
-                    inputHidden.value = id;
-                    selectedSubjectsInputs.appendChild(inputHidden);
+                // Adicionar inputs escondidos ao formulário para enviar os IDs
+                const subjectInputHidden = document.createElement('input');
+                subjectInputHidden.type = 'hidden';
+                subjectInputHidden.name = `subjects[${subjectId}][subject_id]`;
+                subjectInputHidden.value = subjectId;
 
-                    // Adiciona o evento de remoção
-                    divCategory.querySelector('[data-handle-rm-check]').addEventListener('click', function() {
-                        element.checked = false; // Desmarcar o checkbox
-                        ArrayCat(); // Atualizar a lista de matérias selecionadas
-                    });
-                }
-            });
+                const teacherInputHidden = document.createElement('input');
+                teacherInputHidden.type = 'hidden';
+                teacherInputHidden.name = `subjects[${subjectId}][user_id]`;
+                teacherInputHidden.value = teacherId;
+
+                selectedSubjectsInputs.appendChild(subjectInputHidden);
+                selectedSubjectsInputs.appendChild(teacherInputHidden);
+
+                // Adicionar o evento de remoção
+                divCategory.querySelector('[data-handle-rm-check]').addEventListener('click', function() {
+                    removeSubject(subjectId);
+                });
+
+                // Resetar selects após adicionar
+                subjectsSelect.value = '';
+                teachersSelect.value = '';
+            } else {
+                alert('Por favor, selecione tanto a matéria quanto o professor.');
+            }
         }
 
-        // Adiciona o evento para atualizar a lista quando um checkbox é marcado/desmarcado
-        document.querySelectorAll('.check-subjects').forEach(element => {
-            element.addEventListener('change', ArrayCat);
-        });
+        function removeSubject(subjectId) {
+            // Remove o div visual correspondente
+            const subjectDiv = subjectsCheckContainer.querySelector(`[data-ref-id="${subjectId}"]`);
+            if (subjectDiv) {
+                subjectDiv.remove();
+            }
 
-        // Chama a função para gerar a lista de matérias inicialmente, se necessário
-        ArrayCat();
+            // Remove os inputs escondidos correspondentes
+            const subjectInput = selectedSubjectsInputs.querySelector(`input[name="subjects[${subjectId}][subject_id]"]`);
+            const teacherInput = selectedSubjectsInputs.querySelector(`input[name="subjects[${subjectId}][user_id]"]`);
+            if (subjectInput) {
+                subjectInput.remove();
+            }
+            if (teacherInput) {
+                teacherInput.remove();
+            }
+        }
+
+        // Adiciona o evento de clique ao botão de salvar seleção
+        addSubjectButton.addEventListener('click', addSubject);
+    });
     </script>
 </x-app-layout>

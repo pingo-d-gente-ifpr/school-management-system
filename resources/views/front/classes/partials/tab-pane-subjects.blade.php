@@ -28,8 +28,9 @@
                                 : asset('assets/' . $subject->photo))
                             : asset('assets/images/logo/subject-default.png') }}">
                 </td>
+                @dd($subject)
                 <td>{{ $subject->name }}</td>
-                <td>{{ $subject->user->name ?? " " }}</td>
+                <td>{{ $subject->classes ?? " " }}</td>
                 <td>{{ $subject->updated_at->format('d/m/Y') }}</td>
             </tr>
         @endforeach
