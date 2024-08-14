@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 
 class ChildrenService{
 
-    public function createChildrens(array $data, User $user)
+    public function createChildrens(array $data, User $user,$request)
     {
         try {
             $incomingChildrens =  collect($data ?? [])->pluck('id')->toArray();
@@ -16,7 +16,12 @@ class ChildrenService{
             $childrensToDelete = array_diff($allChildrens, $incomingChildrens);
             $user->childrens()->whereIn('id', $childrensToDelete)->delete();
 
-            collect($data ?? [])->each(function ($childrenData) use ($user) {
+            collect($data ?? [])->each(function ($childrenData, $index) use ($user,$request) {
+
+                if ($request->hasFile("childrens.$index.photo")) {
+                    $childrenData['photo'] = $request->file("childrens.$index.photo")->store('images/childrens', 'public');
+                }
+
                 $childrenData['user_id'] = $user->id;
                 $childrenData['register_number'] = "MATR".$childrenData['document'];
                 if (isset($childrenData['id'])) {

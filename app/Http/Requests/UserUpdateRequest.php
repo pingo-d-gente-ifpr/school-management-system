@@ -4,10 +4,8 @@ namespace App\Http\Requests;
 
 use App\Enums\Gender;
 use App\Enums\Role;
-use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Password;
 
 class UserUpdateRequest extends FormRequest
 {
@@ -50,7 +48,7 @@ class UserUpdateRequest extends FormRequest
             'childrens.*.document' =>['nullable', 'string', 'max:255'],
             'childrens.*.gender' => 'nullable|in:masculino,feminino',
             'childrens.*.status' => 'nullable|boolean',
-            'childrens.*.photo' => 'nullable|string',
+            'childrens.*.photo' => ['nullable', 'max:3072'],
         ];
         
     }

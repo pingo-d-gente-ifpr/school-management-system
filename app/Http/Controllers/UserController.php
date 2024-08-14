@@ -55,7 +55,7 @@ class UserController extends Controller
         }
         $user = $this->service->store($data);
 
-        if(!empty($data['childrens'])) $this->createChildrens($data['childrens'], $user);
+        if(!empty($data['childrens'])) $this->createChildrens($data['childrens'], $user,  $request);
 
         event(new Registered($user));
         return to_route('users.index');
@@ -89,7 +89,7 @@ class UserController extends Controller
             $data['photo'] = $request->file('photo')->store('images/users', 'public');
         }
         $this->service->update($data,$user);
-        $this->createChildrens($data['childrens'], $user);
+        $this->createChildrens($data['childrens'], $user,$request);
         return to_route('users.index');
 
     }
@@ -112,8 +112,8 @@ class UserController extends Controller
         return $teachers;
     }
 
-    public function createChildrens(array $data, User $user)
+    public function createChildrens(array $data, User $user, $request)
     {
-        $this->childrenService->createChildrens($data,$user);
+        $this->childrenService->createChildrens($data,$user,$request);
     }
 }

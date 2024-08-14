@@ -32,6 +32,8 @@ class UpdateClasseRequest extends FormRequest
             'stage' => ['required', Rule::enum(Stage::class)],
             'subjects.*' => ['nullable'],
             'subjects.*.id' => ['exists:subjects,id'],
+            'childrens.*' => ['nullable'],
+            'childrens.*.id' => ['exists:childrens,id'],
         ];
     }
 }

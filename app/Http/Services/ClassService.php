@@ -22,7 +22,6 @@ class ClassService{
 
     public function store(array $data, $request)
     {
-        // $userId = $this->validateUser($data);
 
         if($request->hasFile('photo'))
         {
@@ -31,7 +30,7 @@ class ClassService{
 
         $class = $this->repository->store($data);
         $class->subjects()->attach($data['subjects']);
-        // $this->syncRelations($data, $userId, $class);
+        $class->childrens()->attach($data['childrens']);
         $class->save();
 
         return $class;
@@ -44,7 +43,6 @@ class ClassService{
 
     public function update(array $data, Classe $class, $request)
     {
-        // $userId = $this->validateUser($data);
 
         if($request->hasFile('photo'))
         {
@@ -53,10 +51,8 @@ class ClassService{
 
         $class = $this->repository->update($data, $class);
 
-        dd($data['subjects']);
-        $class->subjects()->attach($data['subjects']);
-        // $this->syncRelations($data, $userId, $class);
-
+        $class->subjects()->sync($data['subjects']);
+        $class->childrens()->sync($data['childrens']);
         $class->save();
 
         return $class;
@@ -69,25 +65,5 @@ class ClassService{
         }
         return $this->repository->destroy($class);
     }
-
-
-    // public function validateUser(array $data)
-    // {
-    //     dd($data);
-    //     if(empty($data['user_id']))
-    //     {
-    //         return auth()->id();
-    //     }
-
-    //     return $data['user_id'];
-    // }
-
-    // public function syncRelations(array $data, $userId, Classe $class){
-    //     $syncData = collect($data['subjects'] ?? [])->mapWithKeys(function ($subject) {
-    //         return [$subject['id']];
-    //     })->toArray();
-
-    //     $class->subjects()->sync($syncData);
-    // }
 
 }
