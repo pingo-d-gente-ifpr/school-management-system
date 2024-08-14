@@ -79,30 +79,30 @@
                 <hr>
 
               <h3>Endereço</h3>
-              {{-- <div class="row mb-3">
+              <div class="row mb-3">
                   <div class="col-md-6 mb-3">
-                      <p><strong>Rua:</strong> {{ $user->address->street }}</p>
+                      <p><strong>Rua:</strong> {{ $user->street }}</p>
                   </div>
                   <div class="col-md-6 mb-3">
-                      <p><strong>Número:</strong> {{ $user->address->number }}</p>
+                      <p><strong>Número:</strong> {{ $user->number }}</p>
                   </div>
               </div>
               <div class="row mb-3">
                   <div class="col-md-4 mb-3">
-                      <p><strong>Bairro:</strong> {{ $user->address->neighborhood }}</p>
+                      <p><strong>Bairro:</strong> {{ $user->neighborhood }}</p>
                   </div>
                   <div class="col-md-4 mb-3">
-                      <p><strong>Cidade:</strong> {{ $user->address->city }}</p>
+                      <p><strong>Cidade:</strong> {{ $user->city }}</p>
                   </div>
                   <div class="col-md-4 mb-3">
-                      <p><strong>Estado:</strong> {{ $user->address->state }}</p>
+                      <p><strong>Estado:</strong> {{ $user->state }}</p>
                   </div>
               </div>
               <div class="row mb-3">
                   <div class="col-md-4 mb-3">
-                      <p><strong>CEP:</strong> {{ $user->address->zip_code }}</p>
+                      <p><strong>CEP:</strong> {{ $user->zip_code }}</p>
                   </div>
-              </div> --}}
+              </div>
 
                 <hr>
 

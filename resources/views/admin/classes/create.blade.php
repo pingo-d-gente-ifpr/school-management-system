@@ -157,7 +157,7 @@
                                                     <th scope="col"></th>
                                                     <th scope="col">Nome</th>
                                                     <th scope="col">Matrícula</th>
-                                                    <th scope="col">Ações</th>
+                                                    <th scope="col"></th>
                                                 </tr>
                                             </thead>
                                             <tbody id="selected-children-inputs">
@@ -251,6 +251,7 @@
                         <tbody>
                             @foreach ($childrens as $child)
                                 <tr class="child-row" data-id="{{ $child->id }}"
+                                    data-register="{{ $child->register_number}}"
                                     data-name="{{ $child->name }}" data-photo="{{ $child->photo
                                                 ? (Storage::exists('public/' . $child->photo)
                                                     ? Storage::url($child->photo)
@@ -372,6 +373,7 @@
             const childId = row.getAttribute('data-id');
             const childName = row.getAttribute('data-name');
             const childPhoto = row.getAttribute('data-photo');
+            const childRegister = row.getAttribute('data-register');
 
             // Verifica se a criança já foi adicionada para evitar duplicação
             if (!document.querySelector(`#children-check [data-ref-id="${childId}"]`)) {
@@ -384,12 +386,15 @@
                         <img class="rounded-circle" width="50px" src="${childPhoto}">
                     </td>
                     <td>${childName}</td>
-                    <td>FSDSAD</td>
-                    <td>SADSADSAD</td>
+                    <td>${childRegister}</td>
                     <td>
-                        <button type="button" class="btn btn-danger btn-sm" data-handle-rm-check="${childId}">
-                            Remover
-                        </button>
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn-delete" data-handle-rm-check="${childId}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+                                </svg>
+                            </button>
+                        </div>
                     </td>
                 `;
 
@@ -397,11 +402,10 @@
                 const tbody = document.getElementById('selected-children-inputs');
                 tbody.appendChild(newRow);
 
-                // Cria o input oculto para o formulário
-                const childInputHidden = document.createElement('input');
-                childInputHidden.type = 'hidden';
-                childInputHidden.name = `children[${childId}][child_id]`;
-                childInputHidden.value = childId;
+                            const childInputHidden = document.createElement('input');
+                            childInputHidden.type = 'hidden';
+                            childInputHidden.name = `childrens[${childId}]`;
+                            childInputHidden.value = childId;
 
                 // Adiciona o input ao formulário
                 const selectedChildrenInputs = document.getElementById('selected-children-inputs');
@@ -424,12 +428,12 @@ function removeChild(childId) {
         childRow.remove();
     }
 
-    // Remove o input oculto do formulário
-    const childInput = document.querySelector(`#selected-children-inputs input[name="children[${childId}][child_id]"]`);
-    if (childInput) {
-        childInput.remove();
-    }
-}
+                const childInput = selectedChildrenInputs.querySelector(
+                    `input[name="childrens[${childId}]"]`);
+                if (childInput) {
+                    childInput.remove();
+                }
+            }
 
             // Filtro de busca
             searchChildrenInput.addEventListener('input', function() {
