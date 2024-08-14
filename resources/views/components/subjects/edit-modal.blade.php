@@ -14,18 +14,7 @@
                         <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $subject->name) }}" required>
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />
                     </div>
-                    @if (Auth::user()->role == App\Enums\Role::admin->name)
-                        <div class="mb-3">
-                            <label for="role" class="form-label">Professor(a) <b style="color:red">*</b></label>
-                            <select class="form-select" id="user_id" name="user_id" required>
-                                @foreach ( $teachers as $teacher)
-                                    <option value="{{ old('user_id', $subject->user_id) }}" value="{{ $teacher->id }}">{{ $teacher->name }}</option>
-                                @endforeach
-                            </select>
-                            <x-input-error :messages="$errors->get('user_id')" class="mt-2" />
-                        </div>
-                    @endif
-                    <div class="mb-3">
+                    
                         <div class="row align-items-start">
                             <x-input-label for="photo" class="form-label col-sm-2 col-lg-2">Foto:</x-input-label>
                             <input class="form-control form-control-sm col-sm-10 col-lg-10" id="photo" type="file" name="photo" value="{{ old('photo', $subject->photo) }}">
