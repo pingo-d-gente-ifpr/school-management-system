@@ -30,6 +30,7 @@ class ClassService{
 
         $class = $this->repository->store($data);
         $class->subjects()->attach($data['subjects']);
+        $class->childrens()->attach($data['childrens']);
         $class->save();
 
         return $class;
@@ -51,6 +52,7 @@ class ClassService{
         $class = $this->repository->update($data, $class);
 
         $class->subjects()->sync($data['subjects']);
+        $class->childrens()->sync($data['childrens']);
         $class->save();
 
         return $class;
