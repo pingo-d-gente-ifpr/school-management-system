@@ -145,111 +145,96 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
-        // Função para filtrar a tabela
-        function filterTable() {
-            const searchValue = $('#searchInput').val().toLowerCase();
-            $('#studentsTableBody tr').each(function() {
-                const studentName = $(this).data('name').toLowerCase();
-                if (studentName.includes(searchValue)) {
-                    $(this).show();
-                } else {
-                    $(this).hide();
-                }
-            });
-        }
 
-        // Adicionar evento de pesquisa
-        $('#searchInput').on('input', filterTable);
-
-        // Código para dropdowns e datas continua igual
-        const dropdowns = document.querySelectorAll('.dropdown');
-
-        dropdowns.forEach(dropdown => {
-            const dropbtn = dropdown.querySelector('.dropdown-toggle');
-            const dropdownContent = dropdown.querySelector('.dropdown-content');
-            const icons = dropdown.querySelectorAll('.icon');
-
-            dropbtn.addEventListener('click', function() {
-                dropdownContent.style.display = dropdownContent.style.display === 'flex' ?
-                    'none' : 'flex';
-            });
-
-            icons.forEach(icon => {
-                icon.addEventListener('click', function() {
-                    const color = icon.getAttribute('data-color');
-                    const selectedIcon = icon.textContent.trim();
-                    const textColor = icon.getAttribute('color');
-                    const studentRow = dropdown.closest('tr');
-                    const studentId = studentRow.getAttribute('data-student-id');
-                    const day = dropdown.closest('th').id;
-
-                    dropbtn.innerHTML =
-                        `<span style="font-size: 16px; font-weight: bold; color: ${textColor};">${selectedIcon}</span>`;
-                    dropbtn.style.backgroundColor = color;
-                    dropdownContent.style.display = 'none';
-
-                    // Atualizar presença no banco de dados
-                    $.ajax({
-                        url: '/update-attendance', // URL do endpoint no Laravel
-                        type: 'POST',
-                        data: {
-                            _token: '{{ csrf_token() }}', // Token CSRF do Laravel
-                            student_id: studentId,
-                            day: day,
-                            status: selectedIcon
-                        },
-                        success: function(response) {
-                            console.log('Presença atualizada com sucesso.');
-                        },
-                        error: function(xhr) {
-                            console.error('Erro ao atualizar presença:',
-                                xhr);
-                        }
-                    });
-                });
-            });
-
-            window.addEventListener('click', function(event) {
-                if (!event.target.closest('.dropdown')) {
-                    dropdowns.forEach(d => d.querySelector('.dropdown-content').style.display =
-                        'none');
-                }
-            });
+    $('.dropdown-content').hide();
+    // Função para filtrar a tabela
+    function filterTable() {
+        const searchValue = $('#searchInput').val().toLowerCase();
+        $('#studentsTableBody tr').each(function() {
+            const studentName = $(this).data('name').toLowerCase();
+            if (studentName.includes(searchValue)) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
         });
+    }
 
-        $('#datePicker').change(function() {
-            const selectedDate = new Date(this.value);
-            const daysOfWeek = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira',
-                'Quinta-feira', 'Sexta-feira', 'Sábado'
-            ];
+    // Adicionar evento de pesquisa
+    $('#searchInput').on('input', filterTable);
 
-            // Verificar se a data é válida
-            if (isNaN(selectedDate.getTime())) return;
+    // Código para dropdowns e datas corrigido
+    $('.dropdown-toggle').click(function(e) {
+        e.stopPropagation(); // Evitar que o clique se propague
+        const dropdownContent = $(this).next('.dropdown-content');
+        $('.dropdown-content').not(dropdownContent).hide(); // Fechar outros dropdowns
+        dropdownContent.toggle();
+    });
 
-            // Calcular o primeiro dia da semana da data selecionada
-            const startOfWeek = new Date(selectedDate);
-            startOfWeek.setDate(selectedDate.getDate() - selectedDate.getDay() +
-            1); // Ajustar para segunda-feira
+    $('.icon').click(function() {
+        const icon = $(this);
+        const color = icon.data('color');
+        const selectedIcon = icon.text().trim();
+        const textColor = icon.attr('color');
+        const dropdown = icon.closest('.dropdown');
+        const dropbtn = dropdown.find('.dropdown-toggle');
+        const studentRow = dropdown.closest('tr');
+        const studentId = studentRow.data('student-id');
+        const day = dropdown.closest('th').attr('id');
 
-            // Atualizar os cabeçalhos das colunas
-            const headers = {
-                monday: startOfWeek,
-                tuesday: new Date(startOfWeek).setDate(startOfWeek.getDate() + 1),
-                wednesday: new Date(startOfWeek).setDate(startOfWeek.getDate() + 2),
-                thursday: new Date(startOfWeek).setDate(startOfWeek.getDate() + 3),
-                friday: new Date(startOfWeek).setDate(startOfWeek.getDate() + 4)
-            };
+        dropbtn.html(`<span style="font-size: 16px; font-weight: bold; color: ${textColor};">${selectedIcon}</span>`);
+        dropbtn.css('background-color', color);
+        dropdown.find('.dropdown-content').hide();
 
-            document.getElementById('monday').innerHTML =
-                `${daysOfWeek[(new Date(headers.monday)).getDay()]} <br> ${new Date(headers.monday).getDate()}`;
-            document.getElementById('tuesday').innerHTML =
-                `${daysOfWeek[(new Date(headers.tuesday)).getDay()]} <br> ${new Date(headers.tuesday).getDate()}`;
-            document.getElementById('wednesday').innerHTML =
-                `${daysOfWeek[(new Date(headers.wednesday)).getDay()]} <br> ${new Date(headers.wednesday).getDate()}`;
-            document.getElementById('thursday').innerHTML =
-                `${daysOfWeek[(new Date(headers.thursday)).getDay()]} <br> ${new Date(headers.thursday).getDate()}`;
-            document.getElementById('friday').innerHTML =
-                `${daysOfWeek[(new Date(headers.friday)).getDay()]} <br> ${new Date(headers.friday).getDate()}`;
+        // Atualizar presença no banco de dados
+        $.ajax({
+            url: '/update-attendance',
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                student_id: studentId,
+                day: day,
+                status: selectedIcon
+            },
+            success: function(response) {
+                console.log('Presença atualizada com sucesso.');
+            },
+            error: function(xhr) {
+                console.error('Erro ao atualizar presença:', xhr);
+            }
         });
     });
+
+    $(document).click(function() {
+        $('.dropdown-content').hide();
+    });
+
+    $('#datePicker').change(function() {
+        const selectedDate = new Date(this.value);
+        const daysOfWeek = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+
+        // Verificar se a data é válida
+        if (isNaN(selectedDate.getTime())) return;
+
+        // Calcular o primeiro dia da semana da data selecionada
+        const startOfWeek = new Date(selectedDate);
+        startOfWeek.setDate(selectedDate.getDate() - selectedDate.getDay() + 1); // Ajustar para segunda-feira
+
+        // Atualizar os cabeçalhos das colunas
+        const headers = {
+            monday: startOfWeek,
+            tuesday: new Date(startOfWeek).setDate(startOfWeek.getDate() + 1),
+            wednesday: new Date(startOfWeek).setDate(startOfWeek.getDate() + 2),
+            thursday: new Date(startOfWeek).setDate(startOfWeek.getDate() + 3),
+            friday: new Date(startOfWeek).setDate(startOfWeek.getDate() + 4)
+        };
+
+        $('#monday').html(`${daysOfWeek[(new Date(headers.monday)).getDay()]} <br> ${new Date(headers.monday).getDate()}`);
+        $('#tuesday').html(`${daysOfWeek[(new Date(headers.tuesday)).getDay()]} <br> ${new Date(headers.tuesday).getDate()}`);
+        $('#wednesday').html(`${daysOfWeek[(new Date(headers.wednesday)).getDay()]} <br> ${new Date(headers.wednesday).getDate()}`);
+        $('#thursday').html(`${daysOfWeek[(new Date(headers.thursday)).getDay()]} <br> ${new Date(headers.thursday).getDate()}`);
+        $('#friday').html(`${daysOfWeek[(new Date(headers.friday)).getDay()]} <br> ${new Date(headers.friday).getDate()}`);
+    });
+});
+
 </script>

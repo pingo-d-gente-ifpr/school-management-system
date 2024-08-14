@@ -10,6 +10,7 @@ use App\Models\Children;
 use App\Models\Classe;
 use App\Models\Subject;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ClasseController extends Controller
@@ -29,6 +30,7 @@ class ClasseController extends Controller
     {
 
         $filter = $request->only('q');
+    
         return view('admin.classes.index')->with('classes', $this->service->index($filter));
     }
 
@@ -64,9 +66,17 @@ class ClasseController extends Controller
         $class = $this->service->show($class);
         $subjects = $class->subjects()->paginate(7);
         $students = $class->childrens()->paginate(7);
+        $startDate = Carbon::now();
+
+        $weekDays = [];
+        for ($i = 0; $i < 7; $i++) {
+            $date = $startDate->copy()->addDays($i);
+            $weekDays[$date->format('Y-m-d')] = $date->format('d/m (l)');
+        }    
         return view('front.classes.show')->with('class', $class)
             ->with('subjects',$subjects)
-            ->with('students',$students);
+            ->with('students',$students)
+            ->with('weekDays',$weekDays);
     }
 
     /**
