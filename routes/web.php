@@ -4,6 +4,7 @@ use App\Http\Controllers\ClasseController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DashboardController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -22,9 +23,9 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -35,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::post('register', [UserController::class, 'store']);
     Route::resource('subjects', SubjectController::class);
     Route::resource('classes', ClasseController::class);
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 
 

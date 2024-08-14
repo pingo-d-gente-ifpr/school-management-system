@@ -85,10 +85,12 @@ class ClasseController extends Controller
     public function edit(Classe $class)
     {
         $subjects = Subject::all();
+        $childrens = Children::all();
         $teachers = User::where('role', Role::teacher)->get();
         return view('admin.classes.edit')->with('class', $class)
         ->with('subjects',$subjects)
-        ->with('teachers',$teachers);
+        ->with('teachers',$teachers)
+        ->with('childrens',$childrens);
     }
 
     /**
