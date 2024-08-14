@@ -378,7 +378,7 @@
 
                             const childInputHidden = document.createElement('input');
                             childInputHidden.type = 'hidden';
-                            childInputHidden.name = `children[${childId}][child_id]`;
+                            childInputHidden.name = `childrens[${childId}]`;
                             childInputHidden.value = childId;
 
                             selectedChildrenInputs.appendChild(childInputHidden);
@@ -400,7 +400,7 @@
                 }
 
                 const childInput = selectedChildrenInputs.querySelector(
-                    `input[name="children[${childId}][child_id]"]`);
+                    `input[name="childrens[${childId}]"]`);
                 if (childInput) {
                     childInput.remove();
                 }
