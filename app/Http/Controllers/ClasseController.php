@@ -6,6 +6,7 @@ use App\Enums\Role;
 use App\Http\Requests\StoreClasseRequest;
 use App\Http\Requests\UpdateClasseRequest;
 use App\Http\Services\ClassService;
+use App\Models\Children;
 use App\Models\Classe;
 use App\Models\Subject;
 use App\Models\User;
@@ -37,10 +38,12 @@ class ClasseController extends Controller
     public function create()
     {
         $subjects = Subject::all();
+        $childrens = Children::all();
         $teachers = User::where('role', Role::teacher)->get();
         return view('admin.classes.create')
         ->with('subjects',$subjects)
-        ->with('teachers',$teachers);
+        ->with('teachers',$teachers)
+        ->with('childrens',$childrens);
     }
 
     /**
