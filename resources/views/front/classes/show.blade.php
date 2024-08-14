@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="container-fluid d-flex justify-content-center">
         <div class="col-10 col-md-10 mx-auto my-4">
-            <h1>Turma Jiba Bolado</h1>
+            <h1>Turma {{$class->name}}</h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
@@ -15,7 +15,7 @@
                             Turmas
                         </a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Turma Jiba Bolado</li>
+                    <li class="breadcrumb-item active" aria-current="page">Turma {{$class->name}}</li>
                 </ol>
             </nav>
             <div class="container mt-3">
