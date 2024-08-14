@@ -9,7 +9,7 @@ class ClassRepository
 
     public function getAll(array $filter)
     {
-        return Classe::filter($filter)->paginate(8);
+        return Classe::filter($filter)->paginate(6);
     }
 
     public function store(array $data)

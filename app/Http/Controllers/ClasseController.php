@@ -64,8 +64,8 @@ class ClasseController extends Controller
     public function show(Classe $class)
     {
         $class = $this->service->show($class);
-        $subjects = $class->subjects()->paginate(7);
-        $students = $class->childrens()->paginate(7);
+        $subjects = $class->subjects()->paginate(6);
+        $students = $class->childrens()->paginate(6);
         $startDate = Carbon::now();
 
         $weekDays = [];

@@ -8,7 +8,7 @@ class SubjectRepository{
 
     public function getAll(array $filter)
     {
-        return Subject::filter($filter)->paginate(8);
+        return Subject::filter($filter)->paginate(6);
     }
 
     public function store(array $data)
