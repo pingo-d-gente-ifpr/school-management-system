@@ -36,7 +36,7 @@
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="dependentes-tab" data-bs-toggle="tab" data-bs-target="#dependentes"
                             type="button" role="tab" aria-controls="dependentes"
-                            aria-selected="false">Dependentes</button>
+                            aria-selected="false">Crianças</button>
                     </li>
                 </ul>
                 <form method="POST" enctype="multipart/form-data" action="{{ route('register') }}" class="p-3">
