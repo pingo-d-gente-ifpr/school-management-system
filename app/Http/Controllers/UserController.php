@@ -89,7 +89,7 @@ class UserController extends Controller
             $data['photo'] = $request->file('photo')->store('images/users', 'public');
         }
         $this->service->update($data,$user);
-        $this->createChildrens($data['childrens'], $user,$request);
+        $this->createChildrens($data['childrens']??[], $user,$request);
         return to_route('users.index');
 
     }
