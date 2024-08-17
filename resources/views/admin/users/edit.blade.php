@@ -125,7 +125,7 @@
                                         <div class="col-md-6 mb-3">
                                             <label for="password" class="form-label">Senha</label>
                                             <x-text-input id="password" class="form-control" type="password"
-                                                name="password" autocomplete="new-password" value="{{ old('password', $user->password) }}" />
+                                                          name="password" autocomplete="new-password" />
                                             <x-input-error :messages="$errors->get('password')" class="mt-2" />
                                         </div>
                                     </div>

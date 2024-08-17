@@ -10,6 +10,7 @@ use App\Http\Services\UserService;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -85,14 +86,23 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request, User $user)
     {
         $data = $request->validated();
-        if($request->hasFile('photo')){
+    
+        // Processar a foto do usuário, se uma nova foto foi enviada
+        if ($request->hasFile('photo')) {
             $data['photo'] = $request->file('photo')->store('images/users', 'public');
         }
-        $this->service->update($data,$user);
-        $this->createChildrens($data['childrens']??[], $user,$request);
-        return to_route('users.index');
+    
+        // Verificar se o campo de senha foi preenchido
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->input('password'));
+        } else {
+            unset($data['password']);
+        }
 
-    }
+        $this->service->update($data, $user);
+        $this->createChildrens($data['childrens'] ?? [], $user, $request);
+        return to_route('users.index');
+    }    
 
     /**
      * Remove the specified resource from storage.

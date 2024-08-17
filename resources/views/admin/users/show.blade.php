@@ -106,8 +106,8 @@
 
                 <hr>
 
-                {{-- Dependentes do Usuário --}}
-                <h3>Dependentes</h3>
+                {{-- Crianças do Usuário --}}
+                <h3>Crianças</h3>
                 @foreach ($user->childrens()->get() as $children)
                     <div class="row mb-3">
                         <div class="col-md-2 text-center position-relative">
