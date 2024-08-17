@@ -100,7 +100,7 @@ class UserController extends Controller
         }
 
         $this->service->update($data, $user);
-        $this->createChildrens($data['childrens'], $user, $request);
+        $this->createChildrens($data['childrens'] ?? [], $user, $request);
         return to_route('users.index');
     }    
 
