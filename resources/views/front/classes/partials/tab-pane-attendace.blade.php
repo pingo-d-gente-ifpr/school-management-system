@@ -13,7 +13,7 @@
     </div>
     <div class="col-md-4">
         <div class="search-attendance">
-            <input type="date" class="form-attendance p-2" id="datePicker">
+            <input class="flatpickr flatpickr-input" type="text" placeholder="Select Date.." data-id="weekSelect" readonly="readonly">
         </div>
     </div>
 </div>
@@ -21,7 +21,11 @@
 <table class="table table-striped">
     <thead class="table">
         <tr class="align-middle">
-            <th>Alunos</th>
+            <th><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
+                <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z"/>
+              </svg></th>
+            <th>Nome:</th>
             <th id="monday">Segunda-feira</th>
             <th id="tuesday">Terça-feira</th>
             <th id="wednesday">Quarta-feira</th>
@@ -37,7 +41,9 @@
                         ? Storage::url($student->photo)
                         : asset('assets/' . $student->photo))
                     : asset('assets/images/logo/user-default.png') }}"
-                        alt="Foto de {{ $student->name }}" class="rounded-circle me-2" width="40"></td>
+                        alt="Foto de {{ $student->name }}" class="rounded-circle me-2" width="40">
+                </td>
+                <td>{{$student->name}}</td>
                 @foreach ($weekDays as $day => $label)
                     <td>
                         <div class="dropdown">
@@ -52,7 +58,6 @@
                             <div class="dropdown-content">
                                 <div class="icon" data-color="#FF6E6E" data-icon="F" color="#AA2222">F</div>
                                 <div class="icon" data-color="#9AE493" data-icon="P" color="#4B8B3B">P</div>
-                                <div class="icon" data-color="#FFD76E" data-icon="A" color="#B08A28">A</div>
                             </div>
                         </div>
                     </td>
@@ -186,7 +191,6 @@
         dropbtn.css('background-color', color);
         dropdown.find('.dropdown-content').hide();
 
-        // Atualizar presença no banco de dados
         $.ajax({
             url: '/update-attendance',
             type: 'POST',
@@ -209,32 +213,44 @@
         $('.dropdown-content').hide();
     });
 
-    $('#datePicker').change(function() {
-        const selectedDate = new Date(this.value);
-        const daysOfWeek = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+    // const startDate = document.getElementById("datePicker");
+    const startDatefp = flatpickr({
+        "plugins": [new weekSelect({})],
+        "onChange": [function(){
+            const weekNumber = this.selectedDates[0]
+                ? this.config.getWeek(this.selectedDates[0])
+                : null;
 
-        // Verificar se a data é válida
-        if (isNaN(selectedDate.getTime())) return;
-
-        // Calcular o primeiro dia da semana da data selecionada
-        const startOfWeek = new Date(selectedDate);
-        startOfWeek.setDate(selectedDate.getDate() - selectedDate.getDay() + 1); // Ajustar para segunda-feira
-
-        // Atualizar os cabeçalhos das colunas
-        const headers = {
-            monday: startOfWeek,
-            tuesday: new Date(startOfWeek).setDate(startOfWeek.getDate() + 1),
-            wednesday: new Date(startOfWeek).setDate(startOfWeek.getDate() + 2),
-            thursday: new Date(startOfWeek).setDate(startOfWeek.getDate() + 3),
-            friday: new Date(startOfWeek).setDate(startOfWeek.getDate() + 4)
-        };
-
-        $('#monday').html(`${daysOfWeek[(new Date(headers.monday)).getDay()]} <br> ${new Date(headers.monday).getDate()}`);
-        $('#tuesday').html(`${daysOfWeek[(new Date(headers.tuesday)).getDay()]} <br> ${new Date(headers.tuesday).getDate()}`);
-        $('#wednesday').html(`${daysOfWeek[(new Date(headers.wednesday)).getDay()]} <br> ${new Date(headers.wednesday).getDate()}`);
-        $('#thursday').html(`${daysOfWeek[(new Date(headers.thursday)).getDay()]} <br> ${new Date(headers.thursday).getDate()}`);
-        $('#friday').html(`${daysOfWeek[(new Date(headers.friday)).getDay()]} <br> ${new Date(headers.friday).getDate()}`);
+            console.log(weekNumber);
+        }]
     });
+
+    // $('#datePicker').change(function() {
+    //     const selectedDate = new Date(this.value);
+    //     const daysOfWeek = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira'];
+
+    //     // Verificar se a data é válida
+    //     if (isNaN(selectedDate.getTime())) return;
+
+    //     // Calcular o primeiro dia da semana da data selecionada
+    //     const startOfWeek = new Date(selectedDate);
+    //     startOfWeek.setDate(selectedDate.getDate() - selectedDate.getDay() + 1); // Ajustar para segunda-feira
+
+    //     // Atualizar os cabeçalhos das colunas
+    //     const headers = {
+    //         monday: startOfWeek,
+    //         tuesday: new Date(startOfWeek).setDate(startOfWeek.getDate() + 1),
+    //         wednesday: new Date(startOfWeek).setDate(startOfWeek.getDate() + 2),
+    //         thursday: new Date(startOfWeek).setDate(startOfWeek.getDate() + 3),
+    //         friday: new Date(startOfWeek).setDate(startOfWeek.getDate() + 4)
+    //     };
+
+    //     $('#monday').html(`${daysOfWeek[(new Date(headers.monday)).getDay()]} <br> ${new Date(headers.monday).getDate()}`);
+    //     $('#tuesday').html(`${daysOfWeek[(new Date(headers.tuesday)).getDay()]} <br> ${new Date(headers.tuesday).getDate()}`);
+    //     $('#wednesday').html(`${daysOfWeek[(new Date(headers.wednesday)).getDay()]} <br> ${new Date(headers.wednesday).getDate()}`);
+    //     $('#thursday').html(`${daysOfWeek[(new Date(headers.thursday)).getDay()]} <br> ${new Date(headers.thursday).getDate()}`);
+    //     $('#friday').html(`${daysOfWeek[(new Date(headers.friday)).getDay()]} <br> ${new Date(headers.friday).getDate()}`);
+    // });
 });
 
 </script>

@@ -69,7 +69,7 @@ class ClasseController extends Controller
         $startDate = Carbon::now();
 
         $weekDays = [];
-        for ($i = 0; $i < 7; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             $date = $startDate->copy()->addDays($i);
             $weekDays[$date->format('Y-m-d')] = $date->format('d/m (l)');
         }    
