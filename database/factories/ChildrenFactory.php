@@ -23,7 +23,6 @@ class ChildrenFactory extends Factory
             'gender' => $this->faker->randomElement(['masculino', 'feminino']),
             'status' => $this->faker->boolean,
             'register_number' => $this->faker->unique()->numerify('REG########'),
-            'photo' => $this->faker->optional()->imageUrl,
             'user_id' => \App\Models\User::factory(),
         ];
     }
