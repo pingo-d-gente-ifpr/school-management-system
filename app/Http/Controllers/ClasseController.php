@@ -97,10 +97,9 @@ class ClasseController extends Controller
      * Update the specified resource in storage.
      */
     public function update(UpdateClasseRequest $request, Classe $class)
-    {
+    {   
         $data = $request->validated();
-        $this->service->update($data,$class, $request);
-
+        $this->service->update($data, $class, $request);
         return to_route('classes.index');
     }
 
