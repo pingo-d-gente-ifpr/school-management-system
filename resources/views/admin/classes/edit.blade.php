@@ -141,19 +141,33 @@
                         <div class="tab-pane fade" id="materias" role="tabpanel" aria-labelledby="materias-tab">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <button id="open-list-cat" type="button" class="btn btn-primary mb-3"
-                                        data-bs-toggle="modal" data-bs-target="#subjectsModal">
+                                    <button id="open-list-cat" type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#subjectsModal">
                                         Adicionar Matérias
                                     </button>
 
-                                    <!-- Div para mostrar matérias selecionadas -->
-                                    <div id="subjects-check" class="row mt-3">
-                                        <!-- Matérias selecionadas aparecerão aqui -->
+                                    <!-- Tabela para mostrar matérias selecionadas -->
+                                    <div id="subjects-check" class="d-flex flex-wrap mt-3 gap-2">
+                                        @foreach($class->subjects as $subject)
+                                        <div class="box-show-cat-select p-2 border rounded" data-ref-id="{{ $subject->id }}-{{ $subject->pivot->user_id }}">
+                                            <p><strong>Matéria:</strong> {{ $subject->name }}</p>
+                                            <p><strong>Professor:</strong> {{ $subject->pivot->user->name }}</p>
+                                            <button type="button" class="btn btn-danger btn-sm remove-subject-btn" data-handle-rm-check="{{ $subject->id }}-{{ $subject->pivot->user_id }}">
+                                                Remover
+                                            </button>    
+                                        </div>
+                                        @endforeach
                                     </div>
-                                    <div id="selected-subjects-inputs"></div>
+                                    <div id="selected-subjects-inputs">
+                                        <!-- Inputs para enviar matérias selecionadas -->
+                                        @foreach($class->subjects as $subject)
+                                            <input type="hidden" name="subjects[{{ $subject->id }}][subject_id]" value="{{ $subject->id }}">
+                                            <input type="hidden" name="subjects[{{ $subject->id }}][user_id]" value="{{ $subject->pivot->user_id }}">
+                                        @endforeach
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
 
 
                         <!-- Crianças -->
@@ -177,6 +191,28 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="selected-children-inputs">
+                                                @foreach ($class->childrens as $children)
+                                                <th>
+                                                    <td>
+                                                        <img class="rounded-circle" width="50px" src="">
+                                                    </td>
+                                                    <td>{{$children->name}}</td>
+                                                    <td>{{$children->register_number}}</td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-end">
+                                                            <button type="button" class="btn-delete" src="{{ $children->photo
+                                                                ? (Storage::exists('public/' . $children->photo)
+                                                                    ? Storage::url($children->photo)
+                                                                    : asset('assets/' . $children->photo))
+                                                                : asset('assets/images/logo/user-default.png') }}">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+                                                                </svg>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </th>
+                                                @endforeach
                                                 <!-- Crianças selecionadas aparecerão aqui -->
                                             </tbody>
                                         </table>
@@ -349,6 +385,25 @@
                 border: 1px solid #e32626;
                 animation: showClose .3s;
             }
+
+            .box-show-cat-select {
+                width: 200px; /* Define a largura fixa */
+                height: 150px; /* Define a altura fixa */
+                display: flex;
+                flex-direction: column;
+                box-sizing: border-box;
+            }
+
+            .box-show-cat-select p {
+                margin: 0; /* Remove a margem padrão para alinhamento */
+                white-space: nowrap; /* Impede quebra de linha no texto */
+                overflow: hidden; /* Esconde o conteúdo que ultrapassa */
+                text-overflow: ellipsis; /* Adiciona reticências ao texto que ultrapassa */
+            }
+
+            .box-show-cat-select .btn {
+                margin-top: auto; /* Empurra o botão para o fundo do card */
+            }
         </style>
         <script>
             function previewImage(event) {
@@ -482,87 +537,94 @@
         </script>
 
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const subjectsSelect = document.querySelector('select[name="subject_id"]');
-                const teachersSelect = document.querySelector('select[name="user_id"]');
-                const subjectsCheckContainer = document.querySelector('#subjects-check');
-                const selectedSubjectsInputs = document.querySelector('#selected-subjects-inputs');
-                const addSubjectButton = document.querySelector('#subjectsModal .btn-primary');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const subjectsSelect = document.querySelector('select[name="subject_id"]');
+            const teachersSelect = document.querySelector('select[name="user_id"]');
+            const subjectsCheckContainer = document.querySelector('#subjects-check');
+            const selectedSubjectsInputs = document.querySelector('#selected-subjects-inputs');
+            const addSubjectButton = document.querySelector('#subjectsModal .btn-primary');
 
-                // Função para adicionar matérias selecionadas
-                function addSubject() {
-                    const subjectId = subjectsSelect.value;
-                    const subjectName = subjectsSelect.options[subjectsSelect.selectedIndex].text;
-                    const teacherId = teachersSelect.value;
-                    const teacherName = teachersSelect.options[teachersSelect.selectedIndex].text;
+            // Função para adicionar matérias selecionadas
+            function addSubject() {
+                const subjectId = subjectsSelect.value;
+                const subjectName = subjectsSelect.options[subjectsSelect.selectedIndex].text;
+                const teacherId = teachersSelect.value;
+                const teacherName = teachersSelect.options[teachersSelect.selectedIndex].text;
 
-                    if (subjectId && teacherId) {
-                        // Verifica se a matéria já foi adicionada
-                        if (!document.querySelector(`#subjects-check [data-ref-id="${subjectId}-${teacherId}"]`)) {
-                            const divCategory = document.createElement('div');
-                            divCategory.classList.add('col-lg-3', 'mb-2');
-                            divCategory.setAttribute('data-ref-id', `${subjectId}-${teacherId}`);
-                            divCategory.innerHTML = `
-                    <div class="box-show-cat-select p-2 border rounded">
-                        <p><strong>Matéria:</strong> ${subjectName}</p>
-                        <p><strong>Professor:</strong> ${teacherName}</p>
-                        <button type="button" class="btn btn-danger btn-sm" data-handle-rm-check="${subjectId}-${teacherId}">
-                            Remover
-                        </button>
-                    </div>
-                `;
-                            subjectsCheckContainer.appendChild(divCategory);
+                if (subjectId && teacherId) {
+                    const refId = `${subjectId}-${teacherId}`;
+                    if (!document.querySelector(`#subjects-check [data-ref-id="${refId}"]`)) {
+                        const divCategory = document.createElement('div');
+                        divCategory.classList.add('box-show-cat-select', 'p-2', 'border', 'rounded');
+                        divCategory.setAttribute('data-ref-id', refId);
+                        divCategory.innerHTML = `
+                            <p><strong>Matéria:</strong> ${subjectName}</p>
+                            <p><strong>Professor:</strong> ${teacherName}</p>
+                            <button type="button" class="btn btn-danger btn-sm remove-subject-btn" data-handle-rm-check="${refId}">
+                                Remover
+                            </button>
+                        `;
+                        subjectsCheckContainer.appendChild(divCategory);
 
-                            const subjectInputHidden = document.createElement('input');
-                            subjectInputHidden.type = 'hidden';
-                            subjectInputHidden.name = `subjects[${subjectId}][subject_id]`;
-                            subjectInputHidden.value = subjectId;
+                        const subjectInputHidden = document.createElement('input');
+                        subjectInputHidden.type = 'hidden';
+                        subjectInputHidden.name = `subjects[${subjectId}][subject_id]`;
+                        subjectInputHidden.value = subjectId;
 
-                            const teacherInputHidden = document.createElement('input');
-                            teacherInputHidden.type = 'hidden';
-                            teacherInputHidden.name = `subjects[${subjectId}][user_id]`;
-                            teacherInputHidden.value = teacherId;
+                        const teacherInputHidden = document.createElement('input');
+                        teacherInputHidden.type = 'hidden';
+                        teacherInputHidden.name = `subjects[${subjectId}][user_id]`;
+                        teacherInputHidden.value = teacherId;
 
-                            selectedSubjectsInputs.appendChild(subjectInputHidden);
-                            selectedSubjectsInputs.appendChild(teacherInputHidden);
+                        selectedSubjectsInputs.appendChild(subjectInputHidden);
+                        selectedSubjectsInputs.appendChild(teacherInputHidden);
 
-                            divCategory.querySelector('[data-handle-rm-check]').addEventListener('click', function() {
-                                removeSubject(`${subjectId}-${teacherId}`);
-                            });
+                        // Adiciona o evento de clique ao botão "Remover"
+                        divCategory.querySelector('.remove-subject-btn').addEventListener('click', function() {
+                            removeSubject(refId);
+                        });
 
-                            // Reseta os selects após adicionar
-                            subjectsSelect.value = '';
-                            teachersSelect.value = '';
-                        } else {
-                            alert('Essa matéria já foi adicionada.');
-                        }
+                        // Reseta os selects após adicionar
+                        subjectsSelect.value = '';
+                        teachersSelect.value = '';
                     } else {
-                        alert('Por favor, selecione tanto a matéria quanto o professor.');
+                        alert('Essa matéria já foi adicionada.');
                     }
+                } else {
+                    alert('Por favor, selecione tanto a matéria quanto o professor.');
+                }
+            }
+
+            // Função para remover matéria
+            function removeSubject(refId) {
+                const subjectDiv = subjectsCheckContainer.querySelector(`[data-ref-id="${refId}"]`);
+                if (subjectDiv) {
+                    subjectDiv.remove();
                 }
 
-                // Função para remover matéria
-                function removeSubject(refId) {
-                    const subjectDiv = subjectsCheckContainer.querySelector(`[data-ref-id="${refId}"]`);
-                    if (subjectDiv) {
-                        subjectDiv.remove();
-                    }
-
-                    const subjectInput = selectedSubjectsInputs.querySelector(
-                        `input[name="subjects[${refId.split('-')[0]}][subject_id]"]`);
-                    const teacherInput = selectedSubjectsInputs.querySelector(
-                        `input[name="subjects[${refId.split('-')[0]}][user_id]"]`);
-                    if (subjectInput) {
-                        subjectInput.remove();
-                    }
-                    if (teacherInput) {
-                        teacherInput.remove();
-                    }
+                const subjectInput = selectedSubjectsInputs.querySelector(`input[name="subjects[${refId.split('-')[0]}][subject_id]"]`);
+                const teacherInput = selectedSubjectsInputs.querySelector(`input[name="subjects[${refId.split('-')[0]}][user_id]"]`);
+                if (subjectInput) {
+                    subjectInput.remove();
                 }
+                if (teacherInput) {
+                    teacherInput.remove();
+                }
+            }
 
-                // Adiciona o evento de clique ao botão de salvar seleção de matéria
-                addSubjectButton.addEventListener('click', addSubject);
+            // Adiciona o evento de clique ao botão de salvar seleção de matéria
+            addSubjectButton.addEventListener('click', addSubject);
+
+            // Adiciona o evento de clique aos botões de remover já existentes
+            document.querySelectorAll('.remove-subject-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const refId = this.getAttribute('data-handle-rm-check');
+                    removeSubject(refId);
+                });
             });
-        </script>
+        });
+    </script>
+
+
 </x-app-layout>
