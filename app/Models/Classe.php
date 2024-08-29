@@ -34,5 +34,10 @@ class Classe extends Model
     {
         return $this->belongsToMany(Children::class);
     }
+
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class);
+    }
     
 }
