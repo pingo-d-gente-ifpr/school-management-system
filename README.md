@@ -36,6 +36,12 @@ O Pingo d' Gente foi construído utilizando as seguintes ferramentas e tecnologi
 | **Gerenciamento de Matérias e Turmas**  | Organização das matérias e turmas, incluindo horários, professores responsáveis e alunos matriculados.                                             |
 | **Registro de Notas e Frequências**     | Permitir que os professores registrem e editem as notas e frequências dos alunos, permitindo que os responsáveis acompanhem essas informações.      |
 
+## Pré-requisitos
+
+Antes de iniciar a instalação, certifique-se de ter os seguintes requisitos atendidos:
+
+- **Docker**: Para a configuração e execução dos containers.
+
 ## Instalação do Projeto
 
 Siga os passos abaixo para configurar e executar o projeto localmente.
