@@ -48,6 +48,6 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $this->service->destroy($post);
-        return to_route('classes.index');
+        return back()->with(['msg' => 'Post deletado com sucesso!']);
     }
 }

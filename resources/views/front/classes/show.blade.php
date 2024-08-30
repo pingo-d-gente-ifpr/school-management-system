@@ -21,9 +21,9 @@
             <div class="container mt-3">
                 <hr style="height: 2px; background-color: #FF6B8A; border: none;">
                 <div>
-                    @if (session('deletado'))
+                    @if (session('msg'))
                     <div class="alert alert-success" role="alert">
-                        {{ session('deletado') }}
+                        {{ session('msg') }}
                     </div>
                     @endif
                 </div>
@@ -88,6 +88,7 @@
                                         </form>
                                     </div>
                                 </div>  
+                                
                                 @foreach ($class->posts as $post)
                                     <div class="card mt-4">
                                         <div class="card-body">
@@ -101,15 +102,23 @@
                                                     
                                                 </div>
                                                 <div>
-                                                    <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="button" class="btn-delete">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                                                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
-                                                            </svg>
-                                                        </button>
-                                                    </form>
+                                                    <button class=" btn-sm btn btn-primary dropdown-toggle"  type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                                            <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+                                                          </svg>
+                                                    </button>
+                                                      <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item" href="#"><button class="btn-sm btn">Editar</button></a></li>
+                                                        <li>
+                                                            <a class="dropdown-item" href="#">
+                                                                <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit" class="btn-sm btn">Deletar</button>
+                                                                </form>
+                                                            </a>
+                                                        </li>
+                                                      </ul>       
                                                 </div>
                                             </div>  
                                             <p class="card-text">{{$post->description}}</p>
@@ -137,7 +146,11 @@
     </div>
 
 </x-app-layout>
-
+<style>
+    .btn-primary::after {
+        display: none !important
+    }
+</style>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     var triggerTabList = [].slice.call(document.querySelectorAll('#myTab button'))
