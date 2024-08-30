@@ -36,6 +36,72 @@ O Pingo d' Gente foi construído utilizando as seguintes ferramentas e tecnologi
 | **Gerenciamento de Matérias e Turmas**  | Organização das matérias e turmas, incluindo horários, professores responsáveis e alunos matriculados.                                             |
 | **Registro de Notas e Frequências**     | Permitir que os professores registrem e editem as notas e frequências dos alunos, permitindo que os responsáveis acompanhem essas informações.      |
 
+## Instalação do Projeto
+
+Siga os passos abaixo para configurar e executar o projeto localmente.
+
+1. **Clone o repositório** na sua máquina:
+
+    ```bash
+    git clone git@github.com:pingo-d-gente-ifpr/school-management-system.git
+    ```
+
+2. **Crie o arquivo `.env`** na raiz do projeto, baseado no arquivo `.env.example`:
+
+    ```bash
+    cp .env.example .env
+    ```
+
+3. **Suba os containers Docker** com o `docker-compose`:
+
+    ```bash
+    docker-compose up --build -d
+    ```
+
+4. **Acesse o container do workspace**:
+
+    ```bash
+    docker-compose exec workspace bash
+    ```
+
+5. **Instale as dependências do PHP** usando o Composer:
+
+    ```bash
+    composer install
+    ```
+
+6. **Instale o Vite:
+
+    ```bash
+    npm install vite
+    ```
+
+7. **Compile os assets do front-end** com o Vite:
+
+    ```bash
+    npm run build
+    ```
+
+8. **Gere a chave da aplicação**:
+
+    ```bash
+    php artisan key:generate
+    ```
+
+9. **Execute as migrations** para configurar o banco de dados:
+
+    ```bash
+    php artisan migrate
+    ```
+
+10. **(Opcional) Popule o banco de dados com dados fictícios** rodando os seeders:
+
+    ```bash
+    php artisan db:seed
+    ```
+
+Após seguir esses passos, seu projeto estará configurado e pronto para ser utilizado!
+
 ## Autores
 
 * **Allan Gabriel de Freitas Pedros** - *Desenvolvedor Fullstack* - [Allan Gabriel](https://github.com/agp531)
