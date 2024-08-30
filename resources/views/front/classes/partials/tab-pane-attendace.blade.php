@@ -37,7 +37,7 @@
                         ? Storage::url($student->photo)
                         : asset('assets/' . $student->photo))
                     : asset('assets/images/logo/user-default.png') }}"
-                        alt="Foto de {{ $student->name }}" class="rounded-circle me-2" width="40"></td>
+                        alt="Foto de {{ $student->name }}" class="rounded-circle me-2" width="40">{{$student->name}}</td>
                 @foreach ($weekDays as $day => $label)
                     <td>
                         <div class="dropdown">
