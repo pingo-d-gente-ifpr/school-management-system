@@ -31,7 +31,6 @@ O Pingo d' Gente foi construído utilizando as seguintes ferramentas e tecnologi
 | **Funcionalidade**                     | **Descrição**                                                                                                                                      |
 |-----------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Gerenciamento de Usuários**           | Cadastro, edição e exclusão de informações de usuários, incluindo administradores, professores e responsáveis.                                      |
-| **Gerenciamento de Eventos**            | Criação, edição e exclusão de eventos escolares, permitindo o acompanhamento de atividades por parte dos responsáveis.                             |
 | **Gerenciamento de Alunos**             | Cadastro, edição e acompanhamento das informações dos alunos, com foco na matrícula e no monitoramento de seu desempenho escolar.                  |
 | **Gerenciamento de Matérias e Turmas**  | Organização das matérias e turmas, incluindo horários, professores responsáveis e alunos matriculados.                                             |
 | **Registro de Notas e Frequências**     | Permitir que os professores registrem e editem as notas e frequências dos alunos, permitindo que os responsáveis acompanhem essas informações.      |
