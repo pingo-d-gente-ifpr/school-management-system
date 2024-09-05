@@ -48,85 +48,82 @@
 
 
                     <div class="row row-cols-1 row-cols-md-3 g-2">
-                        @foreach ($classes as $class)
-                            <div class="col">
-                                <div class="card h-100 position-relative">
-                                    <div class="card-img-wrapper">
-                                        <img class="card-img-top"
-                                            src="{{ $class->photo
+
+                                @foreach ($classes as $class)
+
+                                    <div class="col-md-4" href="{{ route('classes.show', $class->id) }}">
+                                        <a href="{{ route('classes.show', $class->id) }}">
+                                            <div class="profile-card-2"><img src="{{ $class->photo
                                                 ? (Storage::exists('public/' . $class->photo)
                                                     ? Storage::url($class->photo)
                                                     : asset('assets/' . $class->photo))
-                                                : asset('assets/images/logo/subject-default.png') }}"
-                                            alt="Card image cap">
-                                        <div class="card-icon-overlay">
-                                            <a href="{{ route('classes.show', $class->id) }}">
-                                                <i class="fas fa-book"></i>
-                                            </a>
-                                        </div>
+                                                : asset('assets/images/logo/subject-default.png') }}" class="img img-responsive">
+                                                <div class="profile-name text-capitalize">{{ $class->name }}</div>
+                                                <div class="profile-username">{{ $class->stage }}</div>
+                                            </div>
+                                        </a>
                                     </div>
-                                    <h5 class="card-title ms-2">{{ $class->name }}</h5>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
 
+                                @endforeach
+                        </div>
+                </div>
             </div>
         </div>
     </div>
     <style>
-        .card {
-            border: none;
-            background: transparent;
-        }
-
-        .card-img-wrapper {
-            position: relative;
+            .profile-card-2 {
             width: 100%;
             height: 200px;
+            box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
             overflow: hidden;
+            position: relative;
+            margin: 10px auto;
+            cursor: pointer;
             border-radius: 10px;
+            background-position: center;
         }
 
-
-        .card-img-top {
+        .profile-card-2 img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: opacity 0.3s ease;
-
+            object-position: center;
+            transition: all linear 0.25s;
         }
 
-        .card-icon-overlay {
+        .profile-card-2 .profile-name {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .card-icon-overlay i {
+            left: 30px;
+            bottom: 70px;
             font-size: 30px;
-            color: white;
-            background-color: #FF6B8A;
-            padding: 10px;
-            border-radius: 50%;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            color: #ff6b8a;
+            text-shadow: 0px 0px 20px rgb(255, 255, 255);
+            font-weight: bold;
+            transition: all linear 0.25s;
         }
 
-        .card:hover .card-img-wrapper {
-            opacity: 0.8;
+        .profile-card-2 .profile-username {
+            position: absolute;
+            bottom: 50px;
+            left: 30px;
+            color: #727272;
+            font-size: 20px;
+            transition: all linear 0.25s;
+            text-shadow: 0px 0px 20px rgba(255, 255, 255);
         }
 
-        .card:hover .card-img-top {
-            transform: scale(1.05);
-            /* Um leve zoom na imagem */
+
+        .profile-card-2:hover img {
+            filter:blur(4px);
         }
 
-        .card:hover .card-icon-overlay {
-            opacity: 1;
+        .profile-card-2:hover .profile-name {
+            bottom: 80px;
         }
+
+        .profile-card-2:hover .profile-username {
+            bottom: 60px;
+        }
+
     </style>
 </x-app-layout>
