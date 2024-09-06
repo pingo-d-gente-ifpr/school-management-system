@@ -129,10 +129,10 @@
                                         </div>
                                     </div>
 
-                                
+
                                 </div>
 
-                                
+
 
                             </div>
                         </div>
@@ -141,21 +141,38 @@
                         <div class="tab-pane fade" id="materias" role="tabpanel" aria-labelledby="materias-tab">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <button id="open-list-cat" type="button" class="btn btn-primary mb-3"
-                                        data-bs-toggle="modal" data-bs-target="#subjectsModal">
+                                    <button id="open-list-cat" type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#subjectsModal">
                                         Adicionar Matérias
                                     </button>
 
-                                    <!-- Div para mostrar matérias selecionadas -->
-                                    <div id="subjects-check" class="row mt-3">
-                                        <!-- Matérias selecionadas aparecerão aqui -->
+                                    <!-- Tabela para mostrar matérias selecionadas -->
+                                    <div id="subjects-check" class="d-flex flex-wrap mt-3 gap-2">
+                                        @foreach($class->subjects as $subject)
+                                        <div style="width:200px" class="box-show-cat-select p-2 border rounded" data-ref-id="{{ $subject->id }}-{{ $subject->pivot->user_id }}">
+                                            <p><strong>Matéria:</strong> {{ $subject->name }}</p>
+                                            <p><strong>Professor:</strong> {{ $subject->pivot->user->name }}</p>
+                                            <button type="button" class="btn btn-delete" data-handle-rm-check="{{ $subject->id }}-{{ $subject->pivot->user_id }}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
+                                                </svg>
+                                            </button>
+
+                                        </div>
+                                        @endforeach
                                     </div>
-                                    <div id="selected-subjects-inputs"></div>
+                                    <div id="selected-subjects-inputs">
+                                        <!-- Inputs para enviar matérias selecionadas -->
+                                        @foreach($class->subjects as $subject)
+                                            <input type="hidden" name="subjects[{{ $subject->id }}][subject_id]" value="{{ $subject->id }}">
+                                            <input type="hidden" name="subjects[{{ $subject->id }}][user_id]" value="{{ $subject->pivot->user_id }}">
+                                        @endforeach
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        
+
+
                         <!-- Crianças -->
                         <div class="tab-pane fade" id="criancas" role="tabpanel" aria-labelledby="criancas-tab">
                             <div class="row">
@@ -167,7 +184,7 @@
 
                                     <!-- Div para mostrar crianças selecionadas -->
                                     <div id="children-check" class="row mt-3">
-                                        <table class="table table-hover">
+                                        <table class="table table-hover align-middle">
                                             <thead>
                                                 <tr>
                                                     <th scope="col"></th>
@@ -177,12 +194,34 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="selected-children-inputs">
+                                                @foreach ($class->childrens as $children)
+                                                <tr>
+                                                    <td>
+                                                        <img class="rounded-circle" width="50px" src="{{ $children->photo
+                                                            ? (Storage::exists('public/' . $children->photo)
+                                                                ? Storage::url($children->photo)
+                                                                : asset('assets/' . $children->photo))
+                                                            : asset('assets/images/logo/user-default.png') }}">
+                                                    </td>
+                                                    <td>{{$children->name}}</td>
+                                                    <td>{{$children->register_number}}</td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-end">
+                                                            <button type="button" class="btn btn-delete" data-handle-rm-check="{{$children->id}}">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="white" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+                                                                </svg>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
                                                 <!-- Crianças selecionadas aparecerão aqui -->
                                             </tbody>
                                         </table>
                                     </div>
 
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -203,7 +242,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="subjectsModalLabel">Selecione as Matérias</h5>
+                        <h5 class="modal-title" id="subjectsModalLabel">Matérias</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
@@ -216,89 +255,91 @@
                                 @endif
                             </div>
                             <div class="row">
-                                @foreach ($subjects as $subject)
-                                    <div class="col-md-4">
-                                        <input class="check-subjects" type="checkbox"
-                                            name="subjects[{{ $subject->id }}][id]"
-                                            data-handle-name="{{ $subject->name }}"
-                                            data-handle-id="category_{{ $subject->id }}"
-                                            id="category_{{ $subject->id }}" value="{{ $subject->id }}"
-                                            {{ $class->subjects->contains($subject->id) ? 'checked' : '' }} />
-                                        <label for="category_{{ $subject->id }}">
-                                            <img class="pr-2" width='28px'
-                                                src="{{ asset('storage/' . $subject->icon) }}" alt="">
-                                            {{ $subject->name }}
-                                        </label>
-                                    </div>
-                                @endforeach
+                                <div class="col-md-6">
+                                    <select class="form-select" aria-label="Matéria" name="subject_id"
+                                        placeholder="Selecione a Matéria">
+                                        @foreach ($subjects as $subject)
+                                            <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <select class="form-select" aria-label="Professor" name="user_id"
+                                        placeholder="Selecione o Professor">
+                                        @foreach ($teachers as $teacher)
+                                            <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                        <button id="close-list-cat" type="button" class="btn btn-primary"
-                            data-bs-dismiss="modal">Salvar
-                            Mudanças</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Salvar
+                            Seleção</button>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Modal para selecionar crianças -->
-    <div class="modal fade" id="childrenModal" tabindex="-1" aria-labelledby="childrenModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="childrenModalLabel">Crianças</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Campo de busca -->
-                <input type="text" id="searchChildren" class="form-control mb-3"
-                    placeholder="Buscar criança...">
+        <div class="modal fade" id="childrenModal" tabindex="-1" aria-labelledby="childrenModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="childrenModalLabel">Crianças</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Campo de busca -->
+                        <input type="text" id="searchChildren" class="form-control mb-3"
+                            placeholder="Buscar criança...">
 
-                <!-- Tabela de crianças -->
-                <table class="table table-hover" id="childrenTable">
-                    <thead>
-                        <tr>
-                            <th scope="col"></th>
-                            <th scope="col">Nome</th>
-                            <th scope="col">Matrícula</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($childrens as $child)
-                            <tr class="child-row" data-id="{{ $child->id }}"
-                                data-register="{{ $child->register_number}}"
-                                data-name="{{ $child->name }}" data-photo="{{ $child->photo
+                        <!-- Tabela de crianças -->
+                        <table class="table table-hover" id="childrenTable">
+                            <thead class="align-middle">
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">Matrícula</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($childrens as $child)
+                                    <tr class="child-row" data-id="{{ $child->id }}"
+                                        data-register="{{ $child->register_number }}"
+                                        data-name="{{ $child->name }}"
+                                        data-photo="{{ $child->photo
                                             ? (Storage::exists('public/' . $child->photo)
                                                 ? Storage::url($child->photo)
                                                 : asset('assets/' . $child->photo))
                                             : asset('assets/images/logo/user-default.png') }}">
-                                <td>
-                                    <img class="rounded-circle" width="20px"
-                                        src="{{ $child->photo
-                                            ? (Storage::exists('public/' . $child->photo)
-                                                ? Storage::url($child->photo)
-                                                : asset('assets/' . $child->photo))
-                                            : asset('assets/images/logo/user-default.png') }}">
-                                </td>
-                                <td>{{ $child->name }}</td>
-                                <td>{{ $child->register_number }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                <button type="button" class="btn btn-primary" id="saveChildrenSelection"
-                    data-bs-dismiss="modal">Salvar Seleção</button>
+                                        <td>
+                                            <img class="rounded-circle" width="20px"
+                                                src="{{ $child->photo
+                                                    ? (Storage::exists('public/' . $child->photo)
+                                                        ? Storage::url($child->photo)
+                                                        : asset('assets/' . $child->photo))
+                                                    : asset('assets/images/logo/user-default.png') }}">
+                                        </td>
+                                        <td>{{ $child->name }}</td>
+                                        <td>{{ $child->register_number }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-primary" id="saveChildrenSelection"
+                            data-bs-dismiss="modal">Salvar Seleção</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
         <style>
             .custom-file-upload {
@@ -347,167 +388,249 @@
                 border: 1px solid #e32626;
                 animation: showClose .3s;
             }
+
         </style>
+
         <script>
             function previewImage(event) {
                 var reader = new FileReader();
+                var output = document.getElementById('avatar-preview');
+                var deleteButton = document.getElementById('delete-image');
+
                 reader.onload = function() {
-                    var output = document.getElementById('avatar-preview');
                     output.src = reader.result;
+                    deleteButton.hidden = false;
                 }
-                reader.readAsDataURL(event.target.files[0]);
+
+                if (event.target.files[0]) {
+                    reader.readAsDataURL(event.target.files[0]);
+                }
             }
 
             function resetImage() {
-                document.getElementById('avatar-preview').src = '{{ asset('assets/images/logo/subject-default.png') }}';
-                document.getElementById('photo').value = '';
+                var output = document.getElementById('avatar-preview');
+                var deleteButton = document.getElementById('delete-image');
+                var fileInput = document.getElementById('photo');
+
+                output.src = "{{ asset('assets/images/logo/user-default.png') }}"; // Reset image
+                deleteButton.hidden = true;
+                fileInput.value = "";
             }
 
-            function ArrayCat() {
-                const checksCategories = document.querySelectorAll('.check-subjects');
-                const subjectsCheckContainer = document.querySelector('#subjects-check');
-                const selectedSubjectsInputs = document.querySelector('#selected-subjects-inputs');
-
-                // Limpa os containers antes de reconstruir a lista
-                subjectsCheckContainer.innerHTML = '';
-                selectedSubjectsInputs.innerHTML = '';
-
-                checksCategories.forEach(element => {
-                    if (element.checked) {
-                        let name = element.getAttribute('data-handle-name');
-                        let id = element.value; // Valor do ID da matéria
-
-                        // Adicionar a matéria selecionada ao container visual
-                        let divCategory = document.createElement('div');
-                        divCategory.classList.add('col-lg-3', 'mb-2');
-                        divCategory.setAttribute('data-ref-id', id);
-                        divCategory.innerHTML = `
-                    <div class="box-show-cat-select p-2 border rounded d-flex align-items-center justify-content-between">
-                        <p class="mb-0">${name}</p>
-                        <button type="button" class="btn btn-sm btn-delete ms-2" data-handle-rm-check="${id}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
-                            </svg>
-                        </button>
-                    </div>
-
-                `;
-                        subjectsCheckContainer.appendChild(divCategory);
-
-                        // Adicionar um input escondido ao formulário para enviar o ID da matéria
-                        let inputHidden = document.createElement('input');
-                        inputHidden.type = 'hidden';
-                        inputHidden.name = `subjects[${id}][id]`;
-                        inputHidden.value = id;
-                        selectedSubjectsInputs.appendChild(inputHidden);
-
-                        // Adiciona o evento de remoção
-                        divCategory.querySelector('[data-handle-rm-check]').addEventListener('click', function() {
-                            element.checked = false; // Desmarcar o checkbox
-                            ArrayCat(); // Atualizar a lista de matérias selecionadas
-                        });
-                    }
-                });
-            }
-
-            // Adiciona o evento para atualizar a lista quando um checkbox é marcado/desmarcado
-            document.querySelectorAll('.check-subjects').forEach(element => {
-                element.addEventListener('change', ArrayCat);
-            });
-
-            // Chama a função para gerar a lista de matérias inicialmente, se necessário
-            ArrayCat();
-
-            
         </script>
 
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
-    const childrenTable = document.getElementById('children-check');
-    const selectedChildrenInputs = document.getElementById('selected-children-inputs');
-    const searchChildrenInput = document.getElementById('search-children');
-    const saveChildrenButton = document.getElementById('save-children');
+            // Script Matérias
+            document.addEventListener('DOMContentLoaded', function() {
+                const subjectsSelect = document.querySelector('select[name="subject_id"]');
+                const teachersSelect = document.querySelector('select[name="user_id"]');
+                const subjectsCheckContainer = document.querySelector('#subjects-check');
+                const selectedSubjectsInputs = document.querySelector('#selected-subjects-inputs');
+                const addSubjectButton = document.querySelector('#subjectsModal .btn-primary');
 
-    // Função para adicionar a criança à tabela e ao formulário
-    function addChild(childId, childName, registrationNumber) {
-        // Cria a linha da tabela
-        const row = document.createElement('tr');
-        row.dataset.refId = `${childId}`;
-        row.innerHTML = `
-            <td>${childName}</td>
-            <td>${registrationNumber}</td>
-            <td>
-                <button type="button" class="btn btn-danger btn-sm" data-handle-rm-check="${childId}">
-                    Remover
-                </button>
-            </td>`;
+                // Função para adicionar matérias selecionadas
+                function addSubject() {
+                    const subjectId = subjectsSelect.value;
+                    const subjectName = subjectsSelect.options[subjectsSelect.selectedIndex].text;
+                    const teacherId = teachersSelect.value;
+                    const teacherName = teachersSelect.options[teachersSelect.selectedIndex].text;
 
-        childrenTable.querySelector('tbody').appendChild(row);
-        addHiddenInput('children', childId);
-    }
+                    if (subjectId && teacherId) {
+                        const refId = `${subjectId}-${teacherId}`;
+                        if (!document.querySelector(`#subjects-check [data-ref-id="${refId}"]`)) {
+                            const divCategory = document.createElement('div');
+                            divCategory.classList.add('box-show-cat-select', 'p-2', 'border', 'rounded');
+                            divCategory.setAttribute('data-ref-id', refId);
+                            divCategory.innerHTML = `
+                                <p><strong>Matéria:</strong> ${subjectName}</p>
+                                <p><strong>Professor:</strong> ${teacherName}</p>
+                                <button type="button" class="btn btn-danger btn-sm remove-subject-btn" data-handle-rm-check="${refId}">
+                                    Remover
+                                </button>
+                            `;
+                            subjectsCheckContainer.appendChild(divCategory);
 
-    // Função para adicionar o input oculto ao formulário
-    function addHiddenInput(type, id) {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = `${type}[${id}]`;
-        input.value = id;
-        selectedChildrenInputs.appendChild(input);
-    }
+                            const subjectInputHidden = document.createElement('input');
+                            subjectInputHidden.type = 'hidden';
+                            subjectInputHidden.name = `subjects[${subjectId}][subject_id]`;
+                            subjectInputHidden.value = subjectId;
 
-    // Função para remover a criança da tabela e do formulário
-    function removeChild(childId) {
-        // Remove a linha da tabela
-        const childRow = childrenTable.querySelector(`tbody tr[data-ref-id="${childId}"]`);
-        if (childRow) {
-            childRow.remove();
+                            const teacherInputHidden = document.createElement('input');
+                            teacherInputHidden.type = 'hidden';
+                            teacherInputHidden.name = `subjects[${subjectId}][user_id]`;
+                            teacherInputHidden.value = teacherId;
+
+                            selectedSubjectsInputs.appendChild(subjectInputHidden);
+                            selectedSubjectsInputs.appendChild(teacherInputHidden);
+
+                            // Adiciona o evento de clique ao botão "Remover"
+                            divCategory.querySelector('.remove-subject-btn').addEventListener('click', function() {
+                                removeSubject(refId);
+                            });
+
+                            // Reseta os selects após adicionar
+                            subjectsSelect.value = '';
+                            teachersSelect.value = '';
+                        } else {
+                            alert('Essa matéria já foi adicionada.');
+                        }
+                    } else {
+                        alert('Por favor, selecione tanto a matéria quanto o professor.');
+                    }
+                }
+
+                // Função para remover matéria
+                function removeSubject(refId) {
+                    const subjectDiv = subjectsCheckContainer.querySelector(`[data-ref-id="${refId}"]`);
+                    if (subjectDiv) {
+                        subjectDiv.remove();
+                    }
+
+                    const subjectInput = selectedSubjectsInputs.querySelector(`input[name="subjects[${refId.split('-')[0]}][subject_id]"]`);
+                    const teacherInput = selectedSubjectsInputs.querySelector(`input[name="subjects[${refId.split('-')[0]}][user_id]"]`);
+                    if (subjectInput) {
+                        subjectInput.remove();
+                    }
+                    if (teacherInput) {
+                        teacherInput.remove();
+                    }
+                }
+
+                // Adiciona o evento de clique ao botão de salvar seleção de matéria
+                addSubjectButton.addEventListener('click', addSubject);
+
+                // Adiciona o evento de clique aos botões de remover já existentes
+                document.querySelectorAll('.remove-subject-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const refId = this.getAttribute('data-handle-rm-check');
+                        removeSubject(refId);
+                    });
+                });
+            });
+        </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const childrenCheckContainer = document.querySelector('#children-check');
+        const selectedChildrenInputs = document.querySelector('#selected-children-inputs');
+        const saveChildrenButton = document.querySelector('#saveChildrenSelection');
+        const searchChildrenInput = document.querySelector('#searchChildren');
+        const childRows = document.querySelectorAll('.child-row');
+
+        // Função para marcar as crianças que já estão na turma ao abrir a modal
+        function markSelectedChildren() {
+            // Obter IDs das crianças já adicionadas à turma
+            const selectedChildrenIds = Array.from(selectedChildrenInputs.querySelectorAll('input[type="hidden"]'))
+                .map(input => input.value);
+
+            // Marcar as linhas correspondentes na modal
+            childRows.forEach(row => {
+                const childId = row.getAttribute('data-id');
+                if (selectedChildrenIds.includes(childId)) {
+                    row.classList.add('selected', 'table-primary');
+                } else {
+                    row.classList.remove('selected', 'table-primary');
+                }
+            });
         }
 
-        const childInput = selectedChildrenInputs.querySelector(`input[name="children[${childId}]"]`);
-        if (childInput) {
-            childInput.remove();
-        }
-    }
+        // Função para adicionar crianças selecionadas
+        function addChildren() {
+            childRows.forEach(row => {
+                if (row.classList.contains('selected')) {
+                    const childId = row.getAttribute('data-id');
+                    const childName = row.getAttribute('data-name');
+                    const childPhoto = row.getAttribute('data-photo');
+                    const childRegister = row.getAttribute('data-register');
 
-    // Filtro de busca
-    searchChildrenInput.addEventListener('input', function () {
-        const searchTerm = this.value.toLowerCase();
-        childrenTable.querySelectorAll('tbody tr').forEach(row => {
-            const childName = row.querySelector('td').textContent.toLowerCase();
-            if (childName.includes(searchTerm)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
+                    // Verifica se a criança já foi adicionada para evitar duplicação
+                    if (!document.querySelector(`#children-check [data-ref-id="${childId}"]`)) {
+                        // Cria a nova linha da tabela
+                        const newRow = document.createElement('tr');
+                        newRow.classList.add('align-middle');
+                        newRow.setAttribute('data-ref-id', childId);
+                        newRow.innerHTML = `
+                            <td>
+                                <img class="rounded-circle" width="50px" src="${childPhoto}">
+                            </td>
+                            <td>${childName}</td>
+                            <td>${childRegister}</td>
+                            <td>
+                                <div class="d-flex justify-content-end">
+                                    <button type="button" class="btn-delete" data-handle-rm-check="${childId}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </td>
+                        `;
+
+                        // Adiciona a nova linha ao corpo da tabela
+                        selectedChildrenInputs.appendChild(newRow);
+
+                        const childInputHidden = document.createElement('input');
+                        childInputHidden.type = 'hidden';
+                        childInputHidden.name = `childrens[${childId}]`;
+                        childInputHidden.value = childId;
+
+                        // Adiciona o input ao formulário
+                        selectedChildrenInputs.appendChild(childInputHidden);
+
+                        // Adiciona o evento de clique ao botão "Remover"
+                        newRow.querySelector('[data-handle-rm-check]').addEventListener('click', function () {
+                            removeChild(childId);
+                        });
+                    }
+                }
+            });
+        }
+
+        // Função para remover a criança da tabela e do formulário
+        function removeChild(childId) {
+            // Remove a linha da tabela
+            const childRow = document.querySelector(`#children-check [data-ref-id="${childId}"]`);
+            if (childRow) {
+                childRow.remove();
             }
-        });
-    });
 
-    // Adiciona o evento de clique ao botão de salvar seleção
-    saveChildrenButton.addEventListener('click', () => {
-        const selectedRows = childrenTable.querySelectorAll('tbody tr.selected');
-        selectedRows.forEach(row => {
-            const childId = row.dataset.refId;
-            const childName = row.querySelector('td').textContent;
-            const registrationNumber = row.querySelector('td:nth-of-type(2)').textContent;
-            addChild(childId, childName, registrationNumber);
-        });
-    });
-
-    // Evento para remover a criança ao clicar no botão de remover
-    childrenTable.addEventListener('click', function (e) {
-        if (e.target.matches('[data-handle-rm-check]')) {
-            removeChild(e.target.dataset.handleRmCheck);
+            const childInput = selectedChildrenInputs.querySelector(`input[name="childrens[${childId}]"]`);
+            if (childInput) {
+                childInput.remove();
+            }
         }
-    });
 
-    // Seleção de criança por clique na tabela
-    childrenTable.addEventListener('click', function (e) {
-        if (e.target.tagName === 'TR') {
-            e.target.classList.toggle('selected');
-            e.target.classList.toggle('table-primary');
-        }
+        // Filtro de busca
+        searchChildrenInput.addEventListener('input', function () {
+            const searchTerm = this.value.toLowerCase();
+            childRows.forEach(row => {
+                const childName = row.getAttribute('data-name').toLowerCase();
+
+                if (childName.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
+        // Seleção de criança por clique na tabela
+        childRows.forEach(row => {
+            row.addEventListener('click', function () {
+                row.classList.toggle('selected');
+                row.classList.toggle('table-primary');
+            });
+        });
+
+        // Adiciona o evento de clique ao botão de salvar seleção
+        saveChildrenButton.addEventListener('click', addChildren);
+
+        // Marca as crianças selecionadas ao abrir a modal
+        document.getElementById('open-list-child').addEventListener('click', markSelectedChildren);
     });
-});
 
 </script>
+
+
+
 </x-app-layout>

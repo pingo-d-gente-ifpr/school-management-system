@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('children_frequency', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('children_classe_id')->constrained()->cascadeOnDelete();
+            $table->unsignedBigInteger('children_classe_id');
+            $table->foreign('children_classe_id')->references('id')->on('children_classe')->cascadeOnDelete();
             $table->date('date');
-            $table->boolean('attendance')->default('false');
+            $table->boolean('attendance')->default(false);
             $table->timestamps();
         });
     }

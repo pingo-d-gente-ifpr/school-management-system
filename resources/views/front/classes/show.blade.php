@@ -11,7 +11,7 @@
                         </a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="#">
+                        <a href="{{ route('classes.index') }}">
                             Turmas
                         </a>
                     </li>
