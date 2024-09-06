@@ -26,7 +26,7 @@ class Children extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function classe(): BelongsToMany
+    public function classes(): BelongsToMany
     {
         return $this->belongsToMany(Classe::class);
     }
