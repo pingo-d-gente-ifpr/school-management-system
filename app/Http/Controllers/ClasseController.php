@@ -112,4 +112,12 @@ class ClasseController extends Controller
         $this->service->destroy($classe);
         return redirect()->route('classes.index');
     }
+
+    public function registerFrequency(Request $request)
+    {
+        dd($request->all());
+
+        return response()->json(['message' => 'Dados recebidos com sucesso']);
+    }
+    
 }

@@ -13,7 +13,8 @@
     </div>
     <div class="col-md-4">
         <div class="search-attendance">
-            <input class="flatpickr flatpickr-input" type="text" placeholder="Select Date.." data-id="weekSelect" readonly="readonly">
+            {{-- <input class="flatpickr flatpickr-input" type="text" placeholder="Select Date.." data-id="weekSelect" readonly="readonly"> --}}
+            <input type="date" class="form-attendance p-2" id="datePicker">
         </div>
     </div>
 </div>
@@ -180,6 +181,7 @@
         const icon = $(this);
         const color = icon.data('color');
         const selectedIcon = icon.text().trim();
+        const selectedOption = selectedIcon == 'F' ? false : true;
         const textColor = icon.attr('color');
         const dropdown = icon.closest('.dropdown');
         const dropbtn = dropdown.find('.dropdown-toggle');
@@ -192,13 +194,13 @@
         dropdown.find('.dropdown-content').hide();
 
         $.ajax({
-            url: '/update-attendance',
+            url: '/register-frequency',
             type: 'POST',
             data: {
                 _token: '{{ csrf_token() }}',
-                student_id: studentId,
-                day: day,
-                status: selectedIcon
+                children_classe_id: studentId,
+                date: day,
+                attendance: selectedOption
             },
             success: function(response) {
                 console.log('Presença atualizada com sucesso.');
@@ -213,44 +215,34 @@
         $('.dropdown-content').hide();
     });
 
-    // const startDate = document.getElementById("datePicker");
-    const startDatefp = flatpickr({
-        "plugins": [new weekSelect({})],
-        "onChange": [function(){
-            const weekNumber = this.selectedDates[0]
-                ? this.config.getWeek(this.selectedDates[0])
-                : null;
+    const startDate = document.getElementById("datePicker");
 
-            console.log(weekNumber);
-        }]
+    $('#datePicker').change(function() {
+        const selectedDate = new Date(this.value);
+        const daysOfWeek = ['Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira'];
+
+        // Verificar se a data é válida
+        if (isNaN(selectedDate.getTime())) return;
+
+        // Calcular o primeiro dia da semana da data selecionada
+        const startOfWeek = new Date(selectedDate);
+        startOfWeek.setDate(selectedDate.getDate() - selectedDate.getDay() + 1); // Ajustar para segunda-feira
+
+        // Atualizar os cabeçalhos das colunas
+        const headers = {
+            monday: startOfWeek,
+            tuesday: new Date(startOfWeek).setDate(startOfWeek.getDate() + 1),
+            wednesday: new Date(startOfWeek).setDate(startOfWeek.getDate() + 2),
+            thursday: new Date(startOfWeek).setDate(startOfWeek.getDate() + 3),
+            friday: new Date(startOfWeek).setDate(startOfWeek.getDate() + 4)
+        };
+
+        $('#monday').html(`${daysOfWeek[(new Date(headers.monday)).getDay()]} <br> ${new Date(headers.monday).getDate()}`);
+        $('#tuesday').html(`${daysOfWeek[(new Date(headers.tuesday)).getDay()]} <br> ${new Date(headers.tuesday).getDate()}`);
+        $('#wednesday').html(`${daysOfWeek[(new Date(headers.wednesday)).getDay()]} <br> ${new Date(headers.wednesday).getDate()}`);
+        $('#thursday').html(`${daysOfWeek[(new Date(headers.thursday)).getDay()]} <br> ${new Date(headers.thursday).getDate()}`);
+        $('#friday').html(`${daysOfWeek[(new Date(headers.friday)).getDay()]} <br> ${new Date(headers.friday).getDate()}`);
     });
-
-    // $('#datePicker').change(function() {
-    //     const selectedDate = new Date(this.value);
-    //     const daysOfWeek = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira'];
-
-    //     // Verificar se a data é válida
-    //     if (isNaN(selectedDate.getTime())) return;
-
-    //     // Calcular o primeiro dia da semana da data selecionada
-    //     const startOfWeek = new Date(selectedDate);
-    //     startOfWeek.setDate(selectedDate.getDate() - selectedDate.getDay() + 1); // Ajustar para segunda-feira
-
-    //     // Atualizar os cabeçalhos das colunas
-    //     const headers = {
-    //         monday: startOfWeek,
-    //         tuesday: new Date(startOfWeek).setDate(startOfWeek.getDate() + 1),
-    //         wednesday: new Date(startOfWeek).setDate(startOfWeek.getDate() + 2),
-    //         thursday: new Date(startOfWeek).setDate(startOfWeek.getDate() + 3),
-    //         friday: new Date(startOfWeek).setDate(startOfWeek.getDate() + 4)
-    //     };
-
-    //     $('#monday').html(`${daysOfWeek[(new Date(headers.monday)).getDay()]} <br> ${new Date(headers.monday).getDate()}`);
-    //     $('#tuesday').html(`${daysOfWeek[(new Date(headers.tuesday)).getDay()]} <br> ${new Date(headers.tuesday).getDate()}`);
-    //     $('#wednesday').html(`${daysOfWeek[(new Date(headers.wednesday)).getDay()]} <br> ${new Date(headers.wednesday).getDate()}`);
-    //     $('#thursday').html(`${daysOfWeek[(new Date(headers.thursday)).getDay()]} <br> ${new Date(headers.thursday).getDate()}`);
-    //     $('#friday').html(`${daysOfWeek[(new Date(headers.friday)).getDay()]} <br> ${new Date(headers.friday).getDate()}`);
-    // });
 });
 
 </script>
