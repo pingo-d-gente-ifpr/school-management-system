@@ -150,6 +150,9 @@
     .btn-primary::after {
         display: none !important
     }
+    .dropdown-toggle::after{
+        display: none !important 
+    }
 </style>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
