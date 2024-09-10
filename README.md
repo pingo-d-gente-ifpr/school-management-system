@@ -66,7 +66,7 @@ Siga os passos abaixo para configurar e executar o projeto localmente.
 4. **Acesse o container do workspace**:
 
     ```bash
-    docker-compose exec workspace bash
+    docker exec -it WorkSpace /bin/bash
     ```
 
 5. **Instale as dependências do PHP** usando o Composer:
@@ -75,7 +75,7 @@ Siga os passos abaixo para configurar e executar o projeto localmente.
     composer install
     ```
 
-6. **Instale o Vite:
+6. **Instale o Vite**:
 
     ```bash
     npm install vite
