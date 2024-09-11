@@ -1,4 +1,5 @@
 <x-app-layout>
+
     <div class="container-fluid d-flex justify-content-center">
         <div class="col-10 col-md-10 mx-auto my-4">
             <h1>Turma {{$class->name}}</h1>
@@ -79,16 +80,17 @@
                                                     </button>
                                                 </div>
                                                 <div>
-                                                    <input hidden name="classe_id" value="{{$class->id}}"></input:>
-                                                    <input hidden name="user_id" value="{{Auth::user()->id}}"></input:>
+                                                    <input type="hidden" name="classe_id" value="{{$class->id}}">
+                                                    <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+
                                                     <span class="text-muted" id="charCount" style="opacity: 0.8">0/1000</span>
                                                     <button type="submit" class="btn btn-success">Postar</button>
                                                 </div>
                                             </div>
                                         </form>
                                     </div>
-                                </div>  
-                                
+                                </div>
+
                                 @foreach ($class->posts as $post)
                                     <div class="card mt-4">
                                         <div class="card-body">
@@ -99,16 +101,20 @@
                                                         <h5 class="mb-0">{{$post->user->name}}</h5>
                                                         <small>{{ \Carbon\Carbon::parse($post->created_at)->format('d/m/Y') }}</small>
                                                     </div>
-                                                    
+
                                                 </div>
                                                 <div>
-                                                    <button class=" btn-sm btn btn-primary dropdown-toggle"  type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <button class=" btn-sm btn btn-light dropdown-toggle"  type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
                                                             <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
-                                                          </svg>
+                                                        </svg>
                                                     </button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a class="dropdown-item" href="#"><button class="btn-sm btn">Editar</button></a></li>
+                                                    <ul class="dropdown-menu">
+                                                        <li>
+                                                            @include('admin.users.partials.edit-post-form', [
+                                                                'postId' => $post->id
+                                                            ])
+                                                        </li>
                                                         <li>
                                                             <a class="dropdown-item" href="#">
                                                                 <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
@@ -118,9 +124,9 @@
                                                                 </form>
                                                             </a>
                                                         </li>
-                                                      </ul>       
+                                                    </ul>
                                                 </div>
-                                            </div>  
+                                            </div>
                                             <p class="card-text">{{$post->description}}</p>
                                         </div>
                                     </div>
@@ -145,36 +151,35 @@
         </div>
     </div>
 
-</x-app-layout>
-<style>
-    .btn-primary::after {
-        display: none !important
-    }
-    .dropdown-toggle::after{
-        display: none !important 
-    }
-</style>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    var triggerTabList = [].slice.call(document.querySelectorAll('#myTab button'))
-    triggerTabList.forEach(function (triggerEl) {
-        var tabTrigger = new bootstrap.Tab(triggerEl)
+    <style>
+        .btn-primary::after {
+            display: none !important
+        }
+        .dropdown-toggle::after{
+            display: none !important
+        }
+    </style>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var triggerTabList = [].slice.call(document.querySelectorAll('#myTab button'))
+        triggerTabList.forEach(function (triggerEl) {
+            var tabTrigger = new bootstrap.Tab(triggerEl)
 
-        triggerEl.addEventListener('click', function (event) {
-            event.preventDefault()
-            tabTrigger.show()
+            triggerEl.addEventListener('click', function (event) {
+                event.preventDefault()
+                tabTrigger.show()
+            })
         })
-    })
 
-    // Char counter for post message
-    const postMessage = document.getElementById('postMessage');
-    const charCount = document.getElementById('charCount');
+        // Char counter for post message
+        const postMessage = document.getElementById('postMessage');
+        const charCount = document.getElementById('charCount');
 
-    postMessage.addEventListener('input', function () {
-        const currentLength = postMessage.value.length;
-        charCount.textContent = `${currentLength}/1000`;
+        postMessage.addEventListener('input', function () {
+            const currentLength = postMessage.value.length;
+            charCount.textContent = `${currentLength}/1000`;
+        });
     });
-});
-</script>
+    </script>
 
-
+</x-app-layout>
