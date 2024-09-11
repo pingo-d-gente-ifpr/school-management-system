@@ -480,11 +480,23 @@ function removeChild(childId) {
         const teacherName = teachersSelect.options[teachersSelect.selectedIndex].text;
 
         if (subjectId && teacherId) {
-            // Verifica se a matéria já foi adicionada
+            const existingDiv = document.querySelector(`#subjects-check [data-ref-id="${subjectId}"]`);
+            
+            if (existingDiv) {
+                // Verifica se a matéria já foi adicionada com outro professor
+                const existingTeacherId = existingDiv.getAttribute('data-teacher-id');
+                if (existingTeacherId && existingTeacherId !== teacherId) {
+                    alert('Essa matéria já foi adicionada com outro professor.');
+                    return; // Interrompe a função se a matéria foi adicionada com um professor diferente
+                }
+            }
+
+            // Verifica se a matéria já foi adicionada com o mesmo professor
             if (!document.querySelector(`#subjects-check [data-ref-id="${subjectId}-${teacherId}"]`)) {
                 const divCategory = document.createElement('div');
                 divCategory.classList.add('col-lg-3', 'mb-2');
-                divCategory.setAttribute('data-ref-id', `${subjectId}-${teacherId}`);
+                divCategory.setAttribute('data-ref-id', `${subjectId}`);
+                divCategory.setAttribute('data-teacher-id', `${teacherId}`);
                 divCategory.innerHTML = `
                     <div class="box-show-cat-select p-2 border rounded">
                         <p><strong>Matéria:</strong> ${subjectName}</p>
@@ -517,12 +529,13 @@ function removeChild(childId) {
                 subjectsSelect.value = '';
                 teachersSelect.value = '';
             } else {
-                alert('Essa matéria já foi adicionada.');
+                alert('Essa matéria já foi adicionada com o mesmo professor.');
             }
         } else {
             alert('Por favor, selecione tanto a matéria quanto o professor.');
         }
     }
+
 
     // Função para remover matéria
     function removeSubject(refId) {
