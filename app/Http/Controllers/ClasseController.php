@@ -65,7 +65,9 @@ class ClasseController extends Controller
     {
         $class = $this->service->show($class);
         $subjects = $class->subjects()->paginate(6);
+        $subjectsForNotes = $class->subjects()->get();
         $students = $class->childrens()->paginate(6);
+        $studentsForNotes = $class->childrens()->get();
         $startDate = Carbon::now();
 
         $weekDays = [];
@@ -75,7 +77,9 @@ class ClasseController extends Controller
         }    
         return view('front.classes.show')->with('class', $class)
             ->with('subjects',$subjects)
+            ->with('subjectsForNotes', $subjectsForNotes)
             ->with('students',$students)
+            ->with('studentsForNotes', $studentsForNotes)
             ->with('weekDays',$weekDays);
     }
 
