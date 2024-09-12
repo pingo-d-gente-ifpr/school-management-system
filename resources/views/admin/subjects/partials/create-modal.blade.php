@@ -14,10 +14,9 @@
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />
                     </div>
                     <div class="mb-3">
-                        <div class="row align-items-start">
-                            <x-input-label for="photo" class="form-label col-sm-2 col-lg-2">Foto:</x-input-label>
-                            <input class="form-control form-control-sm col-sm-10 col-lg-10" id="photo"
-                                type="file" name="photo">
+                        <div class="row">
+                            <x-input-label for="photo" class="form-label">Foto:</x-input-label>
+                            <input class="form-control" id="photo" type="file" name="photo">
                             <x-input-error :messages="$errors->get('photo')" class="mt-2" />
                         </div>
                     </div>
