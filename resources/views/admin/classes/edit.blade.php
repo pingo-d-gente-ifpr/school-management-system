@@ -152,7 +152,7 @@
                                         <div class="box-show-cat-select p-2 border rounded" data-ref-id="{{ $subject->id }}-{{ $subject->pivot->user_id }}">
                                             <p><strong>Matéria:</strong> {{ $subject->name }}</p>
                                             <p><strong>Professor:</strong> {{ $subject->pivot->user->name }}</p>
-                                            <button type="button" class="btn btn-delete" data-handle-rm-check="{{ $subject->id }}-{{ $subject->pivot->user_id }}">
+                                            <button type="button" class="btn-delete" data-handle-rm-check="{{ $subject->id }}-{{ $subject->pivot->user_id }}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                                     <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
                                                 </svg>
@@ -208,7 +208,7 @@
                                                     <td>{{$children->register_number}}</td>
                                                     <td>
                                                         <div class="d-flex justify-content-end">
-                                                            <button type="button" class="btn btn-delete" data-handle-rm-check="{{$children->id}}">
+                                                            <button type="button" class="btn-delete" data-handle-rm-check="{{$children->id}}">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="white" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                                                     <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
                                                                 </svg>
@@ -396,6 +396,7 @@
 
         </style>
 
+        <!-- NÃO MEXER -->
         <script>
             function previewImage(event) {
                 var reader = new FileReader();
@@ -423,7 +424,8 @@
             }
 
         </script>
-
+        
+        <!-- NÃO MEXER -->
         <script>
             // Script Matérias
             document.addEventListener('DOMContentLoaded', function() {
@@ -476,7 +478,7 @@
                         divCategory.innerHTML = `
                             <p><strong>Matéria:</strong> ${subjectName}</p>
                             <p><strong>Professor:</strong> ${teacherName}</p>
-                            <button type="button" class="btn btn-delete" data-handle-rm-check="${refId}">
+                            <button type="button" class="btn-delete" data-handle-rm-check="${refId}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                     <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
                                 </svg>
@@ -497,7 +499,7 @@
                         selectedSubjectsInputs.appendChild(subjectInputHidden);
                         selectedSubjectsInputs.appendChild(teacherInputHidden);
 
-                        divCategory.querySelector('.btn.btn-delete').addEventListener('click', function() {
+                        divCategory.querySelector('.btn-delete').addEventListener('click', function() {
                             removeSubject(refId);
                         });
 
@@ -533,7 +535,7 @@
 
                 addSubjectButton.addEventListener('click', addSubject);
 
-                document.querySelectorAll('.btn.btn-delete').forEach(button => {
+                document.querySelectorAll('.btn-delete').forEach(button => {
                     button.addEventListener('click', function() {
                         const refId = this.getAttribute('data-handle-rm-check');
                         removeSubject(refId);
@@ -543,127 +545,130 @@
 
         </script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const childrenCheckContainer = document.querySelector('#children-check');
-        const selectedChildrenInputs = document.querySelector('#selected-children-inputs');
-        const saveChildrenButton = document.querySelector('#saveChildrenSelection');
-        const searchChildrenInput = document.querySelector('#searchChildren');
-        const childRows = document.querySelectorAll('.child-row');
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const childrenCheckContainer = document.querySelector('#children-check');
+                const selectedChildrenInputs = document.querySelector('#selected-children-inputs');
+                const saveChildrenButton = document.querySelector('#saveChildrenSelection');
+                const searchChildrenInput = document.querySelector('#searchChildren');
+                const childRows = document.querySelectorAll('.child-row');
 
-        // Função para marcar as crianças que já estão na turma ao abrir a modal
-        function markSelectedChildren() {
-            // Obter IDs das crianças já adicionadas à turma
-            const selectedChildrenIds = Array.from(selectedChildrenInputs.querySelectorAll('input[type="hidden"]'))
-                .map(input => input.value);
+                // Função para marcar as crianças que já estão na turma ao abrir a modal
+                function markSelectedChildren() {
+                    // Obter IDs das crianças já adicionadas à turma
+                    const selectedChildrenIds = Array.from(selectedChildrenInputs.querySelectorAll('input[type="hidden"]'))
+                        .map(input => input.value);
 
-            // Marcar as linhas correspondentes na modal
-            childRows.forEach(row => {
-                const childId = row.getAttribute('data-id');
-                if (selectedChildrenIds.includes(childId)) {
-                    row.classList.add('selected', 'table-primary');
-                } else {
-                    row.classList.remove('selected', 'table-primary');
+                    // Marcar as linhas correspondentes na modal
+                    childRows.forEach(row => {
+                        const childId = row.getAttribute('data-id');
+                        if (selectedChildrenIds.includes(childId)) {
+                            row.classList.add('selected', 'table-primary');
+                        } else {
+                            row.classList.remove('selected', 'table-primary');
+                        }
+                    });
                 }
-            });
-        }
 
-        // Função para adicionar crianças selecionadas
-        function addChildren() {
-            childRows.forEach(row => {
-                if (row.classList.contains('selected')) {
-                    const childId = row.getAttribute('data-id');
-                    const childName = row.getAttribute('data-name');
-                    const childPhoto = row.getAttribute('data-photo');
-                    const childRegister = row.getAttribute('data-register');
+                // Função para adicionar crianças selecionadas
+                function addChildren() {
+                    childRows.forEach(row => {
+                        if (row.classList.contains('selected')) {
+                            const childId = row.getAttribute('data-id');
+                            const childName = row.getAttribute('data-name');
+                            const childPhoto = row.getAttribute('data-photo');
+                            const childRegister = row.getAttribute('data-register');
 
-                    // Verifica se a criança já foi adicionada para evitar duplicação
-                    if (!document.querySelector(`#children-check [data-ref-id="${childId}"]`)) {
-                        // Cria a nova linha da tabela
-                        const newRow = document.createElement('tr');
-                        newRow.classList.add('align-middle');
-                        newRow.setAttribute('data-ref-id', childId);
-                        newRow.innerHTML = `
-                            <td>
-                                <img class="rounded-circle" width="50px" src="${childPhoto}">
-                            </td>
-                            <td>${childName}</td>
-                            <td>${childRegister}</td>
-                            <td>
-                                <div class="d-flex justify-content-end">
-                                    <button type="button" class="btn-delete" data-handle-rm-check="${childId}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </td>
-                        `;
+                            // Verifica se a criança já foi adicionada para evitar duplicação
+                            if (!selectedChildrenInputs.querySelector(`tr[data-ref-id="${childId}"]`)) {
+                                // Cria a nova linha da tabela
+                                const newRow = document.createElement('tr');
+                                newRow.classList.add('align-middle');
+                                newRow.setAttribute('data-ref-id', childId);
+                                newRow.innerHTML = `
+                                    <td>
+                                        <img class="rounded-circle" width="50px" src="${childPhoto}">
+                                    </td>
+                                    <td>${childName}</td>
+                                    <td>${childRegister}</td>
+                                    <td>
+                                        <div class="d-flex justify-content-end">
+                                            <button type="button" class="btn-delete" data-handle-rm-check="${childId}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                `;
 
-                        // Adiciona a nova linha ao corpo da tabela
-                        selectedChildrenInputs.appendChild(newRow);
+                                // Adiciona a nova linha ao corpo da tabela
+                                selectedChildrenInputs.appendChild(newRow);
 
-                        const childInputHidden = document.createElement('input');
-                        childInputHidden.type = 'hidden';
-                        childInputHidden.name = `childrens[${childId}]`;
-                        childInputHidden.value = childId;
+                                const childInputHidden = document.createElement('input');
+                                childInputHidden.type = 'hidden';
+                                childInputHidden.name = `childrens[${childId}]`;
+                                childInputHidden.value = childId;
 
-                        // Adiciona o input ao formulário
-                        selectedChildrenInputs.appendChild(childInputHidden);
+                                // Adiciona o input ao formulário
+                                selectedChildrenInputs.appendChild(childInputHidden);
 
-                        // Adiciona o evento de clique ao botão "Remover"
-                        newRow.querySelector('[data-handle-rm-check]').addEventListener('click', function () {
-                            removeChild(childId);
-                        });
+                                // Adiciona o evento de clique ao botão "Remover"
+                                newRow.querySelector('[data-handle-rm-check]').addEventListener('click', function () {
+                                    removeChild(childId);
+                                });
+                            }
+                        }
+                    });
+                }
+
+                // Função para remover a criança da tabela e do formulário
+                function removeChild(childId) {
+                    // Remove a linha da tabela
+                    const childRow = selectedChildrenInputs.querySelector(`tr[data-ref-id="${childId}"]`);
+                    if (childRow) {
+                        childRow.remove();
+                    }
+
+                    const childInput = selectedChildrenInputs.querySelector(`input[name="childrens[${childId}]"]`);
+                    if (childInput) {
+                        childInput.remove();
                     }
                 }
+
+                // Filtro de busca
+                searchChildrenInput.addEventListener('input', function () {
+                    const searchTerm = this.value.toLowerCase();
+                    childRows.forEach(row => {
+                        const childName = row.getAttribute('data-name').toLowerCase();
+
+                        if (childName.includes(searchTerm)) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                });
+
+                // Seleção de criança por clique na tabela
+                childRows.forEach(row => {
+                    row.addEventListener('click', function () {
+                        row.classList.toggle('selected');
+                        row.classList.toggle('table-primary');
+                    });
+                });
+
+                // Adiciona o evento de clique ao botão de salvar seleção
+                saveChildrenButton.addEventListener('click', addChildren);
+
+                // Marca as crianças selecionadas ao abrir a modal
+                document.getElementById('open-list-child').addEventListener('click', markSelectedChildren);
+
+                // Inicializa a marcação das crianças ao carregar a página
+                markSelectedChildren();
             });
-        }
+        </script>
 
-        // Função para remover a criança da tabela e do formulário
-        function removeChild(childId) {
-            // Remove a linha da tabela
-            const childRow = document.querySelector(`#children-check [data-ref-id="${childId}"]`);
-            if (childRow) {
-                childRow.remove();
-            }
-
-            const childInput = selectedChildrenInputs.querySelector(`input[name="childrens[${childId}]"]`);
-            if (childInput) {
-                childInput.remove();
-            }
-        }
-
-        // Filtro de busca
-        searchChildrenInput.addEventListener('input', function () {
-            const searchTerm = this.value.toLowerCase();
-            childRows.forEach(row => {
-                const childName = row.getAttribute('data-name').toLowerCase();
-
-                if (childName.includes(searchTerm)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        });
-
-        // Seleção de criança por clique na tabela
-        childRows.forEach(row => {
-            row.addEventListener('click', function () {
-                row.classList.toggle('selected');
-                row.classList.toggle('table-primary');
-            });
-        });
-
-        // Adiciona o evento de clique ao botão de salvar seleção
-        saveChildrenButton.addEventListener('click', addChildren);
-
-        // Marca as crianças selecionadas ao abrir a modal
-        document.getElementById('open-list-child').addEventListener('click', markSelectedChildren);
-    });
-
-</script>
 
 
 
