@@ -23,8 +23,9 @@
                 <hr style="height: 2px; background-color: #FF6B8A; border: none;">
                 <div>
                     @if (session('msg'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('msg') }}
+                    <div id="notification" class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('msg') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     @endif
                 </div>
@@ -111,18 +112,11 @@
                                                     </button>
                                                     <ul class="dropdown-menu">
                                                         <li>
-                                                            @include('admin.users.partials.edit-post-form', [
-                                                                'postId' => $post->id
-                                                            ])
-                                                        </li>
-                                                        <li>
-                                                            <a class="dropdown-item" href="#">
-                                                                <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                    <button type="submit" class="btn-sm btn">Deletar</button>
-                                                                </form>
-                                                            </a>
+                                                            <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="dropdown-item">Deletar</button>
+                                                            </form>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -151,15 +145,28 @@
         </div>
     </div>
 
-    <style>
-        .btn-primary::after {
-            display: none !important
-        }
-        .dropdown-toggle::after{
-            display: none !important
-        }
-    </style>
-    <script>
+    @include('front.classes.partials.modal-edit-post')
+
+</x-app-layout>
+<style>
+    .btn-primary::after {
+        display: none !important
+    }
+    .dropdown-toggle::after{
+        display: none !important 
+    }
+    #notification {
+        opacity: 1;
+        transition: opacity 1s ease-out; /* Ajuste a duração da transição conforme necessário */
+    }
+    #notification.fade-out {
+        opacity: 0;
+    }
+
+    
+</style>
+
+<script>
     document.addEventListener('DOMContentLoaded', function () {
         var triggerTabList = [].slice.call(document.querySelectorAll('#myTab button'))
         triggerTabList.forEach(function (triggerEl) {
@@ -171,15 +178,46 @@
             })
         })
 
-        // Char counter for post message
-        const postMessage = document.getElementById('postMessage');
-        const charCount = document.getElementById('charCount');
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const editPostModal = new bootstrap.Modal(document.getElementById('editPostModal'));
 
-        postMessage.addEventListener('input', function () {
-            const currentLength = postMessage.value.length;
-            charCount.textContent = `${currentLength}/1000`;
+    
+    function openEditPostModal(postId, description) {
+        const form = document.getElementById('editPostForm');
+        form.action = `/posts/${postId}`; 
+        form.querySelector('#editDescription').value = description;
+        const charCountEdit = document.getElementById('charCountEdit');
+        charCountEdit.textContent = `${description.length}/1000`;
+        editPostModal.show();
+    }
+
+    document.querySelectorAll('.btn-edit-post').forEach(button => {
+        button.addEventListener('click', function () {
+            const postId = this.dataset.postId;
+            const description = this.dataset.description;
+            openEditPostModal(postId, description);
         });
     });
-    </script>
+
+    document.querySelector('#editDescription').addEventListener('input', function () {
+        const length = this.value.length;
+        const charCountEdit = document.getElementById('charCountEdit');
+        charCountEdit.textContent = `${length}/1000`;
+    });
+});
+
+setTimeout(function () {
+        var notification = document.getElementById("notification");
+        if (notification) {
+            notification.classList.add('fade-out');
+            // Adiciona um atraso adicional para garantir que a transição seja concluída antes de remover o elemento do DOM
+            setTimeout(function () {
+                notification.style.display = 'none';
+            }, 1000); // Ajuste o tempo para corresponder à duração da transição
+        }
+    }, 3000);
+
+</script>
 
 </x-app-layout>
