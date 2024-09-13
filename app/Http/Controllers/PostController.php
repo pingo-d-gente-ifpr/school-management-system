@@ -39,7 +39,7 @@ class PostController extends Controller
     {
         $data = $request->validated();
         $this->service->update($data, $post, $request);
-        return to_route('classes.index');
+        return back()->with('msg','Postagem atualizada com sucesso!');
     }
 
     /**
@@ -48,6 +48,6 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $this->service->destroy($post);
-        return back()->with(['msg' => 'Post deletado com sucesso!']);
+        return back()->with(['msg' => 'Postagem deletada com sucesso!']);
     }
 }
