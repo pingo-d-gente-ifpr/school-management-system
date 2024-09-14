@@ -1,5 +1,4 @@
 <x-app-layout>
-
     <div class="container-fluid d-flex justify-content-center">
         <div class="col-10 col-md-10 mx-auto my-4">
             <h1>Turma {{$class->name}}</h1>
@@ -81,17 +80,16 @@
                                                     </button>
                                                 </div>
                                                 <div>
-                                                    <input type="hidden" name="classe_id" value="{{$class->id}}">
-                                                    <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
-
+                                                    <input hidden name="classe_id" value="{{$class->id}}"></input:>
+                                                    <input hidden name="user_id" value="{{Auth::user()->id}}"></input:>
                                                     <span class="text-muted" id="charCount" style="opacity: 0.8">0/1000</span>
                                                     <button type="submit" class="btn btn-success">Postar</button>
                                                 </div>
                                             </div>
                                         </form>
                                     </div>
-                                </div>
-
+                                </div>  
+                                
                                 @foreach ($class->posts as $post)
                                     <div class="card mt-4">
                                         <div class="card-body">
@@ -102,15 +100,18 @@
                                                         <h5 class="mb-0">{{$post->user->name}}</h5>
                                                         <small>{{ \Carbon\Carbon::parse($post->created_at)->format('d/m/Y') }}</small>
                                                     </div>
-
+                                                    
                                                 </div>
                                                 <div>
-                                                    <button class=" btn-sm btn btn-light dropdown-toggle"  type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <button class=" btn-sm btn btn-primary dropdown-toggle"  type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
                                                             <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
-                                                        </svg>
+                                                          </svg>
                                                     </button>
                                                     <ul class="dropdown-menu">
+                                                        <li>
+                                                            <button class="dropdown-item btn-edit-post" data-post-id="{{$post->id}}" data-description="{{$post->description}}">Editar</button>
+                                                        </li>
                                                         <li>
                                                             <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
                                                                 @csrf
@@ -120,7 +121,7 @@
                                                         </li>
                                                     </ul>
                                                 </div>
-                                            </div>
+                                            </div>  
                                             <p class="card-text">{{$post->description}}</p>
                                         </div>
                                     </div>
@@ -178,6 +179,17 @@
             })
         })
 
+
+        const postMessage = document.getElementById('postMessage');
+        const charCount = document.getElementById('charCount');
+
+        postMessage.addEventListener('input', function () {
+            const currentLength = postMessage.value.length;
+            charCount.textContent = `${currentLength}/1000`;
+        });
+    });
+</script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const editPostModal = new bootstrap.Modal(document.getElementById('editPostModal'));
@@ -220,4 +232,3 @@ setTimeout(function () {
 
 </script>
 
-</x-app-layout>
