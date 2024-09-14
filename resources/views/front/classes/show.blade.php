@@ -232,3 +232,4 @@ setTimeout(function () {
 
 </script>
 
+</x-app-layout>
