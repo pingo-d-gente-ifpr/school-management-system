@@ -59,7 +59,7 @@
                                                     : asset('assets/' . $class->photo))
                                                 : asset('assets/images/logo/subject-default.png') }}" class="img img-responsive">
                                                 <div class="profile-name text-capitalize">{{ $class->name }}</div>
-                                                <div class="profile-username">{{ $class->stage }}</div>
+                                                <div class="profile-username">{{App\Enums\Stage::from($class->stage)->name()}}</div>
                                             </div>
                                         </a>
                                     </div>

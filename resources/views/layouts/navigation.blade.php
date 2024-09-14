@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="{{ asset('assets/css/navigation.css') }}">
 
     <style>
-        /* Estilo para a sidebar fixa */
         .navigation {
             position: fixed;
             top: 0;
@@ -21,13 +20,12 @@
             height: 100vh;
             width: 280px;
             overflow-y: auto;
-            background-color: #ffffff; /* Cor de fundo da sidebar */
-            z-index: 1030; /* Garantir que a sidebar esteja acima de outros elementos */
+            background-color: #ffffff; 
+            z-index: 1030; 
         }
 
-        /* Estilo para o conteúdo principal */
         .content {
-            margin-left: 280px; /* Espaço equivalente à largura da sidebar */
+            margin-left: 280px; 
             padding: 20px;
         }
     </style>
@@ -70,7 +68,7 @@
                     {{ __('Matérias') }}
                 </a>
             </li>
-            <li>
+            {{-- <li>
                 <a href="#" class="nav-link">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi pe-none me-2" viewBox="0 0 16 16">
@@ -81,7 +79,7 @@
                     </svg>
                     Eventos
                 </a>
-            </li>
+            </li> --}}
             <li>
                 <a class="nav-link {{ Route::is('users*') ? 'active' : '' }}"
                     href="{{ route('users.index') }}">
