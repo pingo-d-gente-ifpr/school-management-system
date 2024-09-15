@@ -7,6 +7,7 @@ use App\Http\Requests\StoreClasseRequest;
 use App\Http\Requests\UpdateClasseRequest;
 use App\Http\Services\ClassService;
 use App\Models\Children;
+use App\Models\ChildrenSubject;
 use App\Models\Classe;
 use App\Models\Subject;
 use App\Models\User;
@@ -63,24 +64,37 @@ class ClasseController extends Controller
      */
     public function show(Classe $class)
     {
+        // Carrega a turma (Classe)
         $class = $this->service->show($class);
+
+        // Paginação de disciplinas e alunos
         $subjects = $class->subjects()->paginate(6);
         $subjectsForNotes = $class->subjects()->get();
         $students = $class->childrens()->paginate(6);
         $studentsForNotes = $class->childrens()->get();
-        $startDate = Carbon::now();
 
+        // Carregar as notas dos alunos para as disciplinas
+        $childrenSubjects = ChildrenSubject::whereIn('children_id', $studentsForNotes->pluck('id'))
+            ->whereIn('classe_subject_id', $subjectsForNotes->pluck('id'))
+            ->get();
+
+        // Calculando os dias da semana
+        $startDate = Carbon::now();
         $weekDays = [];
         for ($i = 0; $i < 5; $i++) {
             $date = $startDate->copy()->addDays($i);
             $weekDays[$date->format('Y-m-d')] = $date->format('d/m (l)');
-        }    
-        return view('front.classes.show')->with('class', $class)
-            ->with('subjects',$subjects)
+        }
+
+        // Retornar a view com os dados
+        return view('front.classes.show')
+            ->with('class', $class)
+            ->with('subjects', $subjects)
             ->with('subjectsForNotes', $subjectsForNotes)
-            ->with('students',$students)
+            ->with('students', $students)
             ->with('studentsForNotes', $studentsForNotes)
-            ->with('weekDays',$weekDays);
+            ->with('weekDays', $weekDays)
+            ->with('childrenSubjects', $childrenSubjects);  // Adiciona as notas dos alunos
     }
 
     /**
