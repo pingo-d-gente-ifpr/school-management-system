@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Children extends Model
 {
@@ -28,6 +29,7 @@ class Children extends Model
 
     public function classes(): BelongsToMany
     {
-        return $this->belongsToMany(Classe::class);
+        return $this->belongsToMany(Classe::class)->withPivot('id');
     }
+
 }
