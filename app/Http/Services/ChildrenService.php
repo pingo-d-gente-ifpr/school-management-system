@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use App\Http\Repositories\ChildrenRepository;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
 class ChildrenService{
@@ -23,7 +24,11 @@ class ChildrenService{
                 }
 
                 $childrenData['user_id'] = $user->id;
-                $childrenData['register_number'] = "MATR".$childrenData['document'];
+                $birthday = $childrenData['birth_date'];
+                $document = $childrenData['document'];
+
+                list($year, $month,$day) = explode('-', $birthday);
+                $childrenData['register_number'] = "MATR".Carbon::now()->year.substr($document, -4).$month.$day;
                 if (isset($childrenData['id'])) {
                     $childrenToUpdate = $user->childrens()->find($childrenData['id']);
 
