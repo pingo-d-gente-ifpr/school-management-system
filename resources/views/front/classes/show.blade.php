@@ -1,4 +1,5 @@
 <x-app-layout>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <div class="container-fluid d-flex justify-content-center">
         <div class="col-10 col-md-10 mx-auto my-4">
             <h1>Turma {{$class->name}}</h1>
