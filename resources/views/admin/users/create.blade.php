@@ -238,16 +238,6 @@
                                     <div class='child-entry row mb-3 my-3 p-3 border rounded'>
                                     <div class="col-md-2 text-center position-relative">
                                         <img id="children-avatar-preview-0" src="{{ asset('assets/images/logo/user-default.png') }}" class="img-fluid rounded-circle mb-2" alt="children Avatar">
-                                        {{-- <div class="position-absolute top-0 end-0 p-1">
-                                            <button type="button" class="btn btn-danger btn-sm rounded-circle"
-                                                onclick="resetchildrenImage(0)" id="delete-image" hidden>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
-                                                </svg>
-                                            </button>
-                                        </div> --}}
                                         <div class="position-absolute top-0 end-0 p-1">
                                             <button type="button" id="deleteChildrenImage" class="btn btn-danger btn-sm rounded-circle"  onclick="resetchildrenImage(0)"  id="delete-children-image-0" hidden>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
