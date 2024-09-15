@@ -38,21 +38,3 @@
 <div class="d-flex justify-content-center">
     {{ $students->withQueryString()->links('components.custom-pagination') }}
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const activeTab = localStorage.getItem('activeTab');
-    if (activeTab) {
-        const tabElement = document.querySelector(`#myTab button[data-bs-target="${activeTab}"]`);
-        const tab = new bootstrap.Tab(tabElement);
-        tab.show();
-    }
-
-    document.querySelectorAll('#myTab button').forEach(function (tabButton) {
-        tabButton.addEventListener('shown.bs.tab', function (event) {
-            const activeTab = event.target.getAttribute('data-bs-target');
-            localStorage.setItem('activeTab', activeTab);
-        });
-    });
-});
-</script>
