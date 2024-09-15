@@ -16,10 +16,10 @@ return new class extends Migration
             $table->foreignId('children_id')->constrained()->cascadeOnDelete();
             $table->unsignedBigInteger('classe_subject_id');
             $table->foreign('classe_subject_id')->references('id')->on('classe_subject')->cascadeOnDelete();
-            $table->float('score1');
-            $table->float('score2');
-            $table->float('score3');
-            $table->float('score4');
+            $table->float('score1')->nullable();
+            $table->float('score2')->nullable();
+            $table->float('score3')->nullable();
+            $table->float('score4')->nullable();
             $table->timestamps();
         });
     }

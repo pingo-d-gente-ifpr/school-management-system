@@ -23,7 +23,7 @@ class StoreChildrenSubjectRequest extends FormRequest
     {
         return [
             'children_id' => 'required|exists:childrens,id', 
-            'classe_subject_id' => 'required|exists:classe_subjects,id', 
+            'classe_subject_id' => 'required|exists:classe_subject,id', 
             'score1' => 'nullable|numeric|min:0|max:10',
             'score2' => 'nullable|numeric|min:0|max:10', 
             'score3' => 'nullable|numeric|min:0|max:10', 

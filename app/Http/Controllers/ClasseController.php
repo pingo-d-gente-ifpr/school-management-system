@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\Role;
 use App\Http\Requests\StoreClasseRequest;
+use App\Http\Requests\UpdateChildrenSubjectRequest;
 use App\Http\Requests\UpdateClasseRequest;
 use App\Http\Services\ClassService;
 use App\Models\Children;
@@ -96,6 +97,43 @@ class ClasseController extends Controller
             ->with('weekDays', $weekDays)
             ->with('childrenSubjects', $childrenSubjects);  // Adiciona as notas dos alunos
     }
+
+    public function registerGrades(Request $request)
+    {
+        foreach ($request->input('score1') as $studentId => $subjects) {
+            foreach ($subjects as $subjectId => $score1) {
+                $score2 = $request->input('score2')[$studentId][$subjectId] ?? null;
+                $score3 = $request->input('score3')[$studentId][$subjectId] ?? null;
+                $score4 = $request->input('score4')[$studentId][$subjectId] ?? null;
+    
+                // Atualizar ou criar a nota apenas se os campos não estiverem vazios
+                $childrenSubject = ChildrenSubject::where('children_id', $studentId)
+                    ->where('classe_subject_id', $subjectId)
+                    ->first();
+    
+                if ($childrenSubject) {
+                    if ($score1 !== null) $childrenSubject->score1 = $score1;
+                    if ($score2 !== null) $childrenSubject->score2 = $score2;
+                    if ($score3 !== null) $childrenSubject->score3 = $score3;
+                    if ($score4 !== null) $childrenSubject->score4 = $score4;
+                    $childrenSubject->save();
+                } else {
+                    ChildrenSubject::create([
+                        'children_id' => $studentId,
+                        'classe_subject_id' => $subjectId,
+                        'score1' => $score1,
+                        'score2' => $score2,
+                        'score3' => $score3,
+                        'score4' => $score4
+                    ]);
+                }
+            }
+        }
+    
+        return redirect()->back()->with('success', 'Notas atualizadas com sucesso!');
+    }
+    
+    
 
     /**
      * Show the form for editing the specified resource.
