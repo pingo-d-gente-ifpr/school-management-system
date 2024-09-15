@@ -30,4 +30,9 @@ class Children extends Model
     {
         return $this->belongsToMany(Classe::class);
     }
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['q'] ?? false, fn ($query, $search) => $query->where('name', 'LIKE', "%$search%"));
+    }
 }
