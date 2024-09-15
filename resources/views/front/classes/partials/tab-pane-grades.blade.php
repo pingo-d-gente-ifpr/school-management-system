@@ -18,7 +18,7 @@
                 <table class="table table-striped">
                     <tbody>
                         @forelse ($class->subjects as $subject)
-                            <tr class="linhas align-middle" data-subject-id="{{ $subject->id }}" onclick="showNotes({{ $subject->id }})">
+                            <tr class="linhas align-middle" data-subject-id="{{ $subject->pivot->id }}" onclick="showNotes({{ $subject->pivot->id }})">
                                 <td><img class="rounded-circle" width="50px"
                                     src="{{ $subject->photo
                                         ? (Storage::exists('public/' . $subject->photo)
@@ -42,7 +42,7 @@
     <div class="col-12 col-md-8">
         <div class="border rounded p-3">
             @foreach($class->subjects as $subject)
-                <div class="note-table" id="notes-for-{{ $subject->id }}" style="display: none;">
+                <div class="note-table" id="notes-for-{{ $subject->pivot->id }}" style="display: none;">
                     <h2 class="mb-3">Notas de {{ $subject->name }}</h2>
                     <p>Adicione as notas de 0 a 10.</p>
                     <form method="POST" action="{{ route('register.grades') }}">
@@ -60,32 +60,32 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($studentsForNotes as $student)
+                                @foreach($students as $student)
                                     @php
-                                        $childrenSubject = $childrenSubjects->where('children_id', $student->id)
-                                                        ->where('classe_subject_id', $subject->id)
+                                        $childrenSubject =  App\Models\ChildrenSubject::where('children_id', $student->id)
+                                                        ->where('classe_subject_id', $subject->pivot->id)
                                                         ->first();
                                     @endphp
                                     <tr>
                                         <td>{{ $student->name }}</td>
                                         <td>
                                             <input type="number" class="form-control" step="0.1" min="0" max="10"
-                                                   name="score1[{{ $student->id }}][{{ $subject->id }}]"
+                                                   name="score1[{{ $student->id }}][{{ $subject->pivot->id }}]"
                                                    value="{{ $childrenSubject->score1 ?? '' }}">
                                         </td>
                                         <td>
                                             <input type="number" class="form-control" step="0.1" min="0" max="10"
-                                                   name="score2[{{ $student->id }}][{{ $subject->id }}]"
+                                                   name="score2[{{ $student->id }}][{{ $subject->pivot->id }}]"
                                                    value="{{ $childrenSubject->score2 ?? '' }}">
                                         </td>
                                         <td>
                                             <input type="number" class="form-control" step="0.1" min="0" max="10"
-                                                   name="score3[{{ $student->id }}][{{ $subject->id }}]"
+                                                   name="score3[{{ $student->id }}][{{ $subject->pivot->id }}]"
                                                    value="{{ $childrenSubject->score3 ?? '' }}">
                                         </td>
                                         <td>
                                             <input type="number" class="form-control" step="0.1" min="0" max="10"
-                                                   name="score4[{{ $student->id }}][{{ $subject->id }}]"
+                                                   name="score4[{{ $student->id }}][{{ $subject->pivot->id }}]"
                                                    value="{{ $childrenSubject->score4 ?? '' }}">
                                         </td>
                                         <td>
@@ -95,7 +95,7 @@
                                                     $media = ($childrenSubject->score1 + $childrenSubject->score2 + $childrenSubject->score3 + $childrenSubject->score4) / 4;
                                                 }
                                             @endphp
-                                            <input type="text" class="form-control" id="average-{{ $student->id }}-{{ $subject->id }}"
+                                            <input type="text" class="form-control" id="average-{{ $student->id }}-{{ $subject->pivot->id }}"
                                                    value="{{ $media !== null ? number_format($media, 1) : '' }}" disabled>
                                         </td>
                                         
