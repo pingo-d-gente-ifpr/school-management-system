@@ -396,7 +396,6 @@
 
         </style>
 
-        <!-- NÃO MEXER -->
         <script>
             function previewImage(event) {
                 var reader = new FileReader();
@@ -425,9 +424,7 @@
 
         </script>
         
-        <!-- NÃO MEXER -->
         <script>
-            // Script Matérias
             document.addEventListener('DOMContentLoaded', function() {
                 const subjectsSelect = document.querySelector('select[name="subject_id"]');
                 const teachersSelect = document.querySelector('select[name="user_id"]');
@@ -452,14 +449,12 @@
                     hideError();
                 });
 
-                // Função para adicionar matérias selecionadas
                 function addSubject(event) {
                     hideError();
 
                     const subjectId = subjectsSelect.value;
                     const teacherId = teachersSelect.value;
 
-                    // Verifica se tanto a matéria quanto o professor foram selecionados
                     if (!subjectId || !teacherId) {
                         showError('Por favor, selecione tanto a matéria quanto o professor.');
                         return;
@@ -516,7 +511,6 @@
                     }
                 }
 
-                // Função para remover matéria
                 function removeSubject(refId) {
                     const subjectDiv = subjectsCheckContainer.querySelector(`[data-ref-id="${refId}"]`);
                     if (subjectDiv) {
@@ -553,13 +547,10 @@
                 const searchChildrenInput = document.querySelector('#searchChildren');
                 const childRows = document.querySelectorAll('.child-row');
 
-                // Função para marcar as crianças que já estão na turma ao abrir a modal
                 function markSelectedChildren() {
-                    // Obter IDs das crianças já adicionadas à turma
                     const selectedChildrenIds = Array.from(selectedChildrenInputs.querySelectorAll('input[type="hidden"]'))
                         .map(input => input.value);
 
-                    // Marcar as linhas correspondentes na modal
                     childRows.forEach(row => {
                         const childId = row.getAttribute('data-id');
                         if (selectedChildrenIds.includes(childId)) {
@@ -570,7 +561,6 @@
                     });
                 }
 
-                // Função para adicionar crianças selecionadas
                 function addChildren() {
                     childRows.forEach(row => {
                         if (row.classList.contains('selected')) {
@@ -579,9 +569,8 @@
                             const childPhoto = row.getAttribute('data-photo');
                             const childRegister = row.getAttribute('data-register');
 
-                            // Verifica se a criança já foi adicionada para evitar duplicação
                             if (!selectedChildrenInputs.querySelector(`tr[data-ref-id="${childId}"]`)) {
-                                // Cria a nova linha da tabela
+
                                 const newRow = document.createElement('tr');
                                 newRow.classList.add('align-middle');
                                 newRow.setAttribute('data-ref-id', childId);
@@ -602,7 +591,6 @@
                                     </td>
                                 `;
 
-                                // Adiciona a nova linha ao corpo da tabela
                                 selectedChildrenInputs.appendChild(newRow);
 
                                 const childInputHidden = document.createElement('input');
@@ -610,10 +598,8 @@
                                 childInputHidden.name = `childrens[${childId}]`;
                                 childInputHidden.value = childId;
 
-                                // Adiciona o input ao formulário
                                 selectedChildrenInputs.appendChild(childInputHidden);
 
-                                // Adiciona o evento de clique ao botão "Remover"
                                 newRow.querySelector('[data-handle-rm-check]').addEventListener('click', function () {
                                     removeChild(childId);
                                 });
@@ -622,9 +608,7 @@
                     });
                 }
 
-                // Função para remover a criança da tabela e do formulário
                 function removeChild(childId) {
-                    // Remove a linha da tabela
                     const childRow = selectedChildrenInputs.querySelector(`tr[data-ref-id="${childId}"]`);
                     if (childRow) {
                         childRow.remove();
@@ -636,7 +620,6 @@
                     }
                 }
 
-                // Filtro de busca
                 searchChildrenInput.addEventListener('input', function () {
                     const searchTerm = this.value.toLowerCase();
                     childRows.forEach(row => {
@@ -650,7 +633,6 @@
                     });
                 });
 
-                // Seleção de criança por clique na tabela
                 childRows.forEach(row => {
                     row.addEventListener('click', function () {
                         row.classList.toggle('selected');
@@ -658,13 +640,10 @@
                     });
                 });
 
-                // Adiciona o evento de clique ao botão de salvar seleção
                 saveChildrenButton.addEventListener('click', addChildren);
 
-                // Marca as crianças selecionadas ao abrir a modal
                 document.getElementById('open-list-child').addEventListener('click', markSelectedChildren);
 
-                // Inicializa a marcação das crianças ao carregar a página
                 markSelectedChildren();
             });
         </script>

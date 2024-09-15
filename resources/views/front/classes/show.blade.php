@@ -1,4 +1,5 @@
 <x-app-layout>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <div class="container-fluid d-flex justify-content-center">
         <div class="col-10 col-md-10 mx-auto my-4">
             <h1>Turma {{$class->name}}</h1>
@@ -50,6 +51,7 @@
                 <div class="tab-content mt-4" id="myTabContent">
                     <div class="tab-pane fade show active" id="sobre" role="tabpanel" aria-labelledby="sobre-tab">
                         <div class="row">
+
                             <div class="col-12 col-md-4 text-center p-4">
                                 <img src="{{ $class->photo
                                         ? (Storage::exists('public/' . $class->photo)
@@ -59,10 +61,14 @@
                                 <h2 class="user-name">Turma {{$class->name}}</h2>
                                 <p><strong>Nível:</strong> {{App\Enums\Stage::from($class->stage)->name()}}</p>
                                 <p><strong>Período:</strong> {{App\Enums\Period::from($class->period)->name()}}</p>
-                                {{-- <p>Professor(a): Prof. Jenny</p> --}}
                             </div>
-                            <div class="col-12 col-md-8">
+                            <div class="col-12 col-md-6">
                                 <div class="card">
+
+                                    <div class="d-flex justify-content-center" >
+                                        <img id="img-preview" style="width:90%" class="rounded">
+                                    </div> 
+                                
                                     <div class="card-body">
                                         <form method="POST" enctype="multipart/form-data" action="{{ route('posts.store') }}">
                                             @csrf
@@ -71,31 +77,37 @@
                                                 <hr>
                                             </div>
                                             <div class="d-flex justify-content-between">
-                                                <div>
-                                                    <button class="btn me-2">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-images" viewBox="0 0 16 16">
-                                                            <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
-                                                            <path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2M14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1M2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1z"/>
+                                                <div class="file-upload mt-2">
+                                                    <input id="photo" type="file" name="photo" accept="image/*"/>
+                                                    <label for="photo" class="btn border">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
+                                                            <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                                                            <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z"/>
                                                         </svg>
-                                                    </button>
+                                                    </label>
+                                                    <!-- Preview thumbnail -->
+                                                    
                                                 </div>
+                                                <x-input-error :messages="$errors->get('photo')" class="mt-2" />
                                                 <div>
-                                                    <input hidden name="classe_id" value="{{$class->id}}"></input:>
-                                                    <input hidden name="user_id" value="{{Auth::user()->id}}"></input:>
+                                                    <input hidden name="classe_id" value="{{$class->id}}"></input>
+                                                    <input hidden name="user_id" value="{{Auth::user()->id}}"></input>
                                                     <span class="text-muted" id="charCount" style="opacity: 0.8">0/1000</span>
                                                     <button type="submit" class="btn btn-success">Postar</button>
                                                 </div>
                                             </div>
                                         </form>
                                     </div>
-                                </div>  
+                                </div>
+                                
                                 
                                 @foreach ($class->posts as $post)
                                     <div class="card mt-4">
+                                        
                                         <div class="card-body">
                                             <div class="d-flex justify-content-between">
                                                 <div class="d-flex align-items-center mb-3">
-                                                    <img src="{{asset('assets/images/logo/user-default.png')}}" alt="Professor Profile Picture" class="img-fluid rounded-circle me-2" width="40px">
+                                                    <img src="{{ $post->user->photo ? asset('storage/' . $post->user->photo) : asset('assets/images/logo/user-default.png') }}" alt="Professor Profile Picture" class="img-fluid rounded-circle me-2" width="40px">
                                                     <div>
                                                         <h5 class="mb-0">{{$post->user->name}}</h5>
                                                         <small>{{ \Carbon\Carbon::parse($post->created_at)->format('d/m/Y') }}</small>
@@ -103,7 +115,7 @@
                                                     
                                                 </div>
                                                 <div>
-                                                    <button class=" btn-sm btn btn-primary dropdown-toggle"  type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <button class=" btn-sm btn dropdown-toggle"  type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
                                                             <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
                                                           </svg>
@@ -123,6 +135,9 @@
                                                 </div>
                                             </div>  
                                             <p class="card-text">{{$post->description}}</p>
+                                            <div class="d-flex justify-content-center" >
+                                                <img src="{{ $post->photo ? asset('storage/' . $post->photo) : null }}" style="width:90%" class="rounded">
+                                            </div>         
                                         </div>
                                     </div>
                                 @endforeach
@@ -164,6 +179,23 @@
         opacity: 0;
     }
 
+    .file-upload {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+    }
+
+    .file-upload input[type="file"] {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        padding: 0;
+        font-size: 20px;
+        cursor: pointer;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
     
 </style>
 
@@ -223,12 +255,50 @@ setTimeout(function () {
         var notification = document.getElementById("notification");
         if (notification) {
             notification.classList.add('fade-out');
-            // Adiciona um atraso adicional para garantir que a transição seja concluída antes de remover o elemento do DOM
             setTimeout(function () {
                 notification.style.display = 'none';
-            }, 1000); // Ajuste o tempo para corresponder à duração da transição
+            }, 1000);
         }
     }, 3000);
+
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const photoInput = document.querySelector('#photo');
+    const imgPreview = document.querySelector('#img-preview');
+
+    photoInput.addEventListener('change', function () {
+        const file = this.files[0];
+        
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+                imgPreview.src = event.target.result;
+                imgPreview.style.display = 'block';
+            }
+
+            // Carregar a imagem selecionada
+            reader.readAsDataURL(file);
+        } else {
+            imgPreview.style.display = 'none';
+        }
+    });
+});
+
+</script>
+
+<script>
+    function busca(value,targetSelector){
+       $(targetSelector).show();
+       $(targetSelector+':not(:contains("'+ value +'"))').hide();
+   }
+   
+
+   $('#search').keyup(function () {
+      busca($(this).val(), '.linhas');
+   })
 
 </script>
 
