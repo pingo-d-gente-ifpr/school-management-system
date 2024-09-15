@@ -279,7 +279,6 @@ setTimeout(function () {
                 imgPreview.style.display = 'block';
             }
 
-            // Carregar a imagem selecionada
             reader.readAsDataURL(file);
         } else {
             imgPreview.style.display = 'none';
@@ -301,5 +300,51 @@ setTimeout(function () {
    })
 
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        function filterTable(searchInputId, tableId) {
+            const searchTerm = document.getElementById(searchInputId).value.toLowerCase();
+            const tableRows = document.querySelectorAll(`#${tableId} .linhas`);
+
+            tableRows.forEach(row => {
+                const rowText = row.textContent.toLowerCase();
+                if (rowText.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        document.getElementById('searchStudents').addEventListener('keyup', function() {
+            filterTable('searchStudents', 'studentsTable');
+        });
+
+        document.getElementById('searchSubjects').addEventListener('keyup', function() {
+            filterTable('searchSubjects', 'subjectsTable');
+        });
+
+        var tabTriggerList = [].slice.call(document.querySelectorAll('#myTab button'));
+        tabTriggerList.forEach(function (tabTriggerEl) {
+            tabTriggerEl.addEventListener('shown.bs.tab', function (event) {
+                const targetTab = event.target.getAttribute('data-bs-target');
+
+                // Limpar a pesquisa de outra aba ao mudar de aba
+                if (targetTab === '#alunos') {
+                    document.getElementById('searchStudents').value = '';
+                    filterTable('searchStudents', 'studentsTable'); 
+                } else if (targetTab === '#materias') {
+                    document.getElementById('searchSubjects').value = ''; 
+                    filterTable('searchSubjects', 'subjectsTable'); 
+                }
+            });
+        });
+
+        });
+
+</script>
+
 
 </x-app-layout>
