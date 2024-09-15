@@ -62,26 +62,45 @@ class ClasseController extends Controller
      * Display the specified resource.
      */
     public function show(Classe $class)
-    {
-        $class = $this->service->show($class);
-        $subjects = $class->subjects()->paginate(6);
-        $subjectsForNotes = $class->subjects()->get();
-        $students = $class->childrens()->paginate(6);
-        $studentsForNotes = $class->childrens()->get();
-        $startDate = Carbon::now();
+{
+    $class = $this->service->show($class);
 
-        $weekDays = [];
-        for ($i = 0; $i < 5; $i++) {
-            $date = $startDate->copy()->addDays($i);
-            $weekDays[$date->format('Y-m-d')] = $date->format('d/m (l)');
-        }    
-        return view('front.classes.show')->with('class', $class)
-            ->with('subjects',$subjects)
-            ->with('subjectsForNotes', $subjectsForNotes)
-            ->with('students',$students)
-            ->with('studentsForNotes', $studentsForNotes)
-            ->with('weekDays',$weekDays);
-    }
+    $search = request('q');
+
+    $subjects = $class->subjects()
+        ->when($search, function ($query, $search) {
+            return $query->where('name', 'like', "%{$search}%");
+        })
+        ->paginate(6);
+
+    $students = $class->childrens()
+        ->when($search, function ($query, $search) {
+            return $query->where('name', 'like', "%{$search}%")
+                         ->orWhere('register_number', 'like', "%{$search}%");
+        })
+        ->paginate(6);
+
+    $subjectsForNotes = $class->subjects()->get();
+
+    $studentsForNotes = $class->childrens()->get();
+
+    $startDate = Carbon::now();
+    $weekDays = [];
+    for ($i = 0; $i < 5; $i++) {
+        $date = $startDate->copy()->addDays($i);
+        $weekDays[$date->format('Y-m-d')] = $date->format('d/m (l)');
+    }    
+
+    return view('front.classes.show')
+        ->with('class', $class)
+        ->with('subjects', $subjects)
+        ->with('subjectsForNotes', $subjectsForNotes)
+        ->with('students', $students)
+        ->with('studentsForNotes', $studentsForNotes)
+        ->with('weekDays', $weekDays);
+}
+
+    
 
     /**
      * Show the form for editing the specified resource.
