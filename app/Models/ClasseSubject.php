@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class ClasseSubject extends Pivot
@@ -15,4 +16,10 @@ class ClasseSubject extends Pivot
     {
         return $this->belongsTo(User::class);
     }
+
+    public function childrenSubject(): HasMany
+    {
+        return $this->hasMany(ChildrenSubject::class);
+    }
+    
 }
