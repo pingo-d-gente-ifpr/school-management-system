@@ -27,7 +27,7 @@ class Classe extends Model
 
     public function subjects(): BelongsToMany
     {
-        return $this->belongsToMany(Subject::class)->using(ClasseSubject::class)->withPivot('user_id');
+        return $this->belongsToMany(Subject::class)->using(ClasseSubject::class)->withPivot('user_id','id');
     }
 
     public function childrens(): BelongsToMany
