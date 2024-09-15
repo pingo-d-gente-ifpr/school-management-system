@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Enums\Role;
 use App\Http\Requests\StoreClasseRequest;
+use App\Http\Requests\UpdateChildrenSubjectRequest;
 use App\Http\Requests\UpdateClasseRequest;
 use App\Http\Services\ClassService;
 use App\Models\Children;
+use App\Models\ChildrenSubject;
 use App\Models\Classe;
 use App\Models\Subject;
 use App\Models\User;
@@ -62,44 +64,61 @@ class ClasseController extends Controller
      * Display the specified resource.
      */
     public function show(Classe $class)
-{
-    $class = $this->service->show($class);
+    {
+        $class = $this->service->show($class);
 
-    $search = request('q');
+        $subjects = $class->subjects()->get();
+        $students = $class->childrens()->get();
 
-    $subjects = $class->subjects()
-        ->when($search, function ($query, $search) {
-            return $query->where('name', 'like', "%{$search}%");
-        })
-        ->paginate(6);
+        $startDate = Carbon::now();
+        $weekDays = [];
+        for ($i = 0; $i < 5; $i++) {
+            $date = $startDate->copy()->addDays($i);
+            $weekDays[$date->format('Y-m-d')] = $date->format('d/m (l)');
+        }
 
-    $students = $class->childrens()
-        ->when($search, function ($query, $search) {
-            return $query->where('name', 'like', "%{$search}%")
-                         ->orWhere('register_number', 'like', "%{$search}%");
-        })
-        ->paginate(6);
+        return view('front.classes.show')
+            ->with('class', $class)
+            ->with('subjects', $subjects)
+            ->with('students', $students)
+            
+            ->with('weekDays', $weekDays);
+    }
 
-    $subjectsForNotes = $class->subjects()->get();
-
-    $studentsForNotes = $class->childrens()->get();
-
-    $startDate = Carbon::now();
-    $weekDays = [];
-    for ($i = 0; $i < 5; $i++) {
-        $date = $startDate->copy()->addDays($i);
-        $weekDays[$date->format('Y-m-d')] = $date->format('d/m (l)');
-    }    
-
-    return view('front.classes.show')
-        ->with('class', $class)
-        ->with('subjects', $subjects)
-        ->with('subjectsForNotes', $subjectsForNotes)
-        ->with('students', $students)
-        ->with('studentsForNotes', $studentsForNotes)
-        ->with('weekDays', $weekDays);
-}
-
+    public function registerGrades(Request $request)
+    {
+        foreach ($request->input('score1') as $studentId => $subjects) {
+            foreach ($subjects as $subjectId => $score1) {
+                $score2 = $request->input('score2')[$studentId][$subjectId] ?? null;
+                $score3 = $request->input('score3')[$studentId][$subjectId] ?? null;
+                $score4 = $request->input('score4')[$studentId][$subjectId] ?? null;
+                // Atualizar ou criar a nota apenas se os campos não estiverem vazios
+                $childrenSubject = ChildrenSubject::where('children_id', $studentId)
+                    ->where('classe_subject_id', $subjectId)
+                    ->first();
+    
+                if ($childrenSubject) {
+                    if ($score1 !== null) $childrenSubject->score1 = $score1;
+                    if ($score2 !== null) $childrenSubject->score2 = $score2;
+                    if ($score3 !== null) $childrenSubject->score3 = $score3;
+                    if ($score4 !== null) $childrenSubject->score4 = $score4;
+                    $childrenSubject->save();
+                } else {
+                    ChildrenSubject::create([
+                        'children_id' => $studentId,
+                        'classe_subject_id' => $subjectId,
+                        'score1' => $score1,
+                        'score2' => $score2,
+                        'score3' => $score3,
+                        'score4' => $score4
+                    ]);
+                }
+            }
+        }
+    
+        return redirect()->back()->with('success', 'Notas atualizadas com sucesso!');
+    }
+    
     
 
     /**
