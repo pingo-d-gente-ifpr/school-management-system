@@ -1,6 +1,6 @@
 <table class="table table-striped">
     <div class="search-attendance d-flex">
-        <input type="search" class="form-attendance" id="searchInput" placeholder="Procurar Matéria"
+        <input type="search" class="form-attendance" id="search" placeholder="Procurar Matéria"
             aria-label="Procurar Aluno">
         <button class="btn" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                 fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
@@ -19,7 +19,7 @@
     </thead>
     <tbody>
         @foreach ($subjects as $subject)
-            <tr class="align-middle">
+            <tr class="linhas align-middle">
                 <td>
                     <img class="rounded-circle" width="50px"
                         src="{{ $subject->photo
@@ -35,12 +35,12 @@
         @endforeach
     </tbody>
 </table>
-<!-- Paginação -->
+
 <div class="d-flex justify-content-center">
     {{ $subjects->withQueryString()->links('components.custom-pagination') }}
 </div>
 
-<script>
+{{-- <script>
 document.addEventListener('DOMContentLoaded', function () {
     const activeTab = localStorage.getItem('activeTab');
     if (activeTab) {
@@ -56,4 +56,5 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
-</script>
+</script> --}}
+
