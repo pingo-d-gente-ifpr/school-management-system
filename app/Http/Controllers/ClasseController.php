@@ -65,21 +65,11 @@ class ClasseController extends Controller
      */
     public function show(Classe $class)
     {
-        // Carrega a turma (Classe)
         $class = $this->service->show($class);
 
-        // Paginação de disciplinas e alunos
-        $subjects = $class->subjects()->paginate(6);
-        $subjectsForNotes = $class->subjects()->get();
-        $students = $class->childrens()->paginate(6);
-        $studentsForNotes = $class->childrens()->get();
+        $subjects = $class->subjects()->get();
+        $students = $class->childrens()->get();
 
-        // Carregar as notas dos alunos para as disciplinas
-        $childrenSubjects = ChildrenSubject::whereIn('children_id', $studentsForNotes->pluck('id'))
-            ->whereIn('classe_subject_id', $subjectsForNotes->pluck('id'))
-            ->get();
-
-        // Calculando os dias da semana
         $startDate = Carbon::now();
         $weekDays = [];
         for ($i = 0; $i < 5; $i++) {
@@ -87,15 +77,12 @@ class ClasseController extends Controller
             $weekDays[$date->format('Y-m-d')] = $date->format('d/m (l)');
         }
 
-        // Retornar a view com os dados
         return view('front.classes.show')
             ->with('class', $class)
             ->with('subjects', $subjects)
-            ->with('subjectsForNotes', $subjectsForNotes)
             ->with('students', $students)
-            ->with('studentsForNotes', $studentsForNotes)
-            ->with('weekDays', $weekDays)
-            ->with('childrenSubjects', $childrenSubjects);  // Adiciona as notas dos alunos
+            
+            ->with('weekDays', $weekDays);
     }
 
     public function registerGrades(Request $request)
@@ -105,7 +92,6 @@ class ClasseController extends Controller
                 $score2 = $request->input('score2')[$studentId][$subjectId] ?? null;
                 $score3 = $request->input('score3')[$studentId][$subjectId] ?? null;
                 $score4 = $request->input('score4')[$studentId][$subjectId] ?? null;
-    
                 // Atualizar ou criar a nota apenas se os campos não estiverem vazios
                 $childrenSubject = ChildrenSubject::where('children_id', $studentId)
                     ->where('classe_subject_id', $subjectId)
