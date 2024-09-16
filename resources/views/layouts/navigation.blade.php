@@ -40,7 +40,7 @@
             <img class="rounded-circle mt-5" width="50%"
                 src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/images/logo/user-default.png') }}">
             <a href="/profile">
-                <h2>{{ Auth::user()->name }}</h2>
+                <h2 style="text-align: center;">{{ Auth::user()->name }}</h2>
             </a>
             <p>{{ Auth::user()->email }}</p>
         </div>
