@@ -22,9 +22,16 @@ class ClasseSubject extends Pivot
         return $this->belongsTo(User::class);
     }
 
+    public function classe()
+    {
+        return $this->belongsTo(Classe::class, 'classe_id');
+    }
+
     public function childrenSubject(): HasMany
     {
         return $this->hasMany(ChildrenSubject::class);
     }
+
+    
     
 }

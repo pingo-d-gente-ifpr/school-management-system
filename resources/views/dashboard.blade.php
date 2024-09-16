@@ -46,27 +46,26 @@
                         <hr style="flex-grow: 1; border-top: 1px solid #ff6b8a;">
                     </div>
 
-
                     <div class="row row-cols-1 row-cols-md-3 g-2">
-
-                                @foreach ($classes as $class)
-
-                                    <div class="col-md-4" href="{{ route('classes.show', $class->id) }}">
-                                        <a href="{{ route('classes.show', $class->id) }}">
-                                            <div class="profile-card-2"><img src="{{ $class->photo
-                                                ? (Storage::exists('public/' . $class->photo)
-                                                    ? Storage::url($class->photo)
-                                                    : asset('assets/' . $class->photo))
-                                                : asset('assets/images/logo/subject-default.png') }}" class="img img-responsive">
-                                                <div class="profile-name text-capitalize">{{ $class->name }}</div>
-                                                <div class="profile-username">{{App\Enums\Stage::from($class->stage)->name()}}</div>
-                                            </div>
-                                        </a>
+                        @forelse ($classes as $class)
+                            <div class="col-md-4">
+                                <a href="{{ route('classes.show', $class->id) }}">
+                                    <div class="profile-card-2">
+                                        <img src="{{ $class->photo
+                                            ? (Storage::exists('public/' . $class->photo)
+                                                ? Storage::url($class->photo)
+                                                : asset('assets/' . $class->photo))
+                                            : asset('assets/images/logo/subject-default.png') }}" 
+                                            class="img img-responsive">
+                                        <div class="profile-name text-capitalize">{{ $class->name }}</div>
+                                        <div class="profile-username">{{ App\Enums\Stage::from($class->stage)->name() }}</div>
                                     </div>
-
-                                @endforeach
-                        </div>
-                </div>
+                                </a>
+                            </div>
+                        @empty
+                        <p>Nenhuma turma disponível.</p>
+                        @endforelse
+                    </div>                 
             </div>
         </div>
     </div>
