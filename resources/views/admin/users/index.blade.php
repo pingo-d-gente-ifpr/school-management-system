@@ -41,6 +41,8 @@
                             <th scope="col">Tipo do Usuário</th>
                             <th scope="col">Email</th>
                             <th class="d-flex justify-content-end" scope="col">
+                                
+                            @if(Auth::user()->role == 'admin')
                                 <button type="button" class="btn btn-success btn-sm d-flex align-items-center"
                                     onclick="location.href='{{ route('users.create') }}'">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -51,6 +53,9 @@
                                     </svg>
                                     <span class="ms-2">Cadastrar Usuário</span>
                                 </button>
+                            @else
+                             .
+                            @endif
                             </th>
                         </tr>
                     </thead>
@@ -73,6 +78,7 @@
                                               </svg>
                                         </a>
 
+                                    @if(Auth::user()->role == 'admin')
                                         <a href="{{ route('users.edit', $user->id) }}" class="btn-edit">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
                                                 fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -87,6 +93,7 @@
                                             'userName' => $user->name,
                                         ])
                                     </div>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
