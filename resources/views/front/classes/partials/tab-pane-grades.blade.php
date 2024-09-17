@@ -60,7 +60,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($students as $student)
+                                @forelse($students as $student)
                                     @php
                                         $childrenSubject =  App\Models\ChildrenSubject::where('children_id', $student->id)
                                                         ->where('classe_subject_id', $subject->pivot->id)
@@ -100,7 +100,9 @@
                                         </td>
                                         
                                     </tr>
-                                @endforeach
+                                @empty
+                                <td colspan="6"class="text-center">Nenhum aluno matriculado nesta turma.</td>
+                                @endforelse
                             </tbody>
                         </table>
                         <div class="d-flex justify-content-center">
