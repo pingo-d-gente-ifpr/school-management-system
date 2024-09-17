@@ -17,7 +17,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($subjects as $subject)
+        @forelse ($subjects as $subject)
             <tr class="linhas align-middle">
                 <td>
                     <img class="rounded-circle" width="50px"
@@ -31,6 +31,8 @@
                 <td>{{ $subject->pivot->user->name }}</td>
                 <td>{{ $subject->updated_at->format('d/m/Y') }}</td>
             </tr>
-        @endforeach
+        @empty
+        <td colspan="4" class="text-center">Nenhuma matéria adicionada na turma.</td>
+        @endforelse
     </tbody>
 </table>
