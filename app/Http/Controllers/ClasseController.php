@@ -92,7 +92,6 @@ class ClasseController extends Controller
                 $score2 = $request->input('score2')[$studentId][$subjectId] ?? null;
                 $score3 = $request->input('score3')[$studentId][$subjectId] ?? null;
                 $score4 = $request->input('score4')[$studentId][$subjectId] ?? null;
-                // Atualizar ou criar a nota apenas se os campos não estiverem vazios
                 $childrenSubject = ChildrenSubject::where('children_id', $studentId)
                     ->where('classe_subject_id', $subjectId)
                     ->first();
