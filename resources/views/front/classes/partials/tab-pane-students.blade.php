@@ -30,7 +30,7 @@
                 </td>
                 <td>{{ $student->name }}</td>
                 <td>{{ $student->register_number }}</td>
-                <td>{{ $student->status }}</td>
+                <td>{{ $student->status ? 'Ativo' : 'Inativo' }}</td>
                 <td>{{ $student->updated_at->format('d/m/Y') }}</td>
             </tr>
         @empty
