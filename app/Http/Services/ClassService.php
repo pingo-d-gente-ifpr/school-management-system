@@ -50,7 +50,7 @@ class ClassService{
         }
 
         $class = $this->repository->update($data, $class);
-        $class->subjects()->syncWithoutDetaching($data['subjects']??[]);
+        $class->subjects()->sync($data['subjects']??[]);
         $class->childrens()->syncWithoutDetaching($data['childrens']??[]);
         $class->save();
 
