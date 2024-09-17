@@ -30,24 +30,20 @@ class ClasseController extends Controller
      */
     public function index(Request $request)
     {
-
         $filter = $request->only('q');
-    
-        return view('admin.classes.index')->with('classes', $this->service->index($filter));
+        $classes = $this->service->index($filter);
+
+        return view('admin.classes.index', compact('classes'));
     }
+
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        $subjects = Subject::all();
-        $childrens = Children::all();
-        $teachers = User::where('role', Role::teacher)->get();
-        return view('admin.classes.create')
-        ->with('subjects',$subjects)
-        ->with('teachers',$teachers)
-        ->with('childrens',$childrens);
+        $formOptions = $this->service->getFormOptions();
+        return view('admin.classes.create')->with($formOptions);
     }
 
     /**
@@ -65,74 +61,30 @@ class ClasseController extends Controller
      */
     public function show(Classe $class)
     {
-        $class = $this->service->show($class);
-
-        $subjects = $class->subjects()->get();
-        $students = $class->childrens()->get();
-
-        $startDate = Carbon::now();
-        $weekDays = [];
-        for ($i = 0; $i < 5; $i++) {
-            $date = $startDate->copy()->addDays($i);
-            $weekDays[$date->format('Y-m-d')] = $date->format('d/m (l)');
-        }
-
-        return view('front.classes.show')
-            ->with('class', $class)
-            ->with('subjects', $subjects)
-            ->with('students', $students)
-            
-            ->with('weekDays', $weekDays);
+        $details = $this->service->getClassDetails($class);
+        return view('front.classes.show')->with($details);
     }
 
     public function registerGrades(Request $request)
     {
-        foreach ($request->input('score1') as $studentId => $subjects) {
-            foreach ($subjects as $subjectId => $score1) {
-                $score2 = $request->input('score2')[$studentId][$subjectId] ?? null;
-                $score3 = $request->input('score3')[$studentId][$subjectId] ?? null;
-                $score4 = $request->input('score4')[$studentId][$subjectId] ?? null;
-                // Atualizar ou criar a nota apenas se os campos não estiverem vazios
-                $childrenSubject = ChildrenSubject::where('children_id', $studentId)
-                    ->where('classe_subject_id', $subjectId)
-                    ->first();
-    
-                if ($childrenSubject) {
-                    if ($score1 !== null) $childrenSubject->score1 = $score1;
-                    if ($score2 !== null) $childrenSubject->score2 = $score2;
-                    if ($score3 !== null) $childrenSubject->score3 = $score3;
-                    if ($score4 !== null) $childrenSubject->score4 = $score4;
-                    $childrenSubject->save();
-                } else {
-                    ChildrenSubject::create([
-                        'children_id' => $studentId,
-                        'classe_subject_id' => $subjectId,
-                        'score1' => $score1,
-                        'score2' => $score2,
-                        'score3' => $score3,
-                        'score4' => $score4
-                    ]);
-                }
-            }
-        }
-    
+        $scores = [
+            'score1' => $request->input('score1'),
+            'score2' => $request->input('score2'),
+            'score3' => $request->input('score3'),
+            'score4' => $request->input('score4'),
+        ];
+
+        $this->service->registerGrades($scores);
+
         return redirect()->back()->with('success', 'Notas atualizadas com sucesso!');
     }
-    
-    
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    
+    
     public function edit(Classe $class)
     {
-        $subjects = Subject::all();
-        $childrens = Children::all();
-        $teachers = User::where('role', Role::teacher)->get();
-        return view('admin.classes.edit')->with('class', $class)
-        ->with('subjects',$subjects)
-        ->with('teachers',$teachers)
-        ->with('childrens',$childrens);
+        $formOptions = $this->service->getFormOptions();
+        return view('admin.classes.edit')->with('class', $class)->with($formOptions);
     }
 
     /**
@@ -148,16 +100,15 @@ class ClasseController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Classe $classe)
-    {
-        $this->service->destroy($classe);
-        return redirect()->route('classes.index');
+    public function destroy(Classe $class)
+    {   
+        // dd($class);
+        $this->service->destroy($class);
+        return redirect()->route('classes.index')->with('success', 'Turma excluída com sucesso!');;
     }
 
     public function registerFrequency(Request $request)
     {
-        dd($request->all());
-
         return response()->json(['message' => 'Dados recebidos com sucesso']);
     }
     
