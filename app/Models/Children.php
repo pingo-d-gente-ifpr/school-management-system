@@ -29,7 +29,7 @@ class Children extends Model
 
     public function classes(): BelongsToMany
     {
-        return $this->belongsToMany(Classe::class);
+        return $this->belongsToMany(Classe::class)->withPivot('id');
     }
 
     public function childrenSubject(): HasMany
@@ -41,4 +41,5 @@ class Children extends Model
     {
         $query->when($filters['q'] ?? false, fn ($query, $search) => $query->where('name', 'LIKE', "%$search%"));
     }
+
 }

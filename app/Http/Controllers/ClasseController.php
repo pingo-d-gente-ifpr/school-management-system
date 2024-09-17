@@ -14,6 +14,7 @@ use App\Models\Subject;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ClasseController extends Controller
 {
@@ -63,26 +64,38 @@ class ClasseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Classe $class)
+    public function show(Classe $class,  Request $request)
     {
         $class = $this->service->show($class);
 
         $subjects = $class->subjects()->get();
         $students = $class->childrens()->get();
 
-        $startDate = Carbon::now();
+        $startDate = $request->input('selected_date') ? Carbon::createFromFormat('d/m/Y', $request->input('selected_date')) : Carbon::now();
         $weekDays = [];
         for ($i = 0; $i < 5; $i++) {
             $date = $startDate->copy()->addDays($i);
             $weekDays[$date->format('Y-m-d')] = $date->format('d/m (l)');
+    }
+
+        $frequencies = DB::table('children_classe')
+        ->join('children_frequency', 'children_classe.id', '=', 'children_frequency.children_classe_id')
+        ->where('children_classe.classe_id', $class->id)
+        ->select('children_classe.children_id', 'children_frequency.*')
+        ->get();
+       
+        $studentsFrequencies = [];
+        foreach ($frequencies as $frequency) {
+            $studentsFrequencies[$frequency->children_id][] = $frequency;
         }
+
 
         return view('front.classes.show')
             ->with('class', $class)
             ->with('subjects', $subjects)
             ->with('students', $students)
-            
-            ->with('weekDays', $weekDays);
+            ->with('weekDays', $weekDays)
+            ->with('studentsFrequencies', $studentsFrequencies);
     }
 
     public function registerGrades(Request $request)
@@ -155,8 +168,8 @@ class ClasseController extends Controller
 
     public function registerFrequency(Request $request)
     {
-        dd($request->all());
-
+        $data = $request->all();
+        $this->service->registerFrequency($data);
         return response()->json(['message' => 'Dados recebidos com sucesso']);
     }
     

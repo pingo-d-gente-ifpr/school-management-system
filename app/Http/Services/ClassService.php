@@ -3,6 +3,8 @@
 namespace App\Http\Services;
 
 use App\Http\Repositories\ClassRepository;
+use App\Models\ChildrenClasse;
+use App\Models\ChildrenFrequency;
 use App\Models\Classe;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
@@ -63,6 +65,26 @@ class ClassService{
             Storage::disk('public')->delete($class->photo);
         }
         return $this->repository->destroy($class);
+    }
+
+    public function registerFrequency($data)
+    {
+        $childrenClass = ChildrenClasse::find($data['children_classe_id']);
+        $data['date'] = Carbon::createFromFormat('d/m/Y', $data['date'])->format('Y-m-d');
+        
+        if($data['attendance'] == 'false'){
+            $data['attendance'] = false;
+        }else{
+            $data['attendance'] = true;
+        }
+
+        $frequencyExists = $childrenClass->frequencies()->where('date', $data['date'])->first();
+
+        if(!$frequencyExists){
+            return $childrenClass->frequencies()->create($data);
+        }
+
+        return $frequencyExists->update($data);
     }
 
 }

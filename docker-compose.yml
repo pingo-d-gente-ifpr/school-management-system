@@ -27,7 +27,7 @@ services:
     restart: unless-stopped
     tty: true
     ports:
-      - "80:80"
+      - "82:80"
       - "443:443"
     volumes:
       - ./:/var/www/school-management-system
