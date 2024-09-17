@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('posts', PostController::class)->except('index');
     Route::put('register-frequency', [ClasseController::class, 'registerFrequency']);
+    Route::put('register-grades', [ClasseController::class, 'registerGrades'])->name('register.grades');
 });
 
 

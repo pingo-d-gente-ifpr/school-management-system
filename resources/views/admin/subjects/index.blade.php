@@ -29,7 +29,6 @@
                     <tr class="align-middle">
                         <th scope="col"></th>
                         <th scope="col" class="">Nome</th>
-                        <th scope="col">Professor(a)</th>
                         <th scope="col">Modificado em</th>
                         <th class="d-flex justify-content-end" scope="col">
                             <button data-bs-toggle="modal" data-bs-target="#exampleModal" type="button"
@@ -57,8 +56,7 @@
                                         : asset('assets/images/logo/subject-default.png') }}">
                             </td>
                             <td>{{ $subject->name }}</td>
-                            <td>{{ $subject->user->name ?? " " }}</td>
-                            <td>{{ $subject->email }}</td>
+                            <td>{{ \Carbon\Carbon::parse($subject->updated_at)->format('d/m/Y')  }}</td>
                             <td>
                                 <div class="d-flex justify-content-end">
                                     <a  data-bs-toggle="modal" data-bs-target="#exampleModal{{$subject->id}}"  class="btn-edit">
