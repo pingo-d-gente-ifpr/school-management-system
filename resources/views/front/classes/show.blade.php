@@ -38,12 +38,19 @@
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="materias-tab" data-bs-toggle="tab" data-bs-target="#materias" type="button" role="tab" aria-controls="materias" aria-selected="false">Matérias</button>
                     </li>
+                    @if(Auth::user()->role != 'parents')
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="frequencias-tab" data-bs-toggle="tab" data-bs-target="#frequencias" type="button" role="tab" aria-controls="frequencias" aria-selected="false">Frequências</button>
                     </li>
+                    @endif
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="frequencias-tab" data-bs-toggle="tab" data-bs-target="#rel-frequencias" type="button" role="tab" aria-controls="rel-frequencias" aria-selected="false">Relatório de Frequências</button>
+                    </li>
+                    @if(Auth::user()->role != 'parents')
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="notas-tab" data-bs-toggle="tab" data-bs-target="#notas" type="button" role="tab" aria-controls="notas" aria-selected="false">Notas</button>
                     </li>
+                    @endif
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="alunos-tab" data-bs-toggle="tab" data-bs-target="#alunos" type="button" role="tab" aria-controls="alunos" aria-selected="false">Alunos</button>
                     </li>
@@ -63,6 +70,7 @@
                                 <p><strong>Período:</strong> {{App\Enums\Period::from($class->period)->name()}}</p>
                             </div>
                             <div class="col-12 col-md-6">
+                            @if(Auth::user()->role != 'parents')
                                 <div class="card">
 
                                     <div class="d-flex justify-content-center" >
@@ -99,6 +107,7 @@
                                         </form>
                                     </div>
                                 </div>
+                            @endif    
                                 
                                 
                                 @foreach ($class->posts as $post)
@@ -149,6 +158,9 @@
                     </div>
                     <div class="tab-pane fade" id="frequencias" role="tabpanel" aria-labelledby="frequencias-tab">
                         @include('front.classes.partials.tab-pane-attendace')
+                    </div>
+                    <div class="tab-pane fade" id="rel-frequencias" role="tabpanel" aria-labelledby="rel-frequencias-tab">
+                        @include('front.classes.partials.tab-pane-attendance-report')
                     </div>
                     <div class="tab-pane fade" id="notas" role="tabpanel" aria-labelledby="notas-tab">
                         @include('front.classes.partials.tab-pane-grades')
