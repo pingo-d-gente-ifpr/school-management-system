@@ -16,10 +16,10 @@
                     <div class="mb-3">
                         <div class="row">
                             <x-input-label for="photo" class="form-label">Foto:</x-input-label>
-                            <input class="form-control" id="photo" type="file" name="photo">
+                            <input class="form-control" id="photo" type="file" name="photo" accept="image/*">
                             <x-input-error :messages="$errors->get('photo')" class="mt-2" />
                         </div>
-                    </div>
+                    </div>                    
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
                             data-bs-dismiss="modal">Cancelar</button>
@@ -30,23 +30,3 @@
         </div>
     </div>
 </div>
-<script>
-    const startDate = document.getElementById("start_date");
-    const startDatefp = flatpickr(startDate, {
-        enableTime: true,
-        noCalendar: true,
-        dateFormat: "H:i",
-        minuteIncrement: 1,
-        time_24hr: true,
-        readOnly: false,
-    });
-    const endDate = document.getElementById("end_date");
-    const endDatefp = flatpickr(endDate, {
-        enableTime: true,
-        noCalendar: true,
-        dateFormat: "H:i",
-        minuteIncrement: 1,
-        time_24hr: true,
-        readOnly: false,
-    });
-</script>
