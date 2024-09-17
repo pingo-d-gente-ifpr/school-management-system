@@ -94,7 +94,6 @@ class ClasseController extends Controller
             ->with('class', $class)
             ->with('subjects', $subjects)
             ->with('students', $students)
-            
             ->with('weekDays', $weekDays)
             ->with('studentsFrequencies', $studentsFrequencies);
     }
