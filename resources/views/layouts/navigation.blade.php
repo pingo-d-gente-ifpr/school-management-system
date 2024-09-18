@@ -28,6 +28,17 @@
             margin-left: 280px; 
             padding: 20px;
         }
+        .nav-link {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-link .material-symbols-outlined {
+            font-size: 1.5rem; /* Adjust size if necessary */
+            margin-left: -5px; /* Space between the icon and the text */
+            margin-right:3px;
+        }
+
     </style>
 </head>
 
@@ -40,9 +51,9 @@
             <img class="rounded-circle mt-5" width="50%"
                 src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/images/logo/user-default.png') }}">
             <a href="#">
-                <h2>{{ Auth::user()->name }}</h2>
+            <h2 style="text-align: center;">{{ Auth::user()->name }}</h2>
             </a>
-            <p>{{ Auth::user()->email }}</p>
+            <p style="text-align: center;">{{ Auth::user()->email }}</p>
         </div>
         <hr style="color: green">
         <ul class="nav nav-pills flex-column mb-auto">
@@ -57,6 +68,7 @@
                     Home
                 </a>
             </li>
+            @if (Auth::user()->role != 'parents')
             <li>
                 <a class="nav-link {{ Route::is('subjects*') ? 'active' : '' }}"
                     href="{{ route('subjects.index') }}">
@@ -68,18 +80,6 @@
                     {{ __('Matérias') }}
                 </a>
             </li>
-            {{-- <li>
-                <a href="#" class="nav-link">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi pe-none me-2" viewBox="0 0 16 16">
-                        <path
-                            d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z" />
-                        <path
-                            d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
-                    </svg>
-                    Eventos
-                </a>
-            </li> --}}
             <li>
                 <a class="nav-link {{ Route::is('users*') ? 'active' : '' }}"
                     href="{{ route('users.index') }}">
@@ -91,6 +91,7 @@
                     Usuários
                 </a>
             </li>
+            @endif
             <li>
                 <a class="nav-link {{ Route::is('classes*') ? 'active' : '' }}"
                     href="{{ route('classes.index') }}">
@@ -102,6 +103,15 @@
                             d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466zm-.068 1.873.22-.748 3.496 1.311a.5.5 0 0 0 .352 0l3.496-1.311.22.748L8 12.46z" />
                     </svg>
                     Turmas
+                </a>
+            </li>
+            <li>
+                <a class="nav-link {{ Route::is('children*') ? 'active' : '' }}"
+                    href="{{ route('children.index') }}">
+                    <span class="material-symbols-outlined">
+                    child_care
+                    </span>
+                    Crianças
                 </a>
             </li>
             <li>
@@ -141,5 +151,15 @@
     </div>
 
 </body>
+<style>
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 200,
+  'GRAD' 0,
+  'opsz' 24
+}
+</style>
 
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </html>

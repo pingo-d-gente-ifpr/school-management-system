@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ChildrenController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +37,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('posts', PostController::class)->except('index');
     Route::put('register-frequency', [ClasseController::class, 'registerFrequency']);
     Route::put('register-grades', [ClasseController::class, 'registerGrades'])->name('register.grades');
+    Route::get('children', [ChildrenController::class, 'index'])->name('children.index');
+    Route::get('children/{id}/frequencies', [ChildrenController::class, 'showFrequencies'])->name('children.frequencies');
+    Route::get('children/{id}/grades', [ChildrenController::class, 'showGrades'])->name('children.grades');
 });
 
 
