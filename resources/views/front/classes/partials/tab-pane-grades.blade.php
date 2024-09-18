@@ -119,20 +119,20 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         function calculateAverage(studentId, subjectId) {
-            // Obter os valores das notas, ou 0 se não forem preenchidas
             const note1 = parseFloat(document.querySelector(`input[name="score1[${studentId}][${subjectId}]"]`).value) || 0;
             const note2 = parseFloat(document.querySelector(`input[name="score2[${studentId}][${subjectId}]"]`).value) || 0;
             const note3 = parseFloat(document.querySelector(`input[name="score3[${studentId}][${subjectId}]"]`).value) || 0;
             const note4 = parseFloat(document.querySelector(`input[name="score4[${studentId}][${subjectId}]"]`).value) || 0;
 
-            // Calcular a média
-            const average = (note1 + note2 + note3 + note4) / 4;
+            const notes = [note1, note2, note3, note4];
+            const validNotes = notes.filter(note => note > 0);
+            const sum = validNotes.reduce((acc, note) => acc + note, 0);
 
-            // Atualizar o campo da média
+            const average = validNotes.length > 0 ? sum / validNotes.length : 0;
+
             document.querySelector(`#average-${studentId}-${subjectId}`).value = average.toFixed(1);
         }
 
-        // Adicionar um evento para calcular a média quando o valor de qualquer nota mudar
         document.querySelectorAll('input[name^="score"]').forEach(input => {
             input.addEventListener('input', function() {
                 const [_, studentId, subjectId] = this.name.match(/score[1234]\[(\d+)]\[(\d+)]/);
@@ -140,7 +140,6 @@
             });
         });
 
-        // Função para mostrar notas de uma matéria específica
         window.showNotes = function(subjectId) {
             document.querySelectorAll('.note-table').forEach(element => {
                 element.style.display = 'none';
