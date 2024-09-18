@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserPolicy
 {
@@ -15,11 +16,15 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Determine whether the user can update the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\User  $model
+     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user)
+    public function view(User $user,  User $model)
     {
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->id === $model->id;
     }
 
      /**
@@ -30,12 +35,16 @@ class UserPolicy
         return $user->isAdmin();
     }
 
-    /**
+     /**
      * Determine whether the user can update the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\User  $model
+     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user)
+    public function update(User $user, User $model)
     {
-        $user->isAdmin();
+        return $user->isAdmin() || $user->isTeacher() || $user->id === $model->id;
     }
 
     /**
