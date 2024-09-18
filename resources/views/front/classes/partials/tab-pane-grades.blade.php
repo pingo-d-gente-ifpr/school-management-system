@@ -17,7 +17,7 @@
             <div class="overflow-auto mt-3" style="max-height: 450px;">
                 <table class="table table-striped">
                     <tbody>
-                        @forelse ($class->subjects as $subject)
+                        @forelse ($subjectsForNotes as $subject)
                             <tr class="linhas align-middle" data-subject-id="{{ $subject->pivot->id }}" onclick="showNotes({{ $subject->pivot->id }})">
                                 <td><img class="rounded-circle" width="50px"
                                     src="{{ $subject->photo
@@ -29,7 +29,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="3" class="text-center">Nenhuma matéria adicionada na turma.</td>
+                                <td colspan="3" class="text-center">Nenhuma matéria disponível.</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -41,7 +41,7 @@
     <!-- TABELA DE NOTAS -->
     <div class="col-12 col-md-8">
         <div class="border rounded p-3">
-            @foreach($class->subjects as $subject)
+            @foreach($subjectsForNotes as $subject)
                 <div class="note-table" id="notes-for-{{ $subject->pivot->id }}" style="display: none;">
                     <h2 class="mb-3">Notas de {{ $subject->name }}</h2>
                     <p>Adicione as notas de 0 a 10.</p>
@@ -60,7 +60,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($students as $student)
+                                @forelse($students as $student)
                                     @php
                                         $childrenSubject =  App\Models\ChildrenSubject::where('children_id', $student->id)
                                                         ->where('classe_subject_id', $subject->pivot->id)
@@ -98,9 +98,12 @@
                                             <input type="text" class="form-control" id="average-{{ $student->id }}-{{ $subject->pivot->id }}"
                                                    value="{{ $media !== null ? number_format($media, 1) : '' }}" disabled>
                                         </td>
-                                        
                                     </tr>
-                                @endforeach
+                                @empty
+                                <tr class="align-middle">
+                                    <td colspan="6" class="text-center">Nenhum aluno matriculado nesta turma.</td>
+                                </tr>  
+                                @endforelse
                             </tbody>
                         </table>
                         <div class="d-flex justify-content-center">
@@ -114,7 +117,6 @@
 </div>
 
 <script>
-
     document.addEventListener('DOMContentLoaded', function() {
         function calculateAverage(studentId, subjectId) {
             // Obter os valores das notas, ou 0 se não forem preenchidas
@@ -123,48 +125,27 @@
             const note3 = parseFloat(document.querySelector(`input[name="score3[${studentId}][${subjectId}]"]`).value) || 0;
             const note4 = parseFloat(document.querySelector(`input[name="score4[${studentId}][${subjectId}]"]`).value) || 0;
 
-            // Verificar quais notas são maiores que 0 (preenchidas)
-            const notes = [note1, note2, note3, note4].filter(note => note > 0);
+            // Calcular a média
+            const average = (note1 + note2 + note3 + note4) / 4;
 
-            // Calcular a média se houver alguma nota preenchida
-            if (notes.length > 0) {
-                const total = notes.reduce((sum, note) => sum + note, 0);
-                const average = (total / notes.length).toFixed(1); // Média com 1 casa decimal
-                document.querySelector(`#average-${studentId}-${subjectId}`).value = average;
-            } else {
-                document.querySelector(`#average-${studentId}-${subjectId}`).value = ''; // Limpa se não houver notas
-            }
+            // Atualizar o campo da média
+            document.querySelector(`#average-${studentId}-${subjectId}`).value = average.toFixed(1);
         }
 
-        // Adicionar eventos para recalcular a média quando as notas forem alteradas
-        document.querySelectorAll('input[type="number"]').forEach(input => {
+        // Adicionar um evento para calcular a média quando o valor de qualquer nota mudar
+        document.querySelectorAll('input[name^="score"]').forEach(input => {
             input.addEventListener('input', function() {
-                const studentId = this.name.split('[')[1].split(']')[0]; // Extrai o studentId do name
-                const subjectId = this.name.split('[')[2].split(']')[0]; // Extrai o subjectId do name
+                const [_, studentId, subjectId] = this.name.match(/score[1234]\[(\d+)]\[(\d+)]/);
                 calculateAverage(studentId, subjectId);
             });
         });
-    });
 
-    function showNotes(subjectId) {
-        document.querySelectorAll('.note-table').forEach(table => {
-            table.style.display = 'none';
-        });
-
-        document.getElementById(`notes-for-${subjectId}`).style.display = 'block';
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        $('#searchGrades').keyup(function () {
-            const searchTerm = $(this).val().toLowerCase();
-            $('.linhas').each(function () {
-                const subjectName = $(this).text().toLowerCase();
-                if (subjectName.includes(searchTerm)) {
-                    $(this).show();
-                } else {
-                    $(this).hide();
-                }
+        // Função para mostrar notas de uma matéria específica
+        window.showNotes = function(subjectId) {
+            document.querySelectorAll('.note-table').forEach(element => {
+                element.style.display = 'none';
             });
-        });
+            document.getElementById(`notes-for-${subjectId}`).style.display = 'block';
+        };
     });
 </script>
