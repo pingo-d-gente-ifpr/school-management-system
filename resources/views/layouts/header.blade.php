@@ -23,7 +23,7 @@
             </a>
             <ul class="dropdown-menu text-small shadow">
                 <li><a class="dropdown-item" href="#">Configurações</a></li>
-                <li><a class="dropdown-item" href="/profile">Perfil</a></li>
+                <li><a class="dropdown-item" href="#">Perfil</a></li>
                 <li>
                     <hr class="dropdown-divider">
                 </li>
