@@ -57,7 +57,7 @@
 
                 <div class="col-12 col-md-8">
                     <div class="border rounded p-3">
-                        <h2 class="mb-3">Frequência da Turma {{ $class->name }}</h2>
+                        <h2 class="mb-3">Frequência da Turma {{ $class->name ?? '' }}</h2>
                         <p>Aluno {{ $child->name }}.</p>
                         <table class="table table-hover">
                             <thead>
