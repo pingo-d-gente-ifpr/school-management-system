@@ -96,7 +96,9 @@ class ClasseController extends Controller
             $studentsFrequencies[$frequency->children_id][] = $frequency;
         }
 
-        return view('front.classes.show', compact('class', 'subjects', 'students', 'weekDays', 'studentsFrequencies'));
+        $posts = $class->posts()->orderBy('created_at', 'desc')->paginate(2);
+
+        return view('front.classes.show', compact('class', 'subjects', 'students', 'weekDays', 'studentsFrequencies', 'posts'));
     }
 
 

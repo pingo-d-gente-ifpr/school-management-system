@@ -101,9 +101,8 @@
                                 </div>
                                 
                                 
-                                @foreach ($class->posts as $post)
+                                @foreach ($posts as $post)
                                     <div class="card mt-4">
-                                        
                                         <div class="card-body">
                                             <div class="d-flex justify-content-between">
                                                 <div class="d-flex align-items-center mb-3">
@@ -112,13 +111,12 @@
                                                         <h5 class="mb-0">{{$post->user->name}}</h5>
                                                         <small>{{ \Carbon\Carbon::parse($post->created_at)->format('d/m/Y') }}</small>
                                                     </div>
-                                                    
                                                 </div>
                                                 <div>
-                                                    <button class=" btn-sm btn dropdown-toggle"  type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <button class=" btn-sm btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
                                                             <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
-                                                          </svg>
+                                                        </svg>
                                                     </button>
                                                     <ul class="dropdown-menu">
                                                         <li>
@@ -135,12 +133,17 @@
                                                 </div>
                                             </div>  
                                             <p class="card-text">{{$post->description}}</p>
-                                            <div class="d-flex justify-content-center" >
+                                            <div class="d-flex justify-content-center">
                                                 <img src="{{ $post->photo ? asset('storage/' . $post->photo) : null }}" style="width:90%" class="rounded">
                                             </div>         
                                         </div>
                                     </div>
                                 @endforeach
+
+                                <!-- Links de paginação -->
+                                <div class="mt-2 d-flex justify-content-center">
+                                    {{ $posts->links('components.custom-pagination') }}
+                                </div>
                             </div>
                         </div>
                     </div>
