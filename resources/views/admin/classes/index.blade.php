@@ -31,6 +31,7 @@
                         <th scope="col">Nome</th>
                         <th scope="col">Período</th>
                         <th scope="col">Modificado em</th>
+                        @if (Auth::user()->role == 'admin')
                         <th class="d-flex justify-content-end" scope="col">
                             <button type="button" class="btn btn-success btn-sm d-flex align-items-center"
                                     onclick="location.href='{{ route('classes.create') }}'">
@@ -43,6 +44,9 @@
                                     <span class="ms-2">Cadastrar Turma</span>
                                 </button>
                         </th>
+                        @else
+                        <th></th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -60,6 +64,7 @@
                             <td>{{  App\Enums\Period::from($class->period)->name()}}</td>
                             <td>{{ \Carbon\Carbon::parse($class->updated_at)->format('d/m/Y') }}</td>
                             <td>
+                            
                                 <div class="d-flex justify-content-end">
                                     <a href="{{ route('classes.show', $class->id) }}" class="btn-show">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
@@ -67,6 +72,7 @@
                                             <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/>
                                           </svg>
                                     </a>
+                                @if (Auth::user()->role == 'admin')    
                                     <a href="{{ route('classes.edit', $class->id) }}" class="btn-edit">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
                                             fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -82,13 +88,18 @@
                                             'classId' => $class->id,
                                             'className' => $class->name,
                                         ])
-            
+                                @endif
                                 </div>
+                            
                             </td>
+                            
                         </tr>
-                    @empty
-                       <p>Nenhuma classe cadastrada</p>
-                    @endforelse
+                        @empty
+                        <tr>
+                            <td colspan="5" class="text-center">Nenhuma classe encontrada.</td>
+                        </tr>
+                               
+                        @endforelse
                 </tbody>
             </table>
             <!-- Paginação -->
