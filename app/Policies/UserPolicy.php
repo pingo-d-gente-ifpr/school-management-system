@@ -30,7 +30,7 @@ class UserPolicy
      /**
      * Determine whether the user can view any models.
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return $user->isAdmin();
     }
