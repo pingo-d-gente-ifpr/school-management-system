@@ -21,6 +21,7 @@ class UserController extends Controller
 
     public function __construct(UserService $service, UserRepository $repository, ChildrenService $childrenService)
     {
+        $this->authorizeResource(User::class, 'user');
         $this->service = $service;
         $this->repository = $repository;
         $this->childrenService = $childrenService;
@@ -67,6 +68,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $this->authorize('view', User::class);
         return view('admin.users.show')->with('user', $user);
     }
 
@@ -87,12 +89,9 @@ class UserController extends Controller
     {
         $data = $request->validated();
     
-        // Processar a foto do usuário, se uma nova foto foi enviada
         if ($request->hasFile('photo')) {
             $data['photo'] = $request->file('photo')->store('images/users', 'public');
         }
-    
-        // Verificar se o campo de senha foi preenchido
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->input('password'));
         } else {
