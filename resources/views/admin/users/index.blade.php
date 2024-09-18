@@ -40,7 +40,8 @@
                             <th scope="col">Atualizado em</th>
                             <th scope="col">Tipo do Usuário</th>
                             <th scope="col">Email</th>
-                            <th class="d-flex justify-content-end" scope="col">
+                            @if (Auth::user()->role == 'admin')
+                            <th class="d-flex justify-content-end" scope="col">                             
                                 <button type="button" class="btn btn-success btn-sm d-flex align-items-center"
                                     onclick="location.href='{{ route('users.create') }}'">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -52,6 +53,9 @@
                                     <span class="ms-2">Cadastrar Usuário</span>
                                 </button>
                             </th>
+                            @else
+                            <th></th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -72,7 +76,7 @@
                                                 <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/>
                                               </svg>
                                         </a>
-
+                                        @if (Auth::user()->role == 'admin')
                                         <a href="{{ route('users.edit', $user->id) }}" class="btn-edit">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
                                                 fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -86,6 +90,7 @@
                                             'userId' => $user->id,
                                             'userName' => $user->name,
                                         ])
+                                        @endif
                                     </div>
                                 </td>
                             </tr>

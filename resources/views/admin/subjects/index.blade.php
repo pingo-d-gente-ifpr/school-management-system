@@ -30,6 +30,7 @@
                         <th scope="col"></th>
                         <th scope="col" class="">Nome</th>
                         <th scope="col">Modificado em</th>
+                        @if (Auth::user()->role == 'admin')
                         <th class="d-flex justify-content-end" scope="col">
                             <button data-bs-toggle="modal" data-bs-target="#exampleModal" type="button"
                                 class="btn btn-success btn-sm d-flex align-items-center text-uppercase">
@@ -42,6 +43,7 @@
                                 <span class="ms-2">Cadastrar Matéria</span>
                             </button>
                         </th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -57,6 +59,7 @@
                             </td>
                             <td>{{ $subject->name }}</td>
                             <td>{{ \Carbon\Carbon::parse($subject->updated_at)->format('d/m/Y')  }}</td>
+                            @if (Auth::user()->role == 'admin')
                             <td>
                                 <div class="d-flex justify-content-end">
                                     <a  data-bs-toggle="modal" data-bs-target="#exampleModal{{$subject->id}}"  class="btn-edit">
@@ -82,6 +85,7 @@
                                     </form>
                                 </div>
                             </td>
+                            @endif
                         </tr>
                         <x-subjects.edit-modal :subject="$subject" :teachers="$teachers"/>
                     @endforeach
