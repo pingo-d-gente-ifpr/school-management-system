@@ -22,21 +22,30 @@ class SubjectPolicy
      */
     public function view(User $user, Subject $subject)
     {
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->isTeacher() || $user->isParent();
     }
+
+    /**
+     * Determine whether the user can create models.
+     */
+    public function create(User $user): bool
+    {
+        return $user->isAdmin() || $user->isTeacher();
+    }
+
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Subject $subject)
+    public function update(User $user, Subject $subject): bool
     {
-        $user->isAdmin();
+        return $user->isAdmin() || $user->isTeacher();
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Subject $subject)
+    public function delete(User $user, Subject $subject): bool
     {
         return $user->isAdmin();
     }

@@ -63,24 +63,9 @@ class ClassePolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Classe $classe)
+    public function delete(User $user, Classe $classe): bool
     {
-        //
+        return $user->isAdmin();
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Classe $classe)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Classe $classe)
-    {
-        //
-    }
 }
