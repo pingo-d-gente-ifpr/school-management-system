@@ -14,6 +14,7 @@ use App\Models\Subject;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ClasseController extends Controller
@@ -67,10 +68,16 @@ class ClasseController extends Controller
      */
     public function show(Classe $class, Request $request)
     {
+        $user = Auth::user();
         $class = $this->service->show($class);
-
         $subjects = $class->subjects()->get();
         $students = $class->childrens()->get();
+
+        if ($user->role == 'teacher') {
+            $subjectsForNotes = $class->subjects()->where('classe_subject.user_id', $user->id)->get();
+        } else {
+            $subjectsForNotes = $class->subjects()->get();
+        }
 
         $startDate = $request->input('selected_date') 
             ? Carbon::createFromFormat('d/m/Y', $request->input('selected_date')) 
@@ -98,7 +105,7 @@ class ClasseController extends Controller
 
         $posts = $class->posts()->orderBy('created_at', 'desc')->paginate(2);
 
-        return view('front.classes.show', compact('class', 'subjects', 'students', 'weekDays', 'studentsFrequencies', 'posts'));
+        return view('front.classes.show', compact('class', 'subjects', 'subjectsForNotes', 'students', 'weekDays', 'studentsFrequencies', 'posts'));
     }
 
 

@@ -16,8 +16,36 @@ class ChildrenFactory extends Factory
      */
     public function definition(): array
     {
+        $names = [
+            'Lucas Pereira',
+            'Sofia Costa',
+            'Mateus Oliveira',
+            'Isabela Silva',
+            'Gabriel Almeida',
+            'Mariana Santos',
+            'Pedro Lima',
+            'Laura Rocha',
+            'Rafael Carvalho',
+            'Ana Clara Fernandes',
+            'Leonardo Souza',
+            'Giovanna Martins',
+            'Felipe Almeida',
+            'Juliana Ribeiro',
+            'João Pedro Almeida',
+            'Camila Silva',
+            'Daniela Castro',
+            'Thiago Mendes',
+            'Beatriz Lima',
+            'Andréa Gomes',
+            'Victor Hugo Oliveira',
+            'Larissa Nunes',
+            'Gustavo Costa',
+            'Marina Pereira',
+            'Ricardo Santos',
+        ];
+
         return [
-            'name' => $this->faker->name,
+            'name' => $this->faker->randomElement($names),
             'birth_date' => $this->faker->date,
             'document' => $this->faker->unique()->numerify('##########'),
             'gender' => $this->faker->randomElement(['masculino', 'feminino']),

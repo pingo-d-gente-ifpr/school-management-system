@@ -25,8 +25,16 @@ class ClasseFactory extends Factory
             'images/subjects/5.png',
         ];
 
+        $names =[
+            'Jeni Melânciosa',
+            'Juju Ensolarada',
+            'Joe Baldeco',
+            'Jiba Bolado',
+            'Juca Gelado',
+        ];
+
         return [
-            'name' => $this->faker->word,
+            'name' => $this->faker->randomElement($names),
             'photo' => $this->faker->randomElement($photos),
             'period' => $this->faker->randomElement(['morning', 'afternoon', 'fulltime']),
             'year' => $this->faker->year(),
