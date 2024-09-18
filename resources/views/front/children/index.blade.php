@@ -35,8 +35,6 @@
                             <th scope="col">Documento</th>
                             <th scope="col">Frequências</th>
                             <th scope="col">Notas</th>
-                            <th>
-                            </th>
                         </tr>
                     </thead>
                     <tbody>
