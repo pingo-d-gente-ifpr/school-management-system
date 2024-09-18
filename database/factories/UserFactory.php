@@ -19,8 +19,41 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $names = [
+            'João Silva',
+            'Maria Oliveira',
+            'Pedro Santos',
+            'Ana Costa',
+            'Carlos Almeida',
+            'Patrícia Lima',
+            'Lucas Ferreira',
+            'Fernanda Rocha',
+            'Gabriel Souza',
+            'Juliana Pereira',
+            'André Martins',
+            'Aline Santos',
+            'Ricardo Alves',
+            'Camila Campos',
+            'Rafael Lima',
+            'Larissa Gomes',
+            'Thiago Rodrigues',
+            'Juliana Carvalho',
+            'Marcos Nascimento',
+            'Beatriz Castro',
+            'Renato Ferreira',
+            'Priscila Moreira',
+            'Lucas Pacheco',
+            'Isabela Almeida',
+            'Vinícius Pereira',
+            'Júlia Souza',
+            'Leonardo Oliveira',
+            'Giovana Mendes',
+            'Felipe Rocha',
+            'Vanessa Martins',
+        ];
+
         return [
-            'name' => $this->faker->name,
+            'name' => $this->faker->randomElement($names),
             'email' => $this->faker->unique()->safeEmail,
             'password' => Hash::make('password'),
             'birth_date' => $this->faker->date,
