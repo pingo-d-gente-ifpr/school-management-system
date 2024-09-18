@@ -1,0 +1,71 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Children;
+use App\Models\Classe;
+use App\Models\ChildrenFrequency;
+use App\Models\ChildrenSubject;
+use Illuminate\Support\Facades\Auth;
+
+class ChildrenController extends Controller
+{
+    public function index()
+    {
+        $user = Auth::user();
+        
+        if ($user->isParent()) {
+            $children = $user->childrens()->paginate(6); // Corrigido para `childrens()`
+        } else {
+            $children = Children::paginate(6);
+        }
+
+        return view('front.children.index', compact('children'));
+    }
+
+    public function showFrequencies(Request $request, $id)
+    {
+        $child = Children::findOrFail($id);
+
+        // Obtenha todas as turmas disponíveis para o filtro
+        $classes = $child->classes; // Turmas associadas ao aluno
+
+        // Obtenha os filtros da requisição
+        $classId = $request->input('class_id'); 
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        // Construa a consulta com base nos filtros
+        $query = ChildrenFrequency::whereIn('children_classe_id', function ($subQuery) use ($id, $classId) {
+            $subQuery->select('id')
+                ->from('children_classe')
+                ->where('children_id', $id)
+                ->when($classId, function ($subQuery) use ($classId) {
+                    $subQuery->where('classe_id', $classId);
+                });
+        });
+
+        // Filtra pelo intervalo de datas se estiver presente
+        if ($startDate && $endDate) {
+            $query->whereBetween('date', [$startDate, $endDate]);
+        } elseif ($startDate) {
+            $query->whereDate('date', $startDate);
+        }
+
+        // Execute a consulta
+        $frequencies = $query->paginate(10);
+
+        // Passe os dados para a view
+        return view('front.children.frequencies', compact('child', 'frequencies', 'classes'));
+    }
+    
+
+
+    public function showGrades($id)
+    {
+        $child = Children::findOrFail($id); 
+        $subjects = ChildrenSubject::where('children_id', $id)->get();
+        return view('front.children.grades', compact('child', 'subjects'));
+    }
+}
