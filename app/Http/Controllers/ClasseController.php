@@ -44,7 +44,7 @@ class ClasseController extends Controller
     public function create()
     {
         $subjects = Subject::all();
-        $childrens = Children::all();
+        $childrens = Children::paginate(15);
         $teachers = User::where('role', Role::teacher)->get();
         return view('admin.classes.create')
         ->with('subjects',$subjects)
@@ -143,7 +143,7 @@ class ClasseController extends Controller
     public function edit(Classe $class)
     {
         $subjects = Subject::all();
-        $childrens = Children::all();
+        $childrens = Children::paginate(15);
         $teachers = User::where('role', Role::teacher)->get();
         return view('admin.classes.edit')->with('class', $class)
         ->with('subjects',$subjects)

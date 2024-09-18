@@ -226,8 +226,7 @@
     </div>
 
     <!-- Modal para selecionar crianças -->
-    <div class="modal fade" id="childrenModal" tabindex="-1" aria-labelledby="childrenModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="childrenModal" tabindex="-1" aria-labelledby="childrenModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -236,12 +235,10 @@
                 </div>
                 <div class="modal-body">
                     <!-- Campo de busca -->
-                    <input type="text" id="searchChildren" class="form-control mb-3"
-                        placeholder="Buscar criança...">
-
+                    <input type="text" id="searchChildren" class="form-control mb-3" placeholder="Buscar criança...">    
                     <!-- Tabela de crianças -->
                     <table class="table table-hover" id="childrenTable">
-                        <thead>
+                        <thead class="align-middle">
                             <tr>
                                 <th scope="col"></th>
                                 <th scope="col">Nome</th>
@@ -271,6 +268,11 @@
                             @endforeach
                         </tbody>
                     </table>
+    
+                    <!-- Links de paginação -->
+                    <div class="d-flex justify-content-center">
+                        {{ $childrens->links('components.custom-pagination') }}
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>

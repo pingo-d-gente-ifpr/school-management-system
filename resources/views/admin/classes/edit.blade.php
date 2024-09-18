@@ -289,21 +289,17 @@
             </div>
         </div>
 
-        <!-- Modal para selecionar crianças -->
-        <div class="modal fade" id="childrenModal" tabindex="-1" aria-labelledby="childrenModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="childrenModal" tabindex="-1" aria-labelledby="childrenModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="childrenModalLabel">Crianças</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <!-- Campo de busca -->
-                        <input type="text" id="searchChildren" class="form-control mb-3"
-                            placeholder="Buscar criança...">
-
+                        <input type="text" id="searchChildren" class="form-control mb-3" placeholder="Buscar criança...">
+        
                         <!-- Tabela de crianças -->
                         <table class="table table-hover" id="childrenTable">
                             <thead class="align-middle">
@@ -318,18 +314,10 @@
                                     <tr class="child-row" data-id="{{ $child->id }}"
                                         data-register="{{ $child->register_number }}"
                                         data-name="{{ $child->name }}"
-                                        data-photo="{{ $child->photo
-                                            ? (Storage::exists('public/' . $child->photo)
-                                                ? Storage::url($child->photo)
-                                                : asset('assets/' . $child->photo))
-                                            : asset('assets/images/logo/user-default.png') }}">
+                                        data-photo="{{ $child->photo ? (Storage::exists('public/' . $child->photo) ? Storage::url($child->photo) : asset('assets/' . $child->photo)) : asset('assets/images/logo/user-default.png') }}">
                                         <td>
                                             <img class="rounded-circle" width="20px"
-                                                src="{{ $child->photo
-                                                    ? (Storage::exists('public/' . $child->photo)
-                                                        ? Storage::url($child->photo)
-                                                        : asset('assets/' . $child->photo))
-                                                    : asset('assets/images/logo/user-default.png') }}">
+                                                src="{{ $child->photo ? (Storage::exists('public/' . $child->photo) ? Storage::url($child->photo) : asset('assets/' . $child->photo)) : asset('assets/images/logo/user-default.png') }}">
                                         </td>
                                         <td>{{ $child->name }}</td>
                                         <td>{{ $child->register_number }}</td>
@@ -337,15 +325,20 @@
                                 @endforeach
                             </tbody>
                         </table>
+        
+                        <!-- Links de paginação -->
+                        <div class="d-flex justify-content-center">
+                            {{ $childrens->links('components.custom-pagination') }}
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                        <button type="button" class="btn btn-primary" id="saveChildrenSelection"
-                            data-bs-dismiss="modal">Salvar Seleção</button>
+                        <button type="button" class="btn btn-primary" id="saveChildrenSelection" data-bs-dismiss="modal">Salvar Seleção</button>
                     </div>
                 </div>
             </div>
         </div>
+        
 
         <style>
             .custom-file-upload {
