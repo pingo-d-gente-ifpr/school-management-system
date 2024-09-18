@@ -266,6 +266,7 @@
             disable: [
                 function(date) {
                     return (date.getDay() === 0 || date.getDay() === 6);
+                }
             ],
             defaultDate: initialDate ? initialDate : null,
             onChange: function(selectedDates, dateStr, instance) {
@@ -304,10 +305,8 @@
                 $('#thursday').html(`${daysOfWeek[3]} <br> <span>${formatDate(headers.thursday)}</span>`);
                 $('#friday').html(`${daysOfWeek[4]} <br> <span>${formatDate(headers.friday)}</span>`);
             }
-        });
-
-
-});
+        })
+    })
 
 </script>
 
