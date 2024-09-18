@@ -1,31 +1,34 @@
 <div class="row d-flex align-items-center justify-content-between mb-2 p-2">
     <div class="col-md-6">
         <div class="search-attendance d-flex">
-            <input type="search"  class="form-attendance" id="search" placeholder="Procurar Aluno"
-                aria-label="Procurar Aluno">
+            <!-- Campo de busca de aluno -->
+            <input type="search" class="form-attendance form-control" id="search" placeholder="Procurar Aluno" aria-label="Procurar Aluno">
             <button class="btn" type="submit">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85zM6.5 12A5.5 5.5 0 1 1 12 6.5 5.507 5.507 0 0 1 6.5 12z" />
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85zM6.5 12A5.5 5.5 0 1 1 12 6.5 5.507 5.507 0 0 1 6.5 12z"/>
                 </svg>
             </button>
         </div>
     </div>
-    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+
+    <div class="col-md-6">
         <div class="date-picker-container">
             <form id="filterForm" method="GET" action="{{ route('classes.show', $class) }}">
-                <div class="form-group position-relative">
-                    <label for="datePicker">Selecione a data:</label>
+                <div class="form-group d-flex align-items-center">
+                    <!-- Campo de data com ícone de calendário -->
                     <div class="input-group">
-                        <input type="text" id="datePicker" name="selected_date" class="form-control" value="{{ request('selected_date') }}" placeholder="dd/mm/yyyy">
-                        <span class="input-group-text"><i class="fa fa-calendar calendar-icon"></i></span>
+                        <input type="text" id="datePicker" name="selected_date" class="form-control form-attendance"
+                        style="border:1px solid #FF6B8A" value="{{ request('selected_date') }}" placeholder="dd/mm/aaaa">
+                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                     </div>
-                    <button type="submit" class="btn btn-primary mt-3">Filtrar</button>
+                    <!-- Botão Filtrar alinhado -->
+                    <button type="submit" class="btn btn-primary ms-2">Filtrar</button>
                 </div>
-            </form>            
+            </form>
         </div>
-        
     </div>
 </div>
+
 
 <table id="frequency" class="table table-striped">
     <thead class="table">
@@ -93,6 +96,19 @@
 </table>
 
 <style>
+    
+
+    .input-group-text {
+        border-color: #ff7f9f; /* Cor da borda do ícone */
+        background-color: #fff; /* Fundo branco para o ícone */
+        padding: 0.375rem 0.75rem; /* Ajusta o espaçamento interno */
+    }
+
+    .row .form-group {
+        width: 100%; /* Garante que o grupo de formulário use a largura total */
+    }
+
+
     .search-attendance {
         border: 0.8px solid #FF6B8A;
         border-radius: 30px;
@@ -327,7 +343,7 @@
 
     .date-input {
         width: 100%;
-        padding: 7px;
+        padding: 0px;
         font-size: 14px;
         border: 1px solid #FF6B8A;
         border-radius: 8px;
