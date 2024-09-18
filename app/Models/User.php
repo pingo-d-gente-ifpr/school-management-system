@@ -5,6 +5,8 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Observers\UserObserver;
+
+use App\Enums\Role;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -80,4 +82,22 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
+
+    public function isAdmin()
+    {
+        return $this->role === Role::admin->name;
+    }
+
+    public function isTeacher()
+    {
+        return $this->role === Role::teacher->name;
+    }
+
+    public function isParent()
+    {
+        return $this->role === Role::parents->name;
+    }
+
+
+
 }
