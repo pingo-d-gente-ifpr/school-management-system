@@ -5,9 +5,9 @@ use App\Models\User;
 
 class UserRepository{
 
-    public function getUsers()
+    public function getUsers(array $filter = null)
     {
-        return User::paginate(7);
+        return User::filter($filter)->paginate(6);
     }
 
     public function store(array $data)

@@ -14,18 +14,14 @@ class SubjectService{
         $this->repository = $repository;
     }
 
-    public function index()
+    public function index(array $filter)
     {
-        return $this->repository->getAll();
+        return $this->repository->getAll($filter);
     }
 
     public function store(array $data, $request)
     {
-        $data = $this->convertToDate($data);
-        if(empty($data['user_id']))
-        {
-            $data['user_id'] = auth()->id();
-        }
+
         if($request->hasFile('photo'))
         {
             $data['photo'] = $request->file('photo')->store('images/subjects', 'public');
@@ -36,11 +32,7 @@ class SubjectService{
 
     public function update(array $data, Subject $subject, $request)
     {
-        $data = $this->convertToDate($data);
-        if(empty($data['user_id']))
-        {
-            $data['user_id'] = auth()->id();
-        }
+
         if($request->hasFile('photo'))
         {
             $data['photo'] = $request->file('photo')->store('images/subjects', 'public');
@@ -54,15 +46,5 @@ class SubjectService{
             Storage::disk('public')->delete($subject->photo);
         }
         return $this->repository->destroy($subject);
-    }
-
-    public function convertToDate(array $data)
-    {
-        $startString = $data['start_date'];
-        $endString = $data['end_date'];
-        $currentDate = Carbon::now()->toDateString();
-        $data['start_date'] = Carbon::createFromFormat('Y-m-d H:i', "$currentDate $startString")->toDateTimeString();
-        $data['end_date'] = Carbon::createFromFormat('Y-m-d H:i', "$currentDate $endString")->toDateTimeString();
-        return $data;
     }
 }

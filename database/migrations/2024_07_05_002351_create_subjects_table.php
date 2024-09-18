@@ -14,10 +14,7 @@ return new class extends Migration
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
             $table->string('name',250);
-            $table->date('start_date');
-            $table->date('end_date');
             $table->string('photo')->nullable();
-            $table->foreignId('user_id')->constrained();
             $table->timestamps();
             $table->softDeletes();
         });

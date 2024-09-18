@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Subject extends Model
@@ -13,15 +14,18 @@ class Subject extends Model
 
     protected $fillable = [
         'name',
-        'start_date',
-        'end_date',
         'photo',
-        'user_id',
     ];
 
-    public function user(): BelongsTo
+    public function scopeFilter($query, array $filters)
     {
-        return $this->belongsTo(User::class);
+        $query->when($filters['q'] ?? false, fn ($query, $search) => $query->where('name', 'LIKE', "%$search%"));
+    }
+
+
+    public function classes(): BelongsToMany
+    {
+        return $this->belongsToMany(Classe::class)->using(ClasseSubject::class)->withPivot('user_id', 'id');
     }
 
 

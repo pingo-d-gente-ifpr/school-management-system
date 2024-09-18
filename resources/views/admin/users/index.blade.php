@@ -21,14 +21,15 @@
                     <div class="col-lg-9 p-0 m-0">
                         <hr style="height: 2px; background-color: #FF6B8A; border: none;">
                     </div>
+                    <x-admin.search/>
                 </div>
-            <div>
-                @if (session('deletado'))
-                <div class="alert alert-success" role="alert">
-                    {{session('deletado')}}
+                <div>
+                    @if (session('deletado'))
+                        <div class="alert alert-success" role="alert" id="deletado-alert">
+                            {{ session('deletado') }}
+                        </div>
+                    @endif
                 </div>
-                @endif
-            </div>
             </div>
             <div class="table-container bg-white rounded p-2">
                 <table class="table table-hover">
@@ -40,7 +41,8 @@
                             <th scope="col">Tipo do Usuário</th>
                             <th scope="col">Email</th>
                             <th class="d-flex justify-content-end" scope="col">
-                                <button type="button" class="btn btn-success btn-sm d-flex align-items-center ">
+                                <button type="button" class="btn btn-success btn-sm d-flex align-items-center"
+                                    onclick="location.href='{{ route('users.create') }}'">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                         fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
                                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
@@ -60,10 +62,17 @@
                                 </td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ \Carbon\Carbon::parse($user->updated_at)->format('d/m/Y') }}</td>
-                                <td>{{ $user->role }}</td>
+                                <td>{{ App\Enums\Role::from($user->role)->name() }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>
                                     <div class="d-flex justify-content-end">
+                                        <a href="{{ route('users.show', $user->id) }}" class="btn-show">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/>
+                                                <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/>
+                                              </svg>
+                                        </a>
+
                                         <a href="{{ route('users.edit', $user->id) }}" class="btn-edit">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
                                                 fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -74,9 +83,9 @@
                                             </svg>
                                         </a>
                                         @include('admin.users.partials.delete-user-form', [
-                                                    'userId' => $user->id,
-                                                    'userName' => $user->name,
-                                                ])
+                                            'userId' => $user->id,
+                                            'userName' => $user->name,
+                                        ])
                                     </div>
                                 </td>
                             </tr>
@@ -90,5 +99,29 @@
             </div>
         </div>
     </div>
-    
+    <style>
+        .alert {
+            opacity: 1;
+            transition: opacity 1s ease-out;
+        }
+
+        .alert.fade-out {
+            opacity: 0;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var alertElement = document.getElementById('deletado-alert');
+            if (alertElement) {
+                setTimeout(function() {
+                    alertElement.classList.add('fade-out');
+                    // Opcional: Remova o elemento do DOM após a transição
+                    setTimeout(function() {
+                        alertElement.remove();
+                    }, 1000); // Tempo de transição deve ser igual ou maior que o tempo de opacidade
+                }, 5000); // Tempo antes de iniciar a transição
+            }
+        });
+    </script>
+
 </x-app-layout>

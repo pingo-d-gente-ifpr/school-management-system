@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\ClasseController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\UserController;
-use App\Models\User;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,10 +23,6 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -33,11 +31,13 @@ Route::middleware('auth')->group(function () {
     Route::get('register', [UserController::class, 'create'])->name('register');
     Route::post('register', [UserController::class, 'store']);
     Route::resource('subjects', SubjectController::class);
+    Route::resource('classes', ClasseController::class);
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('posts', PostController::class)->except('index');
+    Route::put('register-frequency', [ClasseController::class, 'registerFrequency']);
+    Route::put('register-grades', [ClasseController::class, 'registerGrades'])->name('register.grades');
 });
 
-Route::get('/sidebar', function () {
-    return view('components.sidebar');
-});
 
 
 require __DIR__.'/auth.php';

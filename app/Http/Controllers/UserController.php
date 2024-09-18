@@ -5,28 +5,34 @@ namespace App\Http\Controllers;
 use App\Http\Repositories\UserRepository;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Http\Services\ChildrenService;
 use App\Http\Services\UserService;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
     protected $service;
     protected $repository;
+    protected $childrenService;
 
-    public function __construct(UserService $service, UserRepository $repository)
+    public function __construct(UserService $service, UserRepository $repository, ChildrenService $childrenService)
     {
         $this->service = $service;
         $this->repository = $repository;
+        $this->childrenService = $childrenService;
     }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = $this->service->index();
+
+        $filter = $request->only('q');
+        $users = $this->service->index($filter);
         return view('admin.users.index')->with('users', $users);
     }
 
@@ -35,7 +41,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('auth.register');
+        return view('admin.users.create');
     }
 
     /**
@@ -49,6 +55,9 @@ class UserController extends Controller
           $data['photo'] = $request->file('photo')->store('images/users', 'public');
         }
         $user = $this->service->store($data);
+
+        if(!empty($data['childrens'])) $this->createChildrens($data['childrens'], $user,  $request);
+
         event(new Registered($user));
         return to_route('users.index');
     }
@@ -66,7 +75,9 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('admin.users.edit')->with('user', $user);
+        $childrens = $user->childrens()->get();
+        return view('admin.users.edit')->with('user', $user)
+            ->with('children', $childrens);
     }
 
     /**
@@ -75,14 +86,23 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request, User $user)
     {
         $data = $request->validated();
-
-        if($request->hasFile('photo')){
+    
+        // Processar a foto do usuário, se uma nova foto foi enviada
+        if ($request->hasFile('photo')) {
             $data['photo'] = $request->file('photo')->store('images/users', 'public');
         }
-        $this->service->update($data,$user);
+    
+        // Verificar se o campo de senha foi preenchido
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->input('password'));
+        } else {
+            unset($data['password']);
+        }
+
+        $this->service->update($data, $user);
+        $this->createChildrens($data['childrens'] ?? [], $user, $request);
         return to_route('users.index');
-        
-    }
+    }    
 
     /**
      * Remove the specified resource from storage.
@@ -100,5 +120,10 @@ class UserController extends Controller
     {
         $teachers = $this->service->getTeachers();
         return $teachers;
+    }
+
+    public function createChildrens(array $data, User $user, $request)
+    {
+        $this->childrenService->createChildrens($data,$user,$request);
     }
 }

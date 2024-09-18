@@ -23,10 +23,7 @@ class StoreSubjectRequest extends FormRequest
     {
         return [
             'name' => ['string', 'max:255', 'required'],
-            'start_date' => ['string', 'required'],
-            'end_date' => ['string', 'required'],
             'photo' => ['nullable', 'max:3072'],
-            'user_id' => ['nullable', 'exists:users,id'],
         ];
     }
 }

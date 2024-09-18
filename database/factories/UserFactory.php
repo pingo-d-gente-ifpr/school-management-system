@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -24,12 +25,19 @@ class UserFactory extends Factory
             'password' => Hash::make('password'),
             'birth_date' => $this->faker->date,
             'document_cpf' => $this->faker->unique()->numerify('###########'),
-            'gender' => $this->faker->randomElement(['male', 'female', 'other']),
+            'gender' => $this->faker->randomElement(['masculino', 'feminino', 'outro']),
             'cellphone' => $this->faker->phoneNumber,
             'emergency_name' => $this->faker->name,
             'emergency_cellphone' => $this->faker->phoneNumber,
             'status' => $this->faker->randomElement([true, false]),
-            'role' => $this->faker->randomElement(['Teacher', 'Parents']),
+            'role' => $this->faker->randomElement(Role::cases()),
+            'zip_code' => $this->faker->numerify('#####-###'),
+            'state' => $this->faker->state,
+            'city' => $this->faker->city,
+            'street' => $this->faker->streetName,
+            'number' => $this->faker->buildingNumber,
+            'neighborhood' => $this->faker->streetSuffix,
+            'complement' => $this->faker->secondaryAddress,
         ];
     }
 

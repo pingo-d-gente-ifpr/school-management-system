@@ -20,15 +20,15 @@
                 <div class="col-lg-9 p-0 m-0">
                     <hr style="height: 2px; background-color: #ff6b8a; border: none;">
                 </div>
+                <x-admin.search/>
             </div>
         </div>
         <div class="table-container bg-white rounded p-2">
-            <table class="table table-hover">
+            <table class="table table-hover ">
                 <thead>
                     <tr class="align-middle">
                         <th scope="col"></th>
                         <th scope="col" class="">Nome</th>
-                        <th scope="col">Professor(a)</th>
                         <th scope="col">Modificado em</th>
                         <th class="d-flex justify-content-end" scope="col">
                             <button data-bs-toggle="modal" data-bs-target="#exampleModal" type="button"
@@ -56,11 +56,10 @@
                                         : asset('assets/images/logo/subject-default.png') }}">
                             </td>
                             <td>{{ $subject->name }}</td>
-                            <td>{{ $subject->user->name }}</td>
-                            <td>{{ $subject->email }}</td>
+                            <td>{{ \Carbon\Carbon::parse($subject->updated_at)->format('d/m/Y')  }}</td>
                             <td>
                                 <div class="d-flex justify-content-end">
-                                    <a href="{{ route('subjects.edit', $subject->id) }}" class="btn-edit">
+                                    <a  data-bs-toggle="modal" data-bs-target="#exampleModal{{$subject->id}}"  class="btn-edit">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
                                             fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                             <path
@@ -84,6 +83,7 @@
                                 </div>
                             </td>
                         </tr>
+                        <x-subjects.edit-modal :subject="$subject" :teachers="$teachers"/>
                     @endforeach
                 </tbody>
             </table>
@@ -93,6 +93,6 @@
             </div>
         </div>
         @include('admin.subjects.partials.create-modal')
-        @include('admin.subjects.partials.edit-modal')
+        
     </div>
 </x-app-layout>

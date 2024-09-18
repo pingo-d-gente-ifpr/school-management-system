@@ -27,10 +27,7 @@ class SubjectFactory extends Factory
 
         return [
             'name' => $this->faker->word,
-            'start_date' => $this->faker->date,
-            'end_date' => $this->faker->date,
             'photo' => $this->faker->randomElement($photos),
-            'user_id' => User::factory(),
         ];
     }
 }
