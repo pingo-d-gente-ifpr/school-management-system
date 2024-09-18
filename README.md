@@ -109,7 +109,7 @@ Após seguir esses passos, seu projeto estará configurado e pronto para ser uti
 
 ## Autores
 
-* **Allan Gabriel de Freitas Pedros** - *Desenvolvedor Fullstack* - [Allan Gabriel](https://github.com/agp531)
+* **Allan Gabriel de Freitas Pedroso** - *Desenvolvedor Fullstack* - [Allan Gabriel](https://github.com/agp531)
 * **Nicole Paz Bueno de Oliveira** - *Desenvolvedora e Gestora de Projetos* - [Nicole Paz](https://github.com/nicpaz)
 
 ## Licença
