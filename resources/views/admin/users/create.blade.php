@@ -45,9 +45,11 @@
                             <div class="tab-pane fade show active" id="dados" role="tabpanel"
                                 aria-labelledby="dados-tab">
                                 <div class="row mb-3">
-                                    <div class="col-md-2 text-center position-relative">
-                                        <img id="avatar-preview" src="{{ asset('assets/images/logo/user-default.png') }}"
-                                            class="img-fluid rounded-circle mb-2" alt="User Avatar">
+                                    <div class="col-md-2 text-center align-items-center">
+                                        <div class="avatar-container">
+                                            <img id="avatar-preview" src="{{ asset('assets/images/logo/user-default.png') }}"
+                                                class="img-fluid rounded-circle" alt="User Avatar">
+                                        </div>
                                         <div class="position-absolute top-0 end-0 p-1">
                                             <button type="button" class="btn btn-danger btn-sm rounded-circle"
                                                 onclick="resetImage()" id="delete-image" hidden>
@@ -136,7 +138,7 @@
                                                 <x-input-error :messages="$errors->get('emergency_phone')" class="mt-2" />
                                             </div>
                                         </div>
-                                        
+
                                         <div class="row">
                                             <div class="col-md-6 mb-3">
                                                 <label for="gender" class="form-label">Gênero</label>
@@ -228,7 +230,7 @@
                                     <button type="button" class="btn btn-primary d-flex align-items-center" onclick="addChild()">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
                                             <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
-                                          </svg>
+                                        </svg>
                                         Adicionar
                                     </button>
                                 </div>
@@ -237,7 +239,9 @@
 
                                     <div class='child-entry row mb-3 my-3 p-3 border rounded'>
                                     <div class="col-md-2 text-center position-relative">
-                                        <img id="children-avatar-preview-0" src="{{ asset('assets/images/logo/user-default.png') }}" class="img-fluid rounded-circle mb-2" alt="children Avatar">
+                                        <div class="avatar-container">
+                                            <img id="children-avatar-preview-0" src="{{ asset('assets/images/logo/user-default.png') }}" class="img-fluid rounded-circle" alt="children Avatar">
+                                        </div>
                                         <div class="position-absolute top-0 end-0 p-1">
                                             <button type="button" id="deleteChildrenImage" class="btn btn-danger btn-sm rounded-circle"  onclick="resetchildrenImage(0)"  id="delete-children-image-0" hidden>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
@@ -368,8 +372,9 @@
             newChildDiv.classList.add('child-entry', 'my-3', 'p-3', 'border', 'rounded', 'row');
             newChildDiv.innerHTML = `
                 <div class="col-md-2 text-center position-relative">
-                    <img id="children-avatar-preview-${childNumber}" src="{{ asset('assets/images/logo/user-default.png') }}" class="img-fluid rounded-circle mb-2" alt="children Avatar">
-
+                    <div class="avatar-container">
+                        <img id="children-avatar-preview-${childNumber}" src="{{ asset('assets/images/logo/user-default.png') }}" class="img-fluid rounded-circle mb-2" alt="children Avatar">
+                    </div>
                     <div class="position-absolute top-0 end-0 p-1">
                         <button type="button" class="btn btn-danger btn-sm rounded-circle" onclick="resetchildrenImage(${childNumber})" hidden>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">

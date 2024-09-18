@@ -45,6 +45,23 @@
             margin-left: 280px; /* Margem igual à largura da sidebar */
             padding: 20px;
         }
+
+        .avatar-container {
+            width: 180px;
+            height: 180px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            border-radius: 50%;
+            background-color: transparent;
+        }
+
+        .avatar-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     </style>
 </head>
 

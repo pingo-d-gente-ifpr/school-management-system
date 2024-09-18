@@ -48,8 +48,10 @@
                             aria-labelledby="dados-tab">
                             <div class="row mb-3">
                                 <div class="col-md-2 text-center position-relative">
-                                    <img id="avatar-preview" src="{{ asset('assets/images/logo/user-default.png') }}"
-                                        class="img-fluid rounded-circle mb-2" alt="User Avatar">
+                                    <div class="avatar-container">
+                                        <img id="avatar-preview" src="{{ asset('assets/images/logo/user-default.png') }}"
+                                            class="img-fluid rounded-circle mb-2" alt="User Avatar">
+                                    </div>
                                     <div class="position-absolute top-0 end-0 p-1">
                                         <button type="button" class="btn btn-danger btn-sm rounded-circle"
                                             onclick="resetImage()" id="delete-image" hidden>
@@ -166,7 +168,7 @@
                                         </table>
                                     </div>
 
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -258,12 +260,14 @@
                                                     : asset('assets/' . $child->photo))
                                                 : asset('assets/images/logo/user-default.png') }}">
                                     <td>
+                                    <div class="avatar-container">
                                         <img class="rounded-circle" width="20px"
                                             src="{{ $child->photo
                                                 ? (Storage::exists('public/' . $child->photo)
                                                     ? Storage::url($child->photo)
                                                     : asset('assets/' . $child->photo))
                                                 : asset('assets/images/logo/user-default.png') }}">
+                                    </div>
                                     </td>
                                     <td>{{ $child->name }}</td>
                                     <td>{{ $child->register_number }}</td>
@@ -460,7 +464,7 @@ function removeChild(childId) {
             // Adiciona o evento de clique ao botão de salvar seleção
             saveChildrenButton.addEventListener('click', addChildren);
         });
-        
+
     </script>
 
 
@@ -481,7 +485,7 @@ function removeChild(childId) {
 
         if (subjectId && teacherId) {
             const existingDiv = document.querySelector(`#subjects-check [data-ref-id="${subjectId}"]`);
-            
+
             if (existingDiv) {
                 // Verifica se a matéria já foi adicionada com outro professor
                 const existingTeacherId = existingDiv.getAttribute('data-teacher-id');
