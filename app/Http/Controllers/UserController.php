@@ -68,7 +68,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $this->authorize('view', User::class);
+        $this->authorize('view', $user);
         return view('admin.users.show')->with('user', $user);
     }
 
@@ -87,6 +87,7 @@ class UserController extends Controller
      */
     public function update(UserUpdateRequest $request, User $user)
     {
+        $this->authorize('update', $user);
         $data = $request->validated();
     
         if ($request->hasFile('photo')) {
