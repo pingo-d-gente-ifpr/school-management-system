@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="container-fluid d-flex justify-content-center">
         <div class="col-10 col-md-10 mx-auto my-4">
-            <h1>Usuários</h1>
+            <h1>Crianças</h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
