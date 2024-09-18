@@ -47,7 +47,7 @@ class UserStoreRequest extends FormRequest
             'childrens.*.document' => 'nullable|string|max:255|unique:childrens,document',
             'childrens.*.gender' => 'nullable|in:masculino,feminino',
             'childrens.*.status' => 'nullable|boolean',
-            'childrens.*.photo' => 'nullable|string',
+            'childrens.*.photo' => ['nullable', 'max:3072'],
 
 
         ];

@@ -87,7 +87,6 @@ class UserController extends Controller
      */
     public function update(UserUpdateRequest $request, User $user)
     {
-        $this->authorize('update', $user);
         $data = $request->validated();
     
         if ($request->hasFile('photo')) {
@@ -101,7 +100,11 @@ class UserController extends Controller
 
         $this->service->update($data, $user);
         $this->createChildrens($data['childrens'] ?? [], $user, $request);
-        return to_route('users.index');
+        
+        if(!auth()->user()->isParent()){
+            return to_route('users.index'); 
+        }
+        return to_route('users.show', auth()->user());
     }    
 
     /**
