@@ -104,21 +104,16 @@
 </x-app-layout>
 
 <script>
-    // Função para mostrar as notas da turma clicada
     function showClassNotes(classId) {
-        // Ocultar todas as tabelas de notas
         document.querySelectorAll('.class-note-table').forEach(function(table) {
             table.style.display = 'none';
         });
 
-        // Mostrar a tabela correspondente à turma clicada
         document.getElementById('notes-for-class-' + classId).style.display = 'block';
     }
 
-    // Função de busca para a lista de turmas
     document.addEventListener('DOMContentLoaded', function() {
 
-        // Mostrar automaticamente as notas da primeira turma ao carregar a página
         const firstClassRow = document.querySelector('.linhas');
         if (firstClassRow) {
             const firstClassId = firstClassRow.getAttribute('data-class-id');
