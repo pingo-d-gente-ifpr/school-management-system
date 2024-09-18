@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth; 
 
 class Classe extends Model
 {
@@ -19,6 +21,26 @@ class Classe extends Model
         'year',
         'stage'
     ];
+
+    protected static function booted()
+    {
+        static::addGlobalScope('userClasses', function (Builder $builder) {
+            $user = Auth::user();
+
+            if ($user->role == \App\Enums\Role::teacher->name) {
+                $builder->whereHas('subjects', function ($query) use ($user) {
+                    $query->where('user_id', $user->id);
+                });
+            }
+
+            if ($user->role == \App\Enums\Role::parents->name) {
+                $builder->whereHas('childrens', function ($query) use ($user) {
+                    $query->where('user_id', $user->id); 
+                });
+            }
+        });
+    }
+
 
     public function scopeFilter($query, array $filters)
     {
