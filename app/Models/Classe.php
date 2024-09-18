@@ -32,7 +32,7 @@ class Classe extends Model
 
     public function childrens(): BelongsToMany
     {
-        return $this->belongsToMany(Children::class);
+        return $this->belongsToMany(Children::class)->withPivot('id');
     }
 
     public function posts(): HasMany

@@ -3,6 +3,8 @@
 namespace App\Http\Services;
 
 use App\Http\Repositories\ClassRepository;
+use App\Models\ChildrenClasse;
+use App\Models\ChildrenFrequency;
 use App\Models\Classe;
 use Illuminate\Support\Facades\Auth;
 use App\Enums\Role;
@@ -106,8 +108,8 @@ class ClassService{
         }
 
         $class = $this->repository->update($data, $class);
-        $class->subjects()->syncWithoutDetaching($data['subjects']??[]);
-        $class->childrens()->syncWithoutDetaching($data['childrens']??[]);
+        $class->subjects()->sync($data['subjects']??[]);
+        $class->childrens()->sync($data['childrens']??[]);
         $class->save();
 
         return $class;
@@ -120,6 +122,26 @@ class ClassService{
         }
 
         return $this->repository->destroy($class);
+    }
+
+    public function registerFrequency($data)
+    {
+        $childrenClass = ChildrenClasse::find($data['children_classe_id']);
+        $data['date'] = Carbon::createFromFormat('d/m/Y', $data['date'])->format('Y-m-d');
+        
+        if($data['attendance'] == 'false'){
+            $data['attendance'] = false;
+        }else{
+            $data['attendance'] = true;
+        }
+
+        $frequencyExists = $childrenClass->frequencies()->where('date', $data['date'])->first();
+
+        if(!$frequencyExists){
+            return $childrenClass->frequencies()->create($data);
+        }
+
+        return $frequencyExists->update($data);
     }
 
     public function getFormOptions()
