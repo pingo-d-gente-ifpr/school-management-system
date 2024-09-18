@@ -28,8 +28,7 @@ class ChildrenController extends Controller
     {
         $child = Children::findOrFail($id);
 
-        // Obtenha todas as turmas disponíveis para o filtro
-        $classes = $child->classes; // Turmas associadas ao aluno
+        $classes = $child->classes; 
 
         // Obtenha os filtros da requisição
         $classId = $request->input('class_id'); 
@@ -53,10 +52,8 @@ class ChildrenController extends Controller
             $query->whereDate('date', $startDate);
         }
 
-        // Execute a consulta
         $frequencies = $query->paginate(10);
 
-        // Passe os dados para a view
         return view('front.children.frequencies', compact('child', 'frequencies', 'classes'));
     }
     
