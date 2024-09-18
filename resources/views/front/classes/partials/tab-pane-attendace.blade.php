@@ -12,13 +12,18 @@
     </div>
     <div class="col-md-4 text-md-end mt-3 mt-md-0">
         <div class="date-picker-container">
-            <form method="GET" enctype="multipart/form-data" action="{{ route('classes.show', $class) }}" class="p-3">
-                <div>
-                    <input class="search-attendance date-input" name="selected_date" type="text" id="datePicker" placeholder="Selecione a data"><i class="fa fa-calendar calendar-icon"></i>
+            <form id="filterForm" method="GET" action="{{ route('classes.show', $class) }}">
+                <div class="form-group position-relative">
+                    <label for="datePicker">Selecione a data:</label>
+                    <div class="input-group">
+                        <input type="text" id="datePicker" name="selected_date" class="form-control" value="{{ request('selected_date') }}" placeholder="dd/mm/yyyy">
+                        <span class="input-group-text"><i class="fa fa-calendar calendar-icon"></i></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Filtrar</button>
                 </div>
-                <button type="submit">Filter</button>
-            </form>
+            </form>            
         </div>
+        
     </div>
 </div>
 
@@ -54,11 +59,12 @@
                         @php
                             $frequency = isset($studentsFrequencies[$student->id]) ? collect($studentsFrequencies[$student->id])->where('date', $day)->first() : null;
                             $attendanceStatus = $frequency ? ($frequency->attendance ? 'P' : 'F') : null;
-                            $buttonColor = $attendanceStatus === 'P' ? 'rgb(81, 182, 50)' : ($attendanceStatus === 'F' ? '#FF6E6E' : '#ccc');
+                            $buttonColor = $attendanceStatus === 'P' ? '#9AE493' : ($attendanceStatus === 'F' ? '#FF6E6E' : '#ccc');
+                            $fontColor = $attendanceStatus === 'P' ? '#4B8B3B' : ($attendanceStatus === 'F' ? '#AA2222' : '#ccc');
                         @endphp
                         <div class="dropdown">
                             <button class="btn d-flex align-items-center justify-content-center p-0 dropdown-toggle"
-                                style="width: 30px; height: 30px; border-radius: 50%; background-color: {{ $buttonColor }};">
+                                style="width: 30px; height: 30px; border-radius: 50%; background-color: {{ $buttonColor }}; color={{$fontColor}};" >
                                 @if($attendanceStatus)
                                     {{ $attendanceStatus }}
                                 @else
@@ -253,14 +259,15 @@
             $('.dropdown-content').hide();
         });
 
+        const initialDate = document.querySelector('#datePicker').value;
+
         flatpickr("#datePicker", {
             dateFormat: "d/m/Y",
             disable: [
                 function(date) {
                     return (date.getDay() === 0 || date.getDay() === 6);
-                }
             ],
-            
+            defaultDate: initialDate ? initialDate : null,
             onChange: function(selectedDates, dateStr, instance) {
                 const selectedDate = selectedDates[0];
                 const daysOfWeek = ['Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira'];
@@ -277,7 +284,7 @@
                 }
 
                 function formatDate(date) {
-                    const day = date.getDate().toString().padStart(2, '0'); 
+                    const day = date.getDate().toString().padStart(2, '0');
                     const month = (date.getMonth() + 1).toString().padStart(2, '0');
                     const year = date.getFullYear();
                     return `${day}/${month}/${year}`;
@@ -299,20 +306,8 @@
             }
         });
 
-        
-        function getNextAvailableDate() {
-                    let today = new Date();
-                    if (today.getDay() === 0) {
-                        // Se for domingo, ajusta para segunda-feira
-                        today.setDate(today.getDate() + 1);
-                    } else if (today.getDay() === 6) {
-                        // Se for sábado, ajusta para segunda-feira
-                        today.setDate(today.getDate() + 2);
-                    }
-                    return today;
-                }
 
-    });
+});
 
 </script>
 
