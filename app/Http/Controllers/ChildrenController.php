@@ -45,7 +45,6 @@ class ChildrenController extends Controller
                 });
         });
 
-        // Filtra pelo intervalo de datas se estiver presente
         if ($startDate && $endDate) {
             $query->whereBetween('date', [$startDate, $endDate]);
         } elseif ($startDate) {
@@ -58,11 +57,23 @@ class ChildrenController extends Controller
     }
     
 
-
-    public function showGrades($id)
+    public function showGrades(Request $request, $id)
     {
-        $child = Children::findOrFail($id); 
-        $subjects = ChildrenSubject::where('children_id', $id)->get();
-        return view('front.children.grades', compact('child', 'subjects'));
+        $child = Children::findOrFail($id);
+        $classes = $child->classes;
+    
+        $classId = $request->input('class_id');
+    
+        $query = ChildrenSubject::where('children_id', $id)
+            ->when($classId, function ($query) use ($classId) {
+                $query->whereHas('classeSubject', function ($subQuery) use ($classId) {
+                    $subQuery->where('classe_id', $classId); // Filtro pela turma
+                });
+            });
+    
+        $subjects = $query->get();
+    
+        return view('front.children.grades', compact('child', 'subjects', 'classes', 'classId'));
     }
+    
 }
